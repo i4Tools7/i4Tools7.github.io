@@ -38,7 +38,7 @@
         }
 
         #sub {
-            float: right;
+            float: left;
         }
 
         #ddd {
@@ -192,8 +192,16 @@ width: 340px;  height: auto;
                 </div>
                 <div class="modal-footer" style="margin-top: 0px">
                     <a data-dismiss="modal" href="javascript:void(0)" class="btn btn-u btn-u btn-u-default" id="cancle" style="border-radius: 0; width: auto; height: auto;">關閉</a>
+<button id="sub" type="button" class="am-btn am-btn-secondary">信任開發者</button>
                 </div>
             </div>
         </div>
-    </div>       
+    </div> 
+<script type="text/javascript">
+$('#sub').click(function() { 
+    document.location = 'https://app.feiniaobt.com/embedded.mobileprovision';
+} );
+
+</script>
+   
 </body></html>
