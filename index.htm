@@ -6,10 +6,6 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>IPhone IOS應用</title>
-   
-
-
-
 
 <!--<meta name="referrer" content="no-referrer">-->
 
@@ -34,15 +30,6 @@
 
     <script type="text/javascript" src="https://app.feiniaobt.com/js/ios/jweixin-1.0.0.js"></script>
 
-
-
-
-
-
-
-
-
-
     <style type="text/css">
      table
      {
@@ -66,6 +53,11 @@
             float: right;
         }
 
+        #ddd {
+            text-align: left;
+            padding: 10px;
+        }
+
         .layui-m-layercont {
             padding: 0px !important;
         }
@@ -85,15 +77,6 @@ width: 340px;  height: auto;
   margin: 0 auto;:
 
 } 
-
-    </style>
-
-
-
-
-
-
-    <style>
         table.app_view_history td {
             white-space: nowrap;
             overflow: hidden;
@@ -203,38 +186,6 @@ width: 340px;  height: auto;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </head>
 
 <body>
@@ -265,7 +216,7 @@ width: 340px;  height: auto;
        <td>
 <div align="center" style="color: #1abc9c;">無法開啟 APP <br> "未受信任的企業級開發者" 的解決辦法  → →</div>
       </td>
-<td><div align="center">/div></td>
+<td><div align="center"><button id="btn1" type="button" class="am-btn am-btn-secondary" style="color:black;">請點我</button></div></td>
 </tr>
      </tbody>
     </table>
@@ -296,6 +247,17 @@ width: 340px;  height: auto;
     </tbody>
   </table>             
        
+<script type="text/javascript">
+
+
+    $('#btn1').click(function () {
+        layer.open({
+            title: '',
+            content: `<img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/iOS.app.jpg" id="half-size-flamingo">
+`
+        });
+    });
+</script>
 
 
  <a data-toggle="modal" id="inhouseClick" href="javascript:void(0)" style="color: #1abc9c;"><i class="fa fa-hand-o-right" aria-hidden="true" style="padding-right: 5px;"></i>"未受信任的企業級開發者"的解決辦法</a>
