@@ -107,74 +107,7 @@ width: 340px;  height: auto;
             }
         });
 
-        // installable 是否可安装
-        // updateCertificate 是否更新了证书
-        function onInstall(installable, updateCertificate, isios9,channel) {
-            var ua = navigator.userAgent;
-            var isIOS = ua.indexOf("iPhone") != -1 || ua.indexOf("iPad") != -1 || ua.indexOf("Mac OS") != -1;
-            if (!isIOS) {
-                alert("请使用iOS设备（iPhone或iPad）的Safari浏览器访问本页面或扫码进行安装！");
-                return;
-            }
-            if (!installable) {
-                alert("因企业证书掉签，正在紧急处理中，请耐心等待更新！");
-                return;
-            }
-            if (updateCertificate) {
-                onResult(isios9,channel);
-            } else {
-                alert("正在更新证书，请耐心等待！");
-            }
-        }
 
-        function onResult(isios9,channel) {
-            if (!isios9) {
-                window.location.href = "itms-services://?action=download-manifest&url=https%3a%2f%2fapp.feiniaobt.com%2fiosapp"+channel+".plist%3Fv%3D"+Math.random();;
-            }
-            $("#down_load"+channel).hide();
-            $("#down_load_a"+channel).hide();
-            $("#downloading"+channel).show().css("display", "inline-block");
-            setTimeout(function () {
-                $("#downloading"+channel).hide();
-                $("#showtext"+channel).show();
-                setTimeout(function () {
-                    $("#showtext"+channel).hide();
-                    $("#btnxrkfz"+channel).show();
-                }, 3000);
-            }, 5000);
-        }
-
-        function nextdown() {
-
-
-        }
-
-        function next2down() {
-            $("#showtext").hide();
-            $("#btnxrkfz").show();
-        }
-
-        function copyToClipboard(string) {
-            let textarea = document.createElement('textarea');
-            textarea.setAttribute('readonly', true);
-            textarea.setAttribute('contenteditable', true);
-            textarea.style.position = 'fixed';
-            textarea.value = string;
-
-            document.body.appendChild(textarea);
-            textarea.select();
-
-            const range = document.createRange();
-            range.selectNodeContents(textarea);
-
-            const sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-
-            textarea.setSelectionRange(0, textarea.value.length);
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-        }
     </script>
 
 
