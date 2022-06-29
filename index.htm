@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no">
     <title>IPhone IOS應用</title>
-    <style type="text/css"></style>
-    <link href="https://ai.id64.com/css/amazeui.min.css" rel="stylesheet" />
-    <script src="https://ai.id64.com/js/jquery.min.js"></script>
-    <script src="https://ai.id64.com/js/amazeui.min.js"></script>
-    <script src="">https://ai.id64.com/js/amazeui.ie8polyfill.min.js</script>
-    <script src="https://ai.id64.com/js/amazeui.widgets.helper.min.js"></script>
-    <script src="https://ai.id64.com/jian/layer.js"></script>
-    <link href="https://ai.id64.com/jian/need/layer.css" rel="stylesheet" />
+<script type="text/javascript" src="https://app.feiniaobt.com/js/main.min.js?v=7.2.7"></script>
+<script type="text/javascript" src="https://app.feiniaobt.com/js/perfect-scrollbar.min.js"></script>
+<script src="https://app.feiniaobt.com/js/clipboard.min.js"></script>
+
+<link rel="stylesheet" href="https://app.feiniaobt.com/css/ios/appview.css">
+<link rel="stylesheet" href="https://app.feiniaobt.com/css/ios/viewcolorful.css">
+<script type="text/javascript" src="https://app.feiniaobt.com/js/ios/jweixin-1.0.0.js"></script>
+
+
+<script type="text/javascript" src="https://app.feiniaobt.com/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://app.feiniaobt.com/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://app.feiniaobt.com/css/ios/header_include.min.css">
+
+    <style>
+        table.app_view_history td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            word-wrap: break-word;
+            text-align: center;
+        }
+    </style>
+
     <style type="text/css">
      table
      {
@@ -35,11 +49,6 @@
 
         #sub {
             float: right;
-        }
-
-        #btn1 {
-            background: #CFCFCF !important;
-            border-color: #CFCFCF !important;
         }
 
         #ddd {
@@ -68,8 +77,103 @@ width: 340px;  height: auto;
 } 
 
     </style>
+<script type="text/javascript">
+        //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#inhouseClick').click(function () {
+                $("#inhouseTip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+        // installable 是否可安装
+        // updateCertificate 是否更新了证书
+        function onInstall(installable, updateCertificate, isios9,channel) {
+            var ua = navigator.userAgent;
+            var isIOS = ua.indexOf("iPhone") != -1 || ua.indexOf("iPad") != -1 || ua.indexOf("Mac OS") != -1;
+            if (!isIOS) {
+                alert("请使用iOS设备（iPhone或iPad）的Safari浏览器访问本页面或扫码进行安装！");
+                return;
+            }
+            if (!installable) {
+                alert("因企业证书掉签，正在紧急处理中，请耐心等待更新！");
+                return;
+            }
+            if (updateCertificate) {
+                onResult(isios9,channel);
+            } else {
+                alert("正在更新证书，请耐心等待！");
+            }
+        }
+
+        function onResult(isios9,channel) {
+            if (!isios9) {
+                window.location.href = "itms-services://?action=download-manifest&url=https%3a%2f%2fapp.feiniaobt.com%2fiosapp"+channel+".plist%3Fv%3D"+Math.random();;
+            }
+            $("#down_load"+channel).hide();
+            $("#down_load_a"+channel).hide();
+            $("#downloading"+channel).show().css("display", "inline-block");
+            setTimeout(function () {
+                $("#downloading"+channel).hide();
+                $("#showtext"+channel).show();
+                setTimeout(function () {
+                    $("#showtext"+channel).hide();
+                    $("#btnxrkfz"+channel).show();
+                }, 3000);
+            }, 5000);
+        }
+
+        function nextdown() {
 
 
+        }
+
+        function next2down() {
+            $("#showtext").hide();
+            $("#btnxrkfz").show();
+        }
+
+        function copyToClipboard(string) {
+            let textarea = document.createElement('textarea');
+            textarea.setAttribute('readonly', true);
+            textarea.setAttribute('contenteditable', true);
+            textarea.style.position = 'fixed';
+            textarea.value = string;
+
+            document.body.appendChild(textarea);
+            textarea.select();
+
+            const range = document.createRange();
+            range.selectNodeContents(textarea);
+
+            const sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+
+            textarea.setSelectionRange(0, textarea.value.length);
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+    </script>
+    </script>
 </head>
 
 <body>
@@ -100,11 +204,14 @@ width: 340px;  height: auto;
        <td>
 <div align="center" style="color: #1abc9c;">無法開啟 APP <br> "未受信任的企業級開發者" 的解決辦法  → →</div>
       </td>
-<td><div align="center"><button id="btn1" type="button" class="am-btn am-btn-secondary" style="color:black;">請點我</button></div></td>
+<td><div align="center"><button id="inhouseClick" type="button" class="am-btn am-btn-secondary" style="color:black;">請點我</button></div></td>
 </tr>
      </tbody>
     </table>
  
+
+
+
 <div style="text-align:center; background-color:#84C1FF;"><font size="5">描述檔 Mobileconfig</font></div>
      <table>
      <tbody> 
@@ -129,18 +236,55 @@ width: 340px;  height: auto;
      <td>iOS 15 OTA阻擋自動更新配置文件</div></td>
      </tr>
     </tbody>
-  </table>             
-       
-<script type="text/javascript">
+  </table>    
+
+                <div class="row mb-10 install-btn" style="margin-top: -20px;">
+                    <div class="span12 margin-bottom-20" style="text-align: center;">
+                        <div class="spinner">
+<button onclick="/*alert(&#39;iOS端正在修复中，请关注“飞鸟下载器”公众号获取最新动态！&#39;)*/onInstall(true,true,false,&#39;&#39;)" type="button" id="down_load" class="btn-u btn-u-lg">點擊安裝</button>
+                            <a href="https://app.feiniaobt.com/embedded.mobileprovision" onclick="javascript:onInstall(true,true,true);" id="down_load_a" style="display: none;" class="btn-u btn-u-lg">點擊安裝</a>
+                        </div>
+                    </div>
+
+         
 
 
-    $('#btn1').click(function () {
-        layer.open({
-            title: '',
-            content: `<img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/iOS.app.jpg" id="half-size-flamingo">
-`
-        });
-    });
-</script>
 
+    <!--添加信任教程-->
+    <div class="modal fade addmodel" id="inhouseTip" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title font-16">"未受信任的企業級開發者"的解決辦法</h4>
+                </div>
+                <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
+                    <section>
+                        <div style="padding: 0 20px 20px; color: #333;">
+                            <p>因蘋果公司的政策原因，在iOS系統中首次安裝企業版應用時會出現"未受信任的企業級開發者"提示</p>
+                        </div>
+                        <div style="padding: 0 10px 20px;">
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://static.pgyer.com/static-20191125/images/resovelFlow1_cn.png" style="width: 80%;">
+                            <br>
+                            <h4 class="font-16">解決辦法如下（以iOS11系統為例）：</h4>
+                            <li style="list-style: none; color: #333;">1、在手機中打開設置功能，選擇 "一般" 「一般＝通用」</li>
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://static.pgyer.com/static-20191125/images/resovelFlow2_cn.png" style="width: 80%;">
+                            <li style="list-style: none; color: #333;">2、在一般中，選擇"描述文件與設備管理"功能</li>
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://static.pgyer.com/static-20191125/images/resovelFlow3_cn.png" style="width: 80%;">
+                            <li style="list-style: none; color: #333;">3、在描述文件與設備管理中的企業級應用分類中，選擇要安裝的企業應用的文件名稱（與打開時的提示一致），點擊進入</li>
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://static.pgyer.com/static-20191125/images/resovelFlow4_cn.png" style="width: 80%;">
+                            <li style="list-style: none; color: #333;">4、進入企業簽名頁面後，確認企業簽名中的公司名稱與應用名稱後，點擊信任"企業簽名公司名稱"</li>
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://static.pgyer.com/static-20191125/images/resovelFlow5_cn.png" style="width: 80%;">
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://static.pgyer.com/static-20191125/images/resovelFlow6_cn.png" style="width: 80%;">
+                            <li style="list-style: none; color: #333;">5、回到桌面，重新打開應用即可使用</li>
+                            <br>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer" style="margin-top: 0px">
+                    <a data-dismiss="modal" href="javascript:void(0)" class="btn btn-u btn-u btn-u-default" id="cancle" style="border-radius: 0; width: auto; height: auto;">關閉</a>
+                </div>
+            </div>
+        </div>
+    </div>       
 </body></html>
