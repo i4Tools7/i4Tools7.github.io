@@ -22,6 +22,10 @@
 <link rel="stylesheet" href="https://app.feiniaobt.com/css/ios/header_include.min.css">
     <style type="text/css">
 
+a {
+    color: #2196F3;
+    text-decoration: none
+}
      .wrap{
          margin:0 auto;
      }
@@ -36,26 +40,29 @@
          border: solid 1px #999;
          border-collapse:collapse;
      }
-        body,
+       body{
+           font-family:Microsoft YaHei UI!important;
+        }
         html {
             padding: 0;
             margin: 0;
             background: #ffffff;
         }
-
+        #inhouseClick{    
+    float: auto;
+    font-size: 18px;
+    padding: 8px 60px;
+    background-color: #28caad;
+    border-color: #3bb4f2;
+    border-radius: 30px;        
+         }
         #sub {
-            float: left;
+    float: left;
+    font-size: 18px;
+    padding: 8px 60px;
+    background-color: #28caad;
+    border-radius: 30px;            
         }
-
-        #ddd {
-            text-align: left;
-            padding: 10px;
-        }
-
-        .layui-m-layercont {
-            padding: 0px !important;
-        }
-
          img{
    width: 50px;
     height: 50px;
@@ -63,15 +70,9 @@
     display: block;
   margin: 0 auto;:
          }
-
-#half-size-flamingo {  
-width: 340px;  height: auto; 
-    margin-right: 10px;
-    display: block;
-  margin: 0 auto;:
-
-} 
-
+     #cancle{
+     font-size: 18px;        
+         }
     </style>
 <script type="text/javascript">
         //加载时
@@ -104,7 +105,9 @@ width: 340px;  height: auto;
 </head>
 
 <body>
-
+   <script src="https://kv9xglcmxicgzy6hzzxycg.on.drv.tw/node_modules/jquery/dist/jquery.min.js"></script>
+   <script src="https://kv9xglcmxicgzy6hzzxycg.on.drv.tw/layer/layer.js"></script>
+    
     <div class="wrap">
         <div class="header"></div>
         <div class="content"></div>
@@ -137,7 +140,7 @@ width: 340px;  height: auto;
        <td>
 <div align="center" style="color: #1abc9c;">無法開啟 APP <br> "未受信任的企業級開發者" 的解決辦法  → →</div>
       </td>
-<td><div align="center"><button id="inhouseClick" type="button" class="am-btn am-btn-secondary" style="color:black;">請點我</button></div></td>
+<td><div align="center"><button id="inhouseClick" type="button" class="btn-u btn-u-lg">請點我</button></div></td>
 </tr>
      </tbody>
     </table>
@@ -203,8 +206,8 @@ width: 340px;  height: auto;
                     </section>
                 </div>
                 <div class="modal-footer" style="margin-top: 0px">
-                    <a data-dismiss="modal" href="javascript:void(0)" class="btn btn-u btn-u btn-u-default" id="cancle" style="border-radius: 0; width: auto; height: auto;">關閉</a>
-<button id="sub" type="button" class="am-btn am-btn-secondary" width: auto; height: auto;>信任開發者</button>
+                    <a data-dismiss="modal" href="javascript:void(0)" class="btn btn-u btn-u btn-u-default" id="cancle" style="border-radius: 0;" width: auto; height: auto;>關閉</a>
+<button id="sub" type="button" class="btn-u btn-u-lg" width: auto; height: auto;>信任開發者</button>
                 </div>
             </div>
         </div>
@@ -213,7 +216,10 @@ width: 340px;  height: auto;
 $('#sub').click(function() { 
     document.location = 'https://app.feiniaobt.com/embedded.mobileprovision';
 } );
-
+        layer.load();
+        setTimeout(function(){
+            layer.closeAll();
+        },2000);
 </script>
    
 </body></html>
