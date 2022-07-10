@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://tsss.tstartel.com/tsss/sso/loginManually -->
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://tsss.tstartel.com/tsss/resources/images/favicon.ico" rel="shortcut icon">
+    <title>
+        請登入
+    </title>
+    <link rel="stylesheet" type="text/css" href="https://tsss.tstartel.com/tsss/resources/css/theme.css?1657425159542">
+    <link rel="stylesheet" type="text/css" href="https://tsss.tstartel.com/tsss/resources/css/bootstrap.min.css">
+</head>
+<body style="overflow-x: hidden;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="well" style="background-color: #ec008c; color: #ffffff">
+                <h3 align="center">
+                    T-Star Smart Sales
+                </h3>
+            </div>
+        </div>
+        <div class="wrapper"><!-- Wrapper start -->
+            <div class="tsssPage"><!-- page1 start -->
+                <div class="row">
+                    <div class="col-sm-12" align="center">
+                        <h4>
+                            <font color="#ec008c">
+                                請輸入XWS帳號密碼及驗證碼
+                            </font>
+                        </h4>
+                    </div>
+                </div>
+                
+
+
+ 
+ 
+ 
+  	
+	  			<div class="row">
+		 						<div id="messageBlock" class="col-sm-12" align="center">
+		 						  	
+		 						 
+		 							
+		 							
+		 							<!-- 由JS所顯示內容元素 -->
+		 							<div id="infoMessage" class="alert alert-success" style="display:none"></div>
+		 							<div id="errorMessage" class="alert alert-danger" style="display:none"></div>
+	 							</div>
+	 			</div>
+
+                <br>
+                <br>
+                <br>
+                <form id="loginForm" role="form" class="form-horizontal" action="https://tsss.tstartel.com/tsss/sso/loginManually" method="post">
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <label for="status" class="col-sm-2 control-label">
+                            帳  號</label>
+                        <div class="col-sm-3">
+                            <input id="account" name="account" class="form-control" type="text" value="">
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <label for="status" class="col-sm-2 control-label">
+                            密  碼</label>
+                        <div class="col-sm-3">
+                            <input id="credential" name="credential" class="form-control" type="password" value="">
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4" align="center">
+                            <input type="button" id="submitForm" name="submitForm" class="btn btn-primary" value="登入">
+                            <input name="reset" type="reset" class="btn btn-primary" value="清除重填" onclick="resetForm()">
+                            <input name="forgetps" type="button" class="btn btn-primary" value="忘記密碼" onclick="forgetPassword()">
+                        </div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4" align="center"></div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                <div>
+<input type="hidden" name="CSRFToken" value="94d6da28-71d8-431f-bba3-e7b9bcc15faa">
+</div></form>
+                <div class="row">
+                    <div class="col-sm-3 col-sm-offset-7" style="align:right;">
+                        <span id="speedtest" class="label  label-primary">網路狀態正常,13.68Mbps</span>
+                    </div>
+                    <div class="col-sm-2" title="2022/06/16 14:41" style="align:left">版本：<span style="color:blue;">2.58.0</span></div>
+                </div>
+            </div><!-- page1 end -->
+            <div class="tsssPage"><!-- page2 start -->
+                <div class="row">
+                    <div class="col-sm-12" align="center">
+                        <h4>
+                            <font color="#ec008c">請選擇你想登入的帳號</font>
+                        </h4>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <form id="command" role="form" class="form-horizontal" action="https://tsss.tstartel.com/tsss//sso/loginManually" method="post">
+                    <div class="form-group">
+                        <div class="col-sm-3"></div>
+                        <label for="status" class="col-sm-2 control-label">
+                            帳  號
+                        </label>
+                        <div class="col-sm-4" align="left">
+                            <div class="dropdown">
+                                <button id="loginDealerButton" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="width: 80%; text-align: left; background-color: #ffffff;">請選擇登入店點</button>
+                                <ul id="dealerList" class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-sm-3"></div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4" align="center">
+                            <input type="button" id="loginButton" name="loginButton" class="btn btn-primary" value="登入" onclick="login2()">
+                            <input type="button" id="cancelButton" name="cancelButton" class="btn btn-primary" value="取消" onclick="cancelLogin2()">
+                        </div>
+                    </div>
+                <div>
+<input type="hidden" name="CSRFToken" value="94d6da28-71d8-431f-bba3-e7b9bcc15faa">
+</div></form>
+            </div><!-- page2 end -->
+        </div><!-- wrapper end -->
+    </div>
+    <!-- Modal Start here -->
+    
+
+ 
+
+
+
+  	
+					<!-- Modal Start here
+								<div class="modal fade bs-example-modal-sm" id="loginWaitingDialog" tabindex="-1"-->
+								<div class="modal  bs-example-modal-sm" id="loginWaitingDialog" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+								    <div class="modal-dialog modal-sm" style="margin-top: 90px">
+								        <div class="modal-content">
+								            <div class="modal-header">
+								                <h4 class="modal-title" id="loginWaitingDialogTitle">
+								                   請稍候
+								                 </h4>
+								            </div>
+								            <div class="modal-body">
+								                <div class="progress">
+								                    <div class="progress-bar progress-bar-info
+									                    progress-bar-striped active" style="width: 100%">
+								                    </div>
+								                </div>
+								            </div>
+								        </div>
+								    </div>
+								</div>
+								<!-- Modal ends Here -->
+    <!-- Modal ends Here -->
+    <script type="text/javascript" src="https://tsss.tstartel.com/tsss/resources/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://tsss.tstartel.com/tsss/resources/js/bootstrap.min.js "></script>
+    <script>
+        var target = "https://tsss.tstartel.com/tsss/resources/images/speedtest/test.jpg";
+        var downloadSize = 2732082; //bytes
+        var startTime, endTime;
+        var accountBackup;  // 切換頁面時，儲存 Account
+
+        function measureConnectionSpeed() {
+            var download = new Image();
+            download.onerror = function(err, msg) {
+                console.log("download error...." + msg);
+            }
+            download.onload = function() {
+                endTime = (new Date()).getTime();
+                calculate();
+            }
+            startTime = (new Date()).getTime();
+            download.src = target + "?x=" + startTime;;
+        }
+
+        function calculate() {
+            var duration = (endTime - startTime) / 1000;
+            var bitsLoaded = downloadSize * 8;
+            var speedBps = (bitsLoaded / duration).toFixed(2);
+            var speedKbps = (speedBps / 1024).toFixed(2);
+            var speedMbps = (speedKbps / 1024).toFixed(2);
+            showResult(speedMbps);
+        }
+
+        function showResult(speedMbps) {
+            var wording = "您的網路狀況:";
+            var measurement = 10.0;
+            var wording = "";
+            if (speedMbps < measurement) {
+                wording += "網路狀態不穩,請使用穩定的網路連線. " + speedMbps + "Mbps";
+                $("#speedtest").addClass("label-danger");
+            } else {
+                wording += "網路狀態正常," + speedMbps + "Mbps";
+                $("#speedtest").addClass("label-primary");
+            }
+            $("#speedtest").html(wording);
+        }
+
+        $(window).load(function() {
+            //
+            $("#account").focus();
+
+            $(".dealerItem").click( function() {
+                var id = $(this).attr('data-id');
+                var text = $(this).text(); 
+                $('#loginDealerButton').text(text);
+                $('#empId').val(id);
+            });
+
+            if (top.mainContent) {
+                parent.location.href = "https://tsss.tstartel.com/tsss/home/"
+            }
+            $('#submitForm').click(function() {
+                getLoginDealers();
+            });
+            
+            window.setTimeout(measureConnectionSpeed, 1);
+        });
+
+        // 第一頁，重置表單
+        function resetForm() {
+            $("#account").val("");
+            $("#credential").val("");
+        }
+
+        // 第一頁，忘記密碼
+        function forgetPassword() {
+            location.replace('https://xwsfr.tstartel.com/xws/initialResendPwd.do?name=tsss');
+        }
+
+        // 第二頁，登入
+        function login2() {
+            showWaiting();
+            $("#loginForm").submit();
+        }
+
+        // 第二頁，取消登入
+        function cancelLogin2() {
+            backPage();
+        }
+
+        function showWaiting() {
+            $("#loginWaitingDialog").modal('show');
+        }
+
+        function closeWaiting() {
+            $("#loginWaitingDialog").modal('hide');
+        }
+
+        // 切換到登錄畫面的下一頁
+        function nextPage() {
+            accountBackup = $('#account').val();
+            var shiftLeft = '-100%';
+            $('.wrapper').animate({
+                'marginLeft': shiftLeft
+            }, 1000);
+        }
+
+        // 回到登錄畫面的上一頁
+        function backPage() {
+            $('#account').val(accountBackup);
+            var shiftLeft = '0';
+            $('.wrapper').animate({
+                'marginLeft': shiftLeft
+            }, 1000);
+        }
+
+        function getLoginDealers() {
+            $.ajax({
+                url: 'https://tsss.tstartel.com/tsss/sso/getLoginDealers',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'account': $('#account').val()
+                },
+                success: function(data) {
+                    var options = "";
+                    // 只有找到單一個帳號的話，直接登入
+                    if(data.length == 0) {
+                    	changeAccount($('#account').val());
+                        login2();
+                    }
+                    else if(data.length == 1) {
+                        var item = data[0];
+                        changeAccount(item.id);
+                        login2();
+                    }
+                    // 多個帳號情況下，跳頁讓使用者選
+                    else {
+                        $.each(data, function(i, item) {
+                        	options += "<li class='dealerItem' role='presentation' data-id='" + item.id + "'><a role='menuitem' tabindex='-1' href='#'>" + item.id + " " + item.dname + "</a></li>";
+                        });
+
+                        $("#dealerList").html(options);
+
+                        $(".dealerItem").click( function() {
+                            var id = $(this).attr('data-id');
+                            var text = $(this).text(); 
+                            $('#loginDealerButton').text(text);
+                            changeAccount(id);
+                        });
+
+                        nextPage();
+                    }
+                },
+                error: function() {
+                }
+            });
+        }
+
+        function changeAccount(id) {
+            $('#account').val(id);
+        }
+    </script>
+
+</body></html>
