@@ -7,13 +7,6 @@
 <html><head>
 <title>【台灣之星TSTAR】常用連結</title>
 <link href="https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <style type="text/css"></style>
-
-
-
-
-
-
     <style type="text/css">    
         body {
   background-color: #d2afff;
@@ -376,4 +369,64 @@ window.open(' https://ssp.tstartel.com/ ', '門市網路品質查詢系統','hei
 		</tr>
 
            </table>
+
+</div>
 </body></html>
+<div id="iRFloating" style="position:absolute">
+<table>
+<tr>
+<td valign="top">
+<a href="https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/WinHotKey.exe"><img src="https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/WinHAotKey.PNG" border="0" /></a>
+</td>
+</tr>
+</table>
+<script>
+
+adWidth = 160;//廣告寬度
+
+nowX = 1000;//目前位置(left)
+nowY = 100;//目前位置(top)
+
+fad_style = document.getElementById('iRFloating').style;
+
+function fadIni()
+{
+innerWidth = document.body.clientWidth;
+innerHeight = document.body.clientHeight;
+
+edge = (innerWidth-1000)/2;
+
+if( edge > adWidth )
+{
+posX = edge + 1000;
+}
+else
+{
+posX = innerWidth-adWidth;
+}
+
+posY = 100;
+
+}
+function fadRefresh()
+{
+offsetX = posX + document.body.scrollLeft - nowX;
+offsetY = posY + document.body.scrollTop - nowY;
+nowX += offsetX / 5;
+nowY += offsetY / 5;
+fad_style.left = nowX;
+fad_style.top = nowY;
+
+floatID = setTimeout('fadRefresh()', 20 );//Refresh時間
+}
+
+function fadStart()
+{
+fadIni();
+window.onresize=fadIni;
+fadRefresh();
+}
+
+fadStart();
+
+</script>
