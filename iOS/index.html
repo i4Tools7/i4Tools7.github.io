@@ -66,6 +66,15 @@ a {
      padding: 4px 10px;
      border-radius: 10px; 
          }
+    #TrollStoreClick{
+     float: auto;
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px;   
+         }
+        .btn-u0 {
+    background: #2196f3;
+}
         #sub {
     float: left;
     font-size: 16px;
@@ -115,13 +124,41 @@ a {
             }
         });
     </script>
+    <script type="text/javascript">
+        //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#TrollStoreClick').click(function () {
+                $("#TrollStoreTip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+    </script>
 </head>
 
 <body> 
 
 <!--網站首頁彈窗開始-->
-        <link href="/sweetalert.min.css" rel="stylesheet">
-        <script src="/sweetalert.min.js"></script>
+        <link href="https://i4tools7.github.io/sweetalert.min.css" rel="stylesheet">
+        <script src="https://i4tools7.github.io/sweetalert.min.js"></script>
         <script type="text/javascript">
                         swal("證書狀態:證書有效", "", "success")
                     </script><div class="sweet-overlay" tabindex="-1" style="opacity: -0.05; display: none;"></div><div class="sweet-alert hideSweetAlert" data-custom-class="" data-has-cancel-button="false" data-has-confirm-button="true" data-allow-outside-click="false" data-has-done-function="false" data-animation="pop" data-timer="null" style="display: none; margin-top: -199px; opacity: -0.04;"><div class="sa-icon sa-error" style="display: block;">
@@ -157,6 +194,8 @@ a {
       </div>
     </div></div>
 <!--網站首頁彈窗結束-->
+   
+
         <div class="header"></div>
 
 
@@ -203,24 +242,21 @@ a {
      <td><div align="center"><font size="4">備註</font></div>
      </td>
 </tr>
-
 <tr><td>
-<div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/TrollInstaller2-Logo.png"></div></td>
-     <td><div align="center"><a href="https://apps.apple.com/tw/app/apple-developer/id640199958">Apple Developer</a></div></td>
-<td>安裝Apple Developer安裝完成，以後在解除安裝Apple Developer
+<div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/GTA.Car.Tracker.png"></div></td>
+     <td><div align="center"><a href="itms-services://?action=download-manifest&url=https://is.gd/hniwTQ">GTA Car Tracker</a></div></td>
+<td>透過 GTA Car Tracker 來安裝 TrollStore ，僅支援iOS 15.2 - 15.4.1 系統
 </td>
      </tr>
-
 <tr><td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/TrollStore.png"></div></td>
-     <td><div align="center"><a href="itms-services://?action=download-manifest&url=https://bit.ly/3fOGx6b">TrollInstaller 2</a></div></td>
-<td>透過 Developer 來安裝 TrollStore ，僅支援iOS 15.2 - 15.4.1 系統
+     <td><div align="center"><button id="TrollStoreClick" type="button" class="btn-u btn-u0 btn-u-lg">TrollStore</button></div></td>
+<td>打開 GTA Car Tracker ，點擊 Install Trollstore 按鈕，等待幾秒鐘，設備會自動重啟，Trollstore 就會成功安裝到桌面上。
 </td>
      </tr>
-
 <tr>
      <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shortcuts.png"></div></td>
-     <td><div align="center"><a href="shortcuts://shortcuts/309c54895abf44359e82cb50e3ff5cff"> Cercube Max<br>捷徑腳本</a></div></td>
+     <td><div align="center"><a href="shortcuts://shortcuts/fbfc40cbe3d141bd9d502d80dbd7efed"> Cercube Max<br>捷徑腳本</a></div></td>
      <td> 透過shortcuts 捷徑，下載並安裝Cercube Max</td>
      </tr>
 
@@ -293,6 +329,31 @@ $('#sub').click(function() {
 } );
 
 </script>
+        <div class="modal fade addmodel" id="TrollStoreTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-16">Trollstore 操作說明</h4>
+                </div>
+                <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
+                    <section>
+                        <div style="padding: 0 20px 20px; color: #333;">
+                            <p>打開 GTA Car Tracker 應用，點擊 Install Trollstore 按鈕，等待幾秒鐘，設備會自動重啟，Trollstore 就會成功安裝到桌面上。</p>
+                        </div>
+                        <div style="padding: 0 10px 20px;">
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/developer_.png" style="width: 100%;">
+                            <br>
+                            <h4 class="font-16">Trollstore 使用方法：</h4>
+                            <li style="list-style: none; color: #333;">打開 Trollstore 應用，點擊右下角“Settings”設備，點擊 installed ldid 選項，ldid必須要安裝成功，不然你是無法安裝其它應用。</li>
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/installed.ldid.png" style="width: 100%;">
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+                </div>
+            </div>
+        </div>
+    </div> 
    
 
 </body></html>
