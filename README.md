@@ -1,7 +1,4 @@
-//文件附件
-    public function setEnclosureAttribute($pictures)
-    {
-        
+       
         // dd($pictures);
         $pictures = array_map(function($V){
             $encode = mb_detect_encoding($V, array('ASCII', 'UTF-8', 'GB2312', 'GBK', 'BIG5'));
@@ -11,5 +8,4 @@
         // dd($pictures);
         if (is_array($pictures)) {
             $this->attributes['enclosure'] = json_encode($pictures);
-        }
-    }
+        }  
