@@ -55,7 +55,7 @@ a {
     border-bottom: solid 20px #fff;
         }
        #spacing {
-    width: 100px;
+    width: 120px;
         }  
        #png {
    width: 50px;
@@ -72,9 +72,27 @@ a {
      padding: 4px 10px;
      border-radius: 10px;   
          }
+    #BullfrogAssistantClick{
+     float: auto;
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px;   
+         }
         .btn-u0 {
     background: #2196f3;
 }
+    #Bull{
+     float: left;
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px;   
+         }
+    #Bulla{
+     float: right;
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px;   
+         }
         #sub {
     float: left;
     font-size: 16px;
@@ -152,6 +170,37 @@ a {
             }
         });
     </script>
+    <script type="text/javascript">
+        //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#BullfrogAssistantClick').click(function () {
+                $("#BullfrogAssistantTip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
 </head>
 
 <body> 
@@ -196,7 +245,7 @@ a {
 <!--網站首頁彈窗結束-->
    
 
-        <div class="header"></div>
+       
 
 
    
@@ -230,6 +279,31 @@ a {
 </tr>
      </tbody>
     </table>
+
+
+
+ <div style="text-align:center; background-color:#84C1FF;"><font size="6">Apple ID 7天簽名工具</font></div> <table>
+     <tbody>
+  <tr>
+    <td id="png">
+<div align="center"><font size="4">圖示</font></div>
+       </td>
+       <td id="spacing">
+<div align="center"><font size="4">應用名稱</font></div>
+      </td>
+     <td><div align="center"><font size="4">備註</font></div>
+     </td>
+</tr>
+<tr><td>
+<div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/BullfrogAssistant.png"></div></td>
+     <td><div align="center"><button id="BullfrogAssistantClick" type="button" class="btn-u btn-u0 btn-u-lg">牛蛙助手</button></div></td>
+<td>牛蛙助手是永久不掉簽,自簽IPA只有七天,優勢不依賴電腦也能自簽。
+</td>
+     </tr>     </tbody>
+    </table>
+
+
+
  <div style="text-align:center; background-color:#84C1FF;"><font size="6">永久簽名工具</font></div> <table>
      <tbody>
   <tr>
@@ -354,6 +428,56 @@ $('#sub').click(function() {
             </div>
         </div>
     </div> 
-   
+
+        <div class="modal fade addmodel" id="BullfrogAssistantTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-16">牛蛙助手 BullfrogAssistant 操作說明<button id="Bulla" type="button" class="btn-u btn-u0 btn-u-lg">安裝牛蛙助手</button></h4>
+
+                </div>
+                <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
+                    <section>
+                        <div style="padding: 0 10px 20px;">
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.1.png" style="width: 100%;">
+                        
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.2.png" style="width: 100%;">
+                         
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.3.png" style="width: 100%;">
+                           
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.4.png" style="width: 100%;">
+                          
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.5.png" style="width: 100%;">
+                         
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.6.png" style="width: 100%;">
+                          
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.7.png" style="width: 100%;">
+                          
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.8.png" style="width: 100%;">
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+<button id="Bull" type="button" class="btn-u btn-u0 btn-u-lg">安裝牛蛙助手</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+<script type="text/javascript">
+$('#Bull').click(function() { 
+    document.location = 'itms-services://?action=download-manifest&url=https://reurl.cc/NRv7xx';
+} );
+
+</script>
+<script type="text/javascript">
+$('#Bulla').click(function() { 
+    document.location = 'itms-services://?action=download-manifest&url=https://reurl.cc/NRv7xx';
+} );
+
+</script>
+                </div>
+            </div>
+        </div>
+    </div>       
 
 </body></html>
