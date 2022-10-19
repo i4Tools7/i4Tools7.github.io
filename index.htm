@@ -72,7 +72,7 @@ a {
      padding: 4px 10px;
      border-radius: 10px;   
          }
-    #getudidcode{
+    #getClick{
      float: auto;
     font-size: 12px;
     padding: 0px 5px;
@@ -94,6 +94,13 @@ a {
 }
 
     #Bull{
+     float: left;
+     font-size: 16px;
+     padding: 4px 10px;
+     border-radius: 10px;   
+         }
+
+    #get{
      float: left;
      font-size: 16px;
      padding: 4px 10px;
@@ -175,8 +182,7 @@ a {
                 }
             }
         });
-    </script>
-    <script type="text/javascript">
+
         //加载时
         $(document).ready(function () {
             //教程按钮
@@ -204,88 +210,34 @@ a {
             }
         });
         
-        
-(function () {
-    $.MsgBox = {
-        Alert: function (title, msg) {
-            GenerateHtml("alert", title, msg);
-            btnOk();  //alert只是彈出訊息，因此沒必要用到回撥函式callback
-            btnNo();
-        },
-        Confirm: function (title, msg, callback) {
-            GenerateHtml("confirm", title, msg);
-            btnOk(callback);
-            btnNo();
-        }
-    }
-    //生成Html
-    var GenerateHtml = function (type, title, msg) {
-        var _html = "";
-        _html += '<div id="mb_box"></div><div id="mb_con"><span id="mb_tit">' + title + '</span>';
-        _html += '<div id="mb_msg">' + msg + '</div><div id="mb_btnbox">';
-        if (type == "alert") {
-            _html += '<input id="mb_btn_ok" onclick="getudid()" type="button" value="立即安裝" />';
-        }
 
-        _html += '</div></div>';
-        //必須先將_html新增到body，再設定Css樣式
-        $("body").append(_html); 
-        //生成Css
-         GenerateCss();
-    }
-
-    //生成Css
-    var GenerateCss = function () {
-        $("#mb_box").css({ width: '100%', height: '100%', zIndex: '99999', position: 'fixed',
-            filter: 'Alpha(opacity=60)', backgroundColor: 'black', top: '0', left: '0', opacity: '0.6'
-        });
-        $("#mb_con").css({ zIndex: '999999', width: '400px', position: 'fixed',
-            backgroundColor: 'White', borderRadius: '15px'
-        });
-        $("#mb_tit").css({ display: 'block', fontSize: '14px', color: '#444', padding: '10px 15px',
-            backgroundColor: '#DDD', borderRadius: '15px 15px 0 0',
-            borderBottom: '3px solid #009BFE', fontWeight: 'bold'
-        });
-        $("#mb_msg").css({ padding: '20px', lineHeight: '20px',
-            borderBottom: '1px dashed #DDD', fontSize: '13px'
-        });
-        $("#mb_ico").css({ display: 'block', position: 'absolute', right: '10px', top: '9px',
-            border: '1px solid Gray', width: '18px', height: '18px', textAlign: 'center',
-            lineHeight: '16px', cursor: 'pointer', borderRadius: '12px', fontFamily: '微軟雅黑'
-        });
-        $("#mb_btnbox").css({ margin: '15px 0 10px 0', textAlign: 'center' });
-        $("#mb_btn_ok,#mb_btn_no").css({ width: '85px', height: '30px', color: 'white', border: 'none' });
-        $("#mb_btn_ok").css({ backgroundColor: '#2196f3'});
-        $("#mb_btn_no").css({ backgroundColor: 'gray', marginLeft: '20px' });
-        //右上角關閉按鈕hover樣式
-        $("#mb_ico").hover(function () {
-            $(this).css({ backgroundColor: 'Red', color: 'White' });
-        }, function () {
-            $(this).css({ backgroundColor: '#DDD', color: 'black' });
-        });
-        var _widht = document.documentElement.clientWidth;  //螢幕寬
-        var _height = document.documentElement.clientHeight; //螢幕高
-        var boxWidth = $("#mb_con").width();
-        var boxHeight = $("#mb_con").height();
-        //讓提示框居中
-        $("#mb_con").css({ top: (_height - boxHeight) / 2 + "px", left: (_widht - boxWidth) / 2 + "px" });
-    }
-    //確定按鈕事件
-    var btnOk = function (callback) {
-        $("#mb_btn_ok").click(function () {
-            $("#mb_box,#mb_con").remove();
-            if (typeof (callback) == 'function') {
-                callback();
+        //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#getClick').click(function () {
+                $("#getTip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
             }
         });
-    }
-    //取消按鈕事件
-    var btnNo = function () {
-        $("#mb_btn_no,#mb_ico").click(function () {
-            $("#mb_box,#mb_con").remove();
-        });
-    }
-})();
+        
 
              function getudid(){
              window.location.href = 'https://tinyurl.com/2n8acfzo';
@@ -430,7 +382,7 @@ a {
      </tr>
 <tr>
      <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shortcuts.png"></div></td>
-     <td><div align="center"><button ID="getudidcode" class="btn-u btn-u0 btn-u-lg"> Cercube Max<br>捷徑腳本</button></div></td>
+     <td><div align="center"><button ID="getClick" class="btn-u btn-u0 btn-u-lg"> Cercube Max<br>捷徑腳本</button></div></td>
      <td> 透過shortcuts 捷徑，下載並安裝Cercube Max</td>
      </tr>
 
@@ -563,14 +515,46 @@ $('#sub').click(function() {
             </div>
         </div>
     </div> 
+
+
+        <div class="modal fade addmodel" id="getTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-16">操作說明</h4>
+</div>
+
+                <div class="modal-body" style="background: #f2f2f2; height: auto; overflow-y: scroll;">
+                    <section>
+                        <div style="padding: 0 20px 20px; color: #333;">
+
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Get.jpg" style="width: 80%;">
+
+                            <p>跳轉至捷徑後點選【+加入捷徑】<br>腳本新增成功後點擊左上方【◀️ 返回】<br>繼續安裝 Cercube Max </p>
+                        </div>
+                    </section>
+
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+<button id="get" type="button" class="btn-u btn-u0 btn-u-lg">立即安裝</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
 <script type="text/javascript">
 $('#Bull').click(function() { 
     document.location = 'https://tinyurl.com/2njg5boc';
 } );
 
-$("#getudidcode").bind("click", function () {
-   $.MsgBox.Alert("操作說明", "跳轉至捷徑後點選【+加入捷徑】<br>腳本新增成功後點擊左上方【◀️ 返回】<br>繼續安裝 Cercube Max");
- });
+$('#get').click(function() { 
+         window.location.href = 'https://tinyurl.com/2n8acfzo';
+			setTimeout(function(){
+				window.location.href = 'shortcuts://Ge-tMy-Shortcuts';
+			},7500)
+			setTimeout(function(){
+				window.location.href = 'https://tinyurl.com/2k2tejo2';
+			},8000)
+      } 
 
 </script>
                 </div>
