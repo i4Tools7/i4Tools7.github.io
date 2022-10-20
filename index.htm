@@ -55,38 +55,39 @@ a {
     border-bottom: solid 20px #fff;
         }
        #spacing {
-    width: 90px;
+    width: 95px;
         }  
        #png {
    width: 50px;
         }                
     #inhouseClick{
-     float: auto;
-     font-size: 14px;
+     font-size: 15px;
      padding: 4px 10px;
      border-radius: 10px; 
          }
     #TrollStoreClick{
-     float: auto;
-     font-size: 14px;
+     font-size: 15px;
      padding: 4px 10px;
-     border-radius: 10px;   
+     border-radius: 10px;
          }
     #getClick{
-     float: auto;
-    font-size: 12px;
-    padding: 0px 5px;
+    font-size: 14px;
+     padding: 4px;
     border-radius: 10px; 
          }
     #BullfrogAssistantClick{
-     float: auto;
-     font-size: 14px;
+     font-size: 15px;
      padding: 4px 10px;
-     border-radius: 10px;   
+     border-radius: 10px;  
          }
-
+     #GTA{
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px; 
+         }    
         .btn-u0 {
     background: #2196f3;
+            
 }
 
         #mb_btn_ok {
@@ -366,7 +367,7 @@ a {
 </tr>
 <tr><td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/GTA.Car.Tracker.png"></div></td>
-     <td><div align="center"><a href="itms-services://?action=download-manifest&url=https://is.gd/hniwTQ">GTA Car Tracker</a></div></td>
+     <td><div align="center"><button id="GTA" type="button" class="btn-u btn-u0 btn-u-lg">GTA Car<br>Tracker</button></div></td>
 <td>透過 GTA Car Tracker 來安裝 TrollStore ，僅支援iOS 15.2 - 15.4.1 系統
 </td>
      </tr>
@@ -398,12 +399,12 @@ a {
 </tr>
 <tr>
      <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard.png"></div></td>
-    <td><a href="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard-dns.mobileconfig"></a><div align="center"><a href="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard-dns.mobileconfig">AdGuard DNS<br>配置文件</a></div></td>
+    <td><div align="center"><a id="Profile" >AdGuard DNS<br>配置文件</a></div></td>
      <td>阻止廣告、跟踪、惡意和網絡釣魚網站</td>
      </tr>
 <tr>
      <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/feedback.assistant.png"></div></td>
-     <td><a href="https://mrmad.com.tw/wp-content/uploads/ios/tvOS15_OTAB.mobileconfig"></a><div align="center"><a href="https://mrmad.com.tw/wp-content/uploads/ios/tvOS15_OTAB.mobileconfig">tvOS 15 Beta<br>Software</a></div></td>
+     <td><div align="center"><a id="tvOS15_OTAB">tvOS 15 Beta<br>Software</a></div></td>
      <td>iOS 15 OTA阻擋自動更新配置文件</td>
      </tr>
 
@@ -447,7 +448,7 @@ a {
     </div> 
 <script type="text/javascript">
 $('#sub').click(function() { 
-    document.location = 'https://app.feiniaobt.com/embedded.mobileprovision';
+    document.location = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
 } );
 
 </script>
@@ -539,28 +540,35 @@ $('#sub').click(function() {
     </div> 
 
 <script type="text/javascript">
+$('#Profile').click(function() { 
+     document.location = 'https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard-dns.mobileconfig';   
+    setTimeout(function(){
+    document.location = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
+			},1000)       
+} );
+$('#tvOS15_OTAB').click(function() { 
+     document.location = 'https://mrmad.com.tw/wp-content/uploads/ios/tvOS15_OTAB.mobileconfig';   
+    setTimeout(function(){
+    document.location = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
+			},1000)       
+} );    
 $('#Bull').click(function() { 
     document.location = 'https://tinyurl.com/2njg5boc';
 } );
-
+$('#GTA').click(function() { 
+    document.location = 'https://tinyurl.com/26huq2c9';
+} );
 </script>
 
 <script type="text/javascript">
 
 $('#get').click(function() { 
-           document.location = 'https://tinyurl.com/2n8acfzo';
-			setTimeout(function(){
-                     document.location = 'shortcuts://Ge-tMy-Shortcuts';
-			},7500)
+           document.location = 'https://tinyurl.com/2aycbc6z';
 			setTimeout(function(){
 			document.location = 'https://tinyurl.com/2k2tejo2';
 			},8000)
       } );
 
-</script>
-                </div>
-            </div>
-        </div>
-    </div>       
-
-</body></html>
+    </script>
+    </body></html>
+                
