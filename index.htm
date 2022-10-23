@@ -17,6 +17,10 @@
     <style type="text/css"></style>
     <script src="https://i4tools7.github.io/jquery.min.js"></script>
     <script src="https://i4tools7.github.io/layer.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://owenliang.github.io/pullToRefresh/iscroll.js"></script>
+    <script src="https://owenliang.github.io/pullToRefresh/pullToRefresh.js?"></script>
+    <link rel="stylesheet" type="text/css" href="https://owenliang.github.io/pullToRefresh/pullToRefresh.css">
     <link href="https://i4tools7.github.io/layer.css?2.0" type="text/css" rel="styleSheet" id="layermcss">
     <link href="https://i4tools7.github.io/layer.css" rel="stylesheet">
 
@@ -133,6 +137,20 @@ a {
         }}
     </style>
 <script type="text/javascript">
+  
+        $(document).ready(function() {
+            // 测试用的数据下标
+            var i = 0;
+            });
+            // 安装下拉刷新插件
+            var pullToRefresh = $.installPullToRefresh("#container", {
+                onRefresh: function(refreshDone) {
+                    setTimeout(function() {
+                        $("#content").html("#"); })  
+                               
+                // noRefresh: true,
+                // noLoad: true,
+           }} ;
         //加载时
         $(document).ready(function () {
             //教程按钮
