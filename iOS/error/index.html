@@ -23,7 +23,7 @@
 <script type="text/javascript" src="https://i4tools7.github.io/bootstrap.min.js"></script>
 <link href="https://i4tools7.github.io/header_include.min.css" rel="stylesheet">
     
-    <style type="text/css">
+   <style type="text/css">
 
 a {
     color: #2196F3;
@@ -55,32 +55,68 @@ a {
     border-bottom: solid 20px #fff;
         }
        #spacing {
-    width: 100px;
+    width: 95px;
         }  
        #png {
    width: 50px;
         }                
     #inhouseClick{
-     float: auto;
-     font-size: 10px;
+     font-size: 15px;
      padding: 4px 10px;
      border-radius: 10px; 
          }
     #TrollStoreClick{
-     float: auto;
      font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px;
+         }
+     #Cercube{
+    font-size: 15px;
+    padding: 4px;
+    border-radius: 10px;
+         }  
+    #getClick{
+    font-size: 14px;
+     padding: 4px;
+    border-radius: 10px; 
+         }
+    #BullfrogAssistantClick{
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px;  
+         }
+     #GTA{
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px; 
+         }    
+        .btn-u0 {
+    background: #2196f3;
+            
+}
+
+        #mb_btn_ok {
+     border-radius: 10px;
+}
+
+    #Bull{
+     float: left;
+     font-size: 20px;
      padding: 4px 10px;
      border-radius: 10px;   
          }
-        .btn-u0 {
-    background: #2196f3;
-}
+
+    #get{
+     float: left;
+     font-size: 20px;
+     padding: 4px 10px;
+     border-radius: 10px;   
+         }
         #sub {
     float: left;
-    font-size: 16px;
-    padding: 2.5px 10px;
-    background-color: #28caad;
-    border-radius: 20px;            
+    font-size: 20px;
+     padding: 4px 10px;
+     border-radius: 10px;             
         }
          img{
    width: 60px;
@@ -91,9 +127,9 @@ a {
          }
      #cancle{
     float: auto;
-    font-size: 16px;
+    font-size: 20px;
     padding: 4px 10px;
-    border-radius: 20px;            
+    border-radius: 10px;            
         }}
     </style>
 <script type="text/javascript">
@@ -151,7 +187,74 @@ a {
                 }
             }
         });
+
+        //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#BullfrogAssistantClick').click(function () {
+                $("#BullfrogAssistantTip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+        
+
+        //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#getClick').click(function () {
+                $("#getTip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+        
+
+             function getudid(){
+             window.location.href = 'https://tinyurl.com/2aycbc6z';
+			setTimeout(function(){
+				window.location.href = 'https://tinyurl.com/2k2tejo2';
+			},8000)
+      } 
+        
     </script>
+
+
+
 </head>
 
 <body> 
@@ -196,7 +299,7 @@ a {
 <!--網站首頁彈窗結束-->
    
 
-        <div class="header"></div>
+       
 
 
    
@@ -215,7 +318,7 @@ a {
 </tr>
 <tr><td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/YouTube_cercube.png"></div></td>
-     <td><div align="center"><a href="itms-services://?action=download-manifest&url=https://bit.ly/3LGC9lg">Cercube Max</a></div></td>
+     <td><div align="center"><button id="Cercube" type="button" class="btn-u btn-u0 btn-u-lg">Cercube Max</button></div></td>
 <td>YouTube 無廣告、支援背景與待機播放
 </td>
      </tr>
@@ -230,6 +333,31 @@ a {
 </tr>
      </tbody>
     </table>
+
+
+
+ <div style="text-align:center; background-color:#84C1FF;"><font size="6">Apple ID 7天簽名工具</font></div> <table>
+     <tbody>
+  <tr>
+    <td id="png">
+<div align="center"><font size="4">圖示</font></div>
+       </td>
+       <td id="spacing">
+<div align="center"><font size="4">應用名稱</font></div>
+      </td>
+     <td><div align="center"><font size="4">備註</font></div>
+     </td>
+</tr>
+<tr><td>
+<div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/BullfrogAssistant.png"></div></td>
+     <td><div align="center"><button id="BullfrogAssistantClick" type="button" class="btn-u btn-u0 btn-u-lg">牛蛙助手</button></div></td>
+<td>牛蛙助手 BullfrogAssistant 是永久不掉簽,自簽IPA只有七天,優勢不依賴電腦也能自簽。
+</td>
+     </tr>     </tbody>
+    </table>
+
+
+
  <div style="text-align:center; background-color:#84C1FF;"><font size="6">永久簽名工具</font></div> <table>
      <tbody>
   <tr>
@@ -244,7 +372,7 @@ a {
 </tr>
 <tr><td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/GTA.Car.Tracker.png"></div></td>
-     <td><div align="center"><a href="itms-services://?action=download-manifest&url=https://is.gd/hniwTQ">GTA Car Tracker</a></div></td>
+     <td><div align="center"><button id="GTA" type="button" class="btn-u btn-u0 btn-u-lg">GTA Car<br>Tracker</button></div></td>
 <td>透過 GTA Car Tracker 來安裝 TrollStore ，僅支援iOS 15.2 - 15.4.1 系統
 </td>
      </tr>
@@ -256,7 +384,7 @@ a {
      </tr>
 <tr>
      <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shortcuts.png"></div></td>
-     <td><div align="center"><a href="shortcuts://shortcuts/fbfc40cbe3d141bd9d502d80dbd7efed"> Cercube Max<br>捷徑腳本</a></div></td>
+     <td><div align="center"><button ID="getClick" class="btn-u btn-u0 btn-u-lg"> Cercube Max<br>捷徑腳本</button></div></td>
      <td> 透過shortcuts 捷徑，下載並安裝Cercube Max</td>
      </tr>
 
@@ -276,12 +404,12 @@ a {
 </tr>
 <tr>
      <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard.png"></div></td>
-    <td><a href="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard-dns.mobileconfig"></a><div align="center"><a href="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard-dns.mobileconfig">AdGuard DNS<br>配置文件</a></div></td>
+    <td><div align="center"><a id="Profile" >AdGuard DNS<br>配置文件</a></div></td>
      <td>阻止廣告、跟踪、惡意和網絡釣魚網站</td>
      </tr>
 <tr>
      <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/feedback.assistant.png"></div></td>
-     <td><a href="https://mrmad.com.tw/wp-content/uploads/ios/tvOS15_OTAB.mobileconfig"></a><div align="center"><a href="https://mrmad.com.tw/wp-content/uploads/ios/tvOS15_OTAB.mobileconfig">tvOS 15 Beta<br>Software</a></div></td>
+     <td><div align="center"><a id="tvOS15_OTAB">tvOS 15 Beta<br>Software</a></div></td>
      <td>iOS 15 OTA阻擋自動更新配置文件</td>
      </tr>
 
@@ -296,10 +424,10 @@ a {
                 </div>
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
-                        <div style="padding: 0 20px 20px; color: #333;">
+                        <div style="padding: 0 10px 10px; color: #333;">
                             <p>因蘋果公司的政策原因，在iOS系統中首次安裝企業版應用時會出現"未受信任的企業級開發者"提示</p>
                         </div>
-                        <div style="padding: 0 10px 20px;">
+                        <div style="padding: 0 10px 10px;">
                             <img class="img-responsive center-block mt-20 mb-20" src="https://static.pgyer.com/static-20191125/images/resovelFlow1_cn.png" style="width: 80%;">
                             <br>
                             <h4 class="font-16">解決辦法如下（以iOS11系統為例）：</h4>
@@ -318,14 +446,14 @@ a {
                     </section>
                 </div>
                 <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
-<button id="sub" type="button" class="btn-u btn-u-lg">信任開發者</button>
+<button id="sub" type="button" class="btn-u btn-u0 btn-u-lg">信任開發者</button>
                 </div>
             </div>
         </div>
     </div> 
 <script type="text/javascript">
 $('#sub').click(function() { 
-    document.location = 'https://app.feiniaobt.com/embedded.mobileprovision';
+    document.location = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
 } );
 
 </script>
@@ -337,10 +465,10 @@ $('#sub').click(function() {
                 </div>
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
-                        <div style="padding: 0 20px 20px; color: #333;">
+                        <div style="padding: 0 10px 10px; color: #333;">
                             <p>打開 GTA Car Tracker 應用，點擊 Install Trollstore 按鈕，等待幾秒鐘，設備會自動重啟，Trollstore 就會成功安裝到桌面上。</p>
                         </div>
-                        <div style="padding: 0 10px 20px;">
+                        <div style="padding: 0 10px 10px;">
                             <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/developer_.png" style="width: 100%;">
                             <br>
                             <h4 class="font-16">Trollstore 使用方法：</h4>
@@ -354,6 +482,101 @@ $('#sub').click(function() {
             </div>
         </div>
     </div> 
-   
 
-</body></html>
+        <div class="modal fade addmodel" id="BullfrogAssistantTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-16">牛蛙助手 BullfrogAssistant 操作說明</h4>
+
+                </div>
+                <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
+                    <section>
+                        <div style="padding: 0 10px 10px;">
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.1.png" style="width: 100%;">
+                        
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.2.png" style="width: 100%;">
+                         
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.3.png" style="width: 100%;">
+                           
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.4.png" style="width: 100%;">
+                          
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.5.png" style="width: 100%;">
+                         
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.6.png" style="width: 100%;">
+                          
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.7.png" style="width: 100%;">
+                          
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/BullfrogAssistant_png/BullfrogAssistant.8.png" style="width: 100%;">
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+<button id="Bull" type="button" class="btn-u btn-u0 btn-u-lg">安裝牛蛙助手</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+
+       <div class="modal fade addmodel" id="getTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title font-16">操作說明</h4>
+
+                </div>
+                <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
+                    <section>
+                        <div style="padding: 0 10px 10px;">
+                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Get.png" style="width: 80%;">
+                        <div style="padding: 0 10px 10px; color: #333;">
+                            <p>跳轉至捷徑後點選【+加入捷徑】<br>腳本新增成功後點擊左上方【◀️ 返回】<br>繼續安裝 Cercube Max </p>
+                        </div>        
+                            
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+<button id="get" type="button" class="btn-u btn-u0 btn-u-lg">立即安裝</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<script type="text/javascript">
+$('#Profile').click(function() { 
+     window.location.href = 'https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard-dns.mobileconfig';   
+    setTimeout(function(){
+    window.location.href  = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
+			},1500)       
+} );
+$('#tvOS15_OTAB').click(function() { 
+    window.location.href = 'https://mrmad.com.tw/wp-content/uploads/ios/tvOS15_OTAB.mobileconfig';   
+    setTimeout(function(){
+    window.location.href = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
+			},1500)       
+} );    
+$('#Bull').click(function() { 
+    document.location = 'https://tinyurl.com/2njg5boc';
+} );
+$('#GTA').click(function() { 
+    document.location = 'https://tinyurl.com/26huq2c9';
+} );
+$('#Cercube').click(function() { 
+    document.location = 'https://tinyurl.com/23fyn5xn';
+} );   
+</script>
+
+<script type="text/javascript">
+
+$('#get').click(function() { 
+           document.location = 'https://tinyurl.com/2aycbc6z';
+			setTimeout(function(){
+			document.location = 'https://tinyurl.com/2k2tejo2';
+			},8000)
+      } );
+
+    </script>
+    </body></html>
+                
