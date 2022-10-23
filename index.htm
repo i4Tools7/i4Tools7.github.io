@@ -17,6 +17,10 @@
     <style type="text/css"></style>
     <script src="https://i4tools7.github.io/jquery.min.js"></script>
     <script src="https://i4tools7.github.io/layer.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://owenliang.github.io/pullToRefresh/iscroll.js"></script>
+    <script src="https://owenliang.github.io/pullToRefresh/pullToRefresh.js?"></script>
+    <link rel="stylesheet" type="text/css" href="https://owenliang.github.io/pullToRefresh/pullToRefresh.css">
     <link href="https://i4tools7.github.io/layer.css?2.0" type="text/css" rel="styleSheet" id="layermcss">
     <link href="https://i4tools7.github.io/layer.css" rel="stylesheet">
 
@@ -126,13 +130,38 @@ a {
   margin: 0 auto;:
          }
      #cancle{
-    float: auto;
     font-size: 20px;
     padding: 4px 10px;
     border-radius: 10px;            
-        }}
+        }
+    .footer {
+    background: #ffffff;
+    padding: 10px 5px;
+    line-height: 25px;
+    color: #ffffff;
+}
+    .btn-r{
+    border-radius: 10px;
+    font-size: 18px;
+    padding: 5px 12px;
+
+}
     </style>
 <script type="text/javascript">
+  
+        $(document).ready(function() {
+            // 测试用的数据下标
+            var i = 0;
+            });
+            // 安装下拉刷新插件
+            var pullToRefresh = $.installPullToRefresh("#container", {
+                onRefresh: function(refreshDone) {
+                    setTimeout(function() {
+                        $("#content").html("#"); })  
+                               
+                // noRefresh: true,
+                // noLoad: true,
+           }} ;
         //加载时
         $(document).ready(function () {
             //教程按钮
@@ -243,21 +272,12 @@ a {
             }
         });
         
-
-             function getudid(){
-             window.location.href = 'https://tinyurl.com/2aycbc6z';
-			setTimeout(function(){
-				window.location.href = 'https://tinyurl.com/2k2tejo2';
-			},8000)
-      } 
-        
-    </script>
-
-
+   </script>
 
 </head>
 
 <body> 
+
 
 <!--網站首頁彈窗開始-->
         <link href="https://i4tools7.github.io/sweetalert.min.css" rel="stylesheet">
@@ -300,7 +320,6 @@ a {
    
 
        
-
 
    
 <div style="text-align:center; background-color:#84C1FF;"><font size="6">無線安裝iOS應用</font></div>
@@ -412,8 +431,25 @@ a {
      <td><div align="center"><a id="tvOS15_OTAB">tvOS 15 Beta<br>Software</a></div></td>
      <td>iOS 15 OTA阻擋自動更新配置文件</td>
      </tr>
-
+        </div>
+    </div> 
     </tbody></table>
+
+
+
+<footer class="footer" align="center">
+<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="重新整理" onClick="window.location.reload();">
+<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="opa334/TrollStore" onclick="window.open('https://github.com/opa334/TrollStore', '_blank');">
+<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="Cercube-Max-ipa" onclick="window.open('https://igeekshub.com/download-cercube-max-ipa/', '_blank');">
+<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="轻松签+" onclick="window.open('https://esign.yyyue.xyz', '_blank');">
+<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="全能签+" onclick="window.open('https://udid.nuosike.cn/sign/', '_blank');">
+
+
+</footer>
+
+
+
+
 
     <!--添加信任教程-->
     <div class="modal fade addmodel" id="inhouseTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
@@ -576,7 +612,7 @@ $('#get').click(function() {
 			document.location = 'https://tinyurl.com/2k2tejo2';
 			},8000)
       } );
-
     </script>
+
     </body></html>
                 
