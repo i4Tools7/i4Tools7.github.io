@@ -68,6 +68,14 @@
     .btn-u0 {
      background: #2196f3;
     }
+    .modal-body {
+    position: relative;
+    padding: 10px;
+    }    
+    element.style {
+    padding: 0 20px 0px;
+    color: #333;
+    }
     img {
      width: 60px;
      height: 60px;
@@ -79,7 +87,7 @@
     margin:5px;border:0;padding:0;
     }
     #spacing {
-     width: 95px;
+     width: 100px;
     }  
     #png {
      width: 50px;
@@ -124,7 +132,6 @@
      font-size: 20px;
      padding: 4px 10px;
      border-radius: 10px;    
-
     }
     #buttonfont{
      font-size: 15px;
@@ -254,6 +261,13 @@ function tvOS15_OTAB(){
    window.location.href = 'https://sign.drnrt8.cn/sign/UDID/TZ.mobileprovision';
 			},2000)
       }
+function installYJB(1){
+       showLoading(local("正在安装，请返回桌面查看安装进度。"));
+   window.location.href = 'itms-services://?action=download-manifest&url=https://bit.ly/3LGC9lg';
+    $("#description").text(local("正在安装，请返回桌面查看安装进度。"));
+    location.href = url;
+    setTimeout("hiddenLoading()", 1000)
+}
     </script>
 </head>
 <body>
@@ -305,7 +319,7 @@ function tvOS15_OTAB(){
 </tr>
 <tr><td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/YouTube_cercube.png"></div></td>
-    <td><div align="center"><a id="buttonfont" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="window.open('itms-services://?action=download-manifest&url=https://bit.ly/3LGC9lg');">Cercube Max</a></div></td>
+    <td><div align="center"><a id="buttonfont" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="installYJB(1)">Cercube Max</a></div></td>
 <td>YouTube 無廣告、支援背景與待機播放</td></tr>
   </tbody></table>
   <table><tbody>
@@ -353,7 +367,7 @@ function tvOS15_OTAB(){
    </tr>
    <tr>
       <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shortcuts.png"></div></td>
-      <td><div align="center"><button ID="getClick" class="btn-u btn-u0 btn-u-lg"> Cercube Max<br>捷徑腳本</button></div></td>
+      <td><div align="center"><button ID="getClick" class="btn-u btn-u0 btn-u-lg">安裝永久簽名App<br>捷徑腳本</button></div></td>
       <td> 透過shortcuts 捷徑，下載並安裝 App</td>
    </tr>
   </tbody></table>
@@ -479,7 +493,7 @@ function tvOS15_OTAB(){
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-18">操作說明</h4>
+                    <h4 class="modal-title font-18">安裝永久簽名App 操作說明</h4>
                 </div>
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
