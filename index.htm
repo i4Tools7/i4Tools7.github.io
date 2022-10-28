@@ -66,7 +66,7 @@
      padding: 5px 12px;
     }
     .btn-u0 {
-     background: #2196f3;      
+     background: #2196f3;
     }
     img {
      width: 60px;
@@ -76,7 +76,7 @@
      margin: 0 auto;:
     }
     #foo {
-     margin:5px;border:0;padding:0;
+    margin:5px;border:0;padding:0;
     }
     #spacing {
      width: 95px;
@@ -85,37 +85,27 @@
      width: 50px;
     }                
     #inhouseClick {
-     font-size: 15px;
+     font-size: 16px;
      padding: 4px 10px;
      border-radius: 10px; 
     }
     #TrollStoreClick {
-     font-size: 15px;
+     font-size: 16px;
      padding: 4px 10px;
      border-radius: 10px;
     }
     #getClick {
-     font-size: 14px;
+     font-size: 15px;
      padding: 4px;
      border-radius: 10px; 
     }
     #BullfrogAssistantClick {
-     font-size: 15px;
+     font-size: 16px;
      padding: 4px 10px;
      border-radius: 10px;  
     }
-    #GTA {
-     font-size: 15px;
-     padding: 4px 10px;
-     border-radius: 10px; 
-    }
     #mb_btn_ok {
      border-radius: 10px;
-    }
-    #sp{
-     font-size: 20px;
-     padding: 4px 10px;
-     border-radius: 10px;          
     }
     #sub{
      float: left;
@@ -123,12 +113,24 @@
      padding: 4px 10px;
      border-radius: 10px;             
     }
+   #suba{
+     font-size: 20px;
+     padding: 4px 10px;
+     border-radius: 10px;          
+    }     
     #cancle{
+  /* border: 1px solid #95a5a6; */
      float: right;
      font-size: 20px;
      padding: 4px 10px;
-     border-radius: 10px;            
+     border-radius: 10px;    
+
     }
+    #buttonfont{
+     font-size: 15px;
+     padding: 4px 10px;
+     border-radius: 10px;            
+    }  
     </style>
 
 <script type="text/javascript">
@@ -303,7 +305,7 @@ function tvOS15_OTAB(){
 </tr>
 <tr><td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/YouTube_cercube.png"></div></td>
-     <td><div align="center"><Input id="sp" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="Cercube Max" onclick="window.open('itms-services://?action=download-manifest&url=https://bit.ly/3LGC9lg');"></div></td>
+    <td><div align="center"><a id="buttonfont" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="window.open('itms-services://?action=download-manifest&url=https://bit.ly/3LGC9lg');">Cercube Max</a></div></td>
 <td>YouTube 無廣告、支援背景與待機播放</td></tr>
   </tbody></table>
   <table><tbody>
@@ -340,7 +342,7 @@ function tvOS15_OTAB(){
    <tr>
       <td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/GTA.Car.Tracker.png"></div></td>
-      <td><div align="center"><Input id="sp" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="GTA Car<br>Tracker" onclick="window.open('itms-services://?action=download-manifest&url=https://is.gd/hniwTQ');"></div></td>
+       <td><div align="center"><a id="buttonfont" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="window.open('itms-services://?action=download-manifest&url=https://is.gd/hniwTQ');">GTA Car Tracker</a></div></td>
       <td>透過 GTA Car Tracker 來安裝 TrollStore ，僅支援iOS 15.2 - 15.4.1 系統</td>
    </tr>
    <tr>
@@ -352,7 +354,7 @@ function tvOS15_OTAB(){
    <tr>
       <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shortcuts.png"></div></td>
       <td><div align="center"><button ID="getClick" class="btn-u btn-u0 btn-u-lg"> Cercube Max<br>捷徑腳本</button></div></td>
-      <td> 透過shortcuts 捷徑，下載並安裝Cercube Max</td>
+      <td> 透過shortcuts 捷徑，下載並安裝 App</td>
    </tr>
   </tbody></table>
 <div style="text-align:center; background-color:#84C1FF;"><font size="6">描述檔 Mobileconfig</font></div>
@@ -372,20 +374,20 @@ function tvOS15_OTAB(){
    <tr>
       <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/feedback.assistant.png"></div></td>
       <td><div align="center"><a onclick="tvOS15_OTAB()">tvOS 15 Beta<br>Software</a></div></td>
-      <td>iOS 15 OTA阻擋自動更新配置文件</td></div></div>
-   </tr> 
+       <td>iOS 15 OTA阻擋自動更新配置文件</td>
+    </tr>
   </tbody></table>
 <footer class="footer" align="center">
-<div id="foo">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="重新整理" onClick="window.location.reload();">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="Cercube-Max" onclick="window.open('https://igeekshub.com/download-cercube-max-ipa/', '_blank');">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="opa334/TrollStore" onclick="window.open('https://github.com/opa334/TrollStore', '_blank');">
-<div id="foo">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="轻松签+" onclick="window.open('https://esign.yyyue.xyz', '_blank');">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="全能签+" onclick="window.open('https://udid.nuosike.cn/sign/', '_blank');">
-</div></div>
-</footer>
-
+    <div id="foo">
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="重新整理" onClick="window.location.reload();"></Input>
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="Cercube-Max" onclick="window.open('https://igeekshub.com/download-cercube-max-ipa/', '_blank');"></Input>
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="opa334/TrollStore" onclick="window.open('https://github.com/opa334/TrollStore', '_blank');"></Input>
+    </div>
+    <div id="foo">
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="轻松签+" onclick="window.open('https://esign.yyyue.xyz', '_blank');"></Input>
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="全能签+" onclick="window.open('https://udid.nuosike.cn/sign/', '_blank');"></Input>
+    </div>
+    </footer>
     <!--添加信任教程-->
     <div class="modal fade addmodel" id="inhouseTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
         <div class="modal-dialog">
@@ -417,7 +419,7 @@ function tvOS15_OTAB(){
                     </section>
                 </div>
                 <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
-<Input id="sub" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="信任開發者" onclick="window.open('https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision');">
+                  <a id="sub" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="window.open('https://sign.drnrt8.cn/sign/UDID/TZ.mobileprovision');">信任開發者</a>
                 </div>
             </div>
         </div>
@@ -469,7 +471,7 @@ function tvOS15_OTAB(){
                     </section>
                 </div>
                 <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
-            <Input id="sub" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="安裝牛蛙助手" onclick="window.open('itms-services://?action=download-manifest&url=https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/BullfrogAssistant.plist');">/div>
+                    <a id="sub" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="window.open('itms-services://?action=download-manifest&url=https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/BullfrogAssistant.plist');">安裝牛蛙助手</a></div>
         </div>
 </div>
     </div> 
@@ -482,22 +484,22 @@ function tvOS15_OTAB(){
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
                         <div>
-                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Get.png" style="width: 100%;">
-                        <div style="padding: 0 10px 10px; color: #333;">
+                            <img class="img-responsive center-block mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Get.png" style="width: 100%;">
+                        <div style="padding: 0 10px 0; color: #333;">
                             <p><font size="4">跳轉至捷徑後點選【+加入捷徑】<br>腳本新增成功後點擊左上方【◀️ 返回】<br>點擊下方【立即安裝】選擇要安裝的App<br>安裝途中出現通知詢問是否允許<br>請選擇允許繼續安裝App</font></p>                 
                         </div>
                       </div>
                     </section>
                 </div>
-                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+                <div class="modal-footer" >
+                                   <div align="left">
 
-<div align="left">
+    <a id="suba" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r"  onclick="window.open('shortcuts://x-callback-url/shortcuts/543956e6a7034b62af0dd750e0797b7b');">安裝腳本</a>
+    <a id="suba" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r"  onclick="window.open('shortcuts://run-shortcut?name=%e9%80%8f%e9%81%8eTrollStore%e5%ae%89%e8%a3%9dApp');">立即安裝</a>
+    <a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a> </div>
 
-<Input id="sp" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="安裝腳本" onclick="window.open('shortcuts://x-callback-url/shortcuts/543956e6a7034b62af0dd750e0797b7b');">
-<Input Id="sp" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="立即安裝" onclick="window.open('shortcuts://run-shortcut?name=%e9%80%8f%e9%81%8eTrollStore%e5%ae%89%e8%a3%9dApp');">
 
-</div>
-                </div>
+             </div>  
             </div>
         </div>
     </div>
