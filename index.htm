@@ -123,19 +123,19 @@
      padding: 4px 10px;
      border-radius: 10px;   
     }
-    #get{
-     float: left;
+    #sp{
      font-size: 20px;
      padding: 4px 10px;
-     border-radius: 10px;   
+     border-radius: 10px;          
     }
-    #sub {
+    #sub{
      float: left;
      font-size: 20px;
      padding: 4px 10px;
      border-radius: 10px;             
     }
     #cancle{
+     float: right;
      font-size: 20px;
      padding: 4px 10px;
      border-radius: 10px;            
@@ -272,12 +272,6 @@ $('#GTA').click(function() {
 $('#Cercube').click(function() { 
     document.location = 'https://tinyurl.com/23fyn5xn';
 } );   
-$('#get').click(function() { 
-    document.location = 'https://tinyurl.com/2aycbc6z';
-	setTimeout(function(){
-	document.location = 'https://tinyurl.com/2k2tejo2';
-	},8000)
-    } );
 $('#sub').click(function() { 
     document.location = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
 } );
@@ -520,7 +514,13 @@ $('#sub').click(function() {
                     </section>
                 </div>
                 <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
-<button id="get" type="button" class="btn-u btn-u0 btn-u-lg">立即安裝</button>
+
+<div align="left">
+
+<Input id="sp" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="安裝腳本" onclick="window.open('shortcuts://x-callback-url/shortcuts/543956e6a7034b62af0dd750e0797b7b');">
+<Input Id="sp" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="立即安裝" onclick="window.open('shortcuts://run-shortcut?name=%e9%80%8f%e9%81%8eTrollStore%e5%ae%89%e8%a3%9dApp');">
+
+</div>
                 </div>
             </div>
         </div>
