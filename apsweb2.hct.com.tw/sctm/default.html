@@ -1057,6 +1057,38 @@ button::-moz-focus-inner
             }
         })();
     </script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link href="https://i4tools7.github.io/bootstrap.css" rel="stylesheet">
+    <link href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript">
+
+$(document).ready(function(){
+    var valueNum = window.sessionStorage.userdata;
+    if (valueNum != "1") {
+      $("#myModal").modal();
+    }
+});
+  function cancel(){
+    window.sessionStorage.userdata = "1";
+  }
+  function show(){
+    window.sessionStorage.userdata = "0";
+    $("#myModal").modal();
+  }
+    function copyEvent(id)
+    {
+        var str = document.getElementById(id);
+        window.getSelection().selectAllChildren(str);
+        document.execCommand("Copy")
+  alert("複製成功，自動跳轉 新竹物流通路雲端系統 ");
+
+       window.open('https://apsweb.hct.com.tw/SCTM/','_blank', config='height=450, width=900, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no, top=20, left=20');
+
+    }
+
+    </script>
 
     <style>
         body
@@ -1138,6 +1170,32 @@ button::-moz-focus-inner
   <link rel="stylesheet" type="text/css" href="https://i4tools7.github.io/lwsprite1.mouse.css">
 </head>
 <body class="notIE8 customScrollBar removeFocusOutline" tabindex="-1" role="application"> <!--<![endif]-->
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+          <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">新竹物流通路雲端系統登入提示</h4>
+        </div>
+        <div class="modal-body">
+          <I1>企業代碼：<I1 ID="copy">tstartel</I1></p>
+          <P>登入帳號：店點代碼 【收貨地點的帳號代碼】<i1>(詳辦公室及門市登入帳號密碼參照表)</i1></p>
+          
+          <P>首設密碼：Abcd1234</P>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" onclick="copyEvent('copy')">複製企業代碼</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="cancel()" onkeypress="cancel()">關閉提示視窗</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
     
     <div id="preloadDiv" style="visibility: hidden; height: 1px; margin-bottom: -1px; overflow: hidden; display: none;">
         
@@ -1761,7 +1819,7 @@ style="">107 KB</span> <span class="_az_n ms-font-weight-regular ms-font-color-n
 
 <div style="color:rgb(33,33,33)">
 <hr tabindex="-1" style="display:inline-block; width:98%">
-<div id="divRplyFwdMsg" dir="ltr"><font face="Calibri, sans-serif" color="#000000" style="font-size:11pt"><b>主旨:</b> 【重要補充】新竹物流商品調撥作業注意事項</font> 
+<div id="divRplyFwdMsg" dir="ltr"><font face="Calibri, sans-serif" color="#000000" style="font-size:11pt"><b>主旨:</b> 【重要補充】新竹物流商品調撥作業注意事項<a href="#" class="btn btn-default" onclick="show()" onkeypress="show()">登入提示</a></font> 
 <div>&nbsp;</div>
 </div>
 <div>
@@ -1809,12 +1867,7 @@ style="">107 KB</span> <span class="_az_n ms-font-weight-regular ms-font-color-n
 
 </div>
 </div></div> <div style="display: none;"></div> </div> </div></div> </div></div> </div> </div> </div></div><div autoid="_rp_N" class="popupShadow" ispopup="1" ismodal="true" style="display: none;"></div><div autoid="_rp_O" class="popupShadow" ispopup="1" ismodal="true" style="display: none;"></div></div></div></div></div><div style="display: none;"></div><div><div class="modalPanelBackground" ispopup="1" style="display: none;"></div></div><div class="errorDialog popupShadow" ispopup="1" ismodal="true" role="alertdialog" aria-labelledby="_ariaId_5" aria-describedby="_ariaId_6" style="display: none;"></div><div autoid="_n_01" class="popupShadow" ispopup="1" ismodal="true" role="alertdialog" aria-labelledby="_ariaId_3" aria-describedby="_ariaId_4" style="display: none;"></div><div class="popupShadow" ispopup="1" ismodal="true" role="alertdialog" aria-labelledby="_ariaId_1" aria-describedby="_ariaId_2" style="display: none;"></div><div aria-atomic="false" aria-live="assertive" aria-relevant="additions" role="alert" class="offscreen"></div><div><div autoid="_n_T" class="popupShadow" ispopup="1" ismodal="true" role="alertdialog" aria-labelledby="_ariaId_7" aria-describedby="_ariaId_8" style="display: none;"></div></div><div style="display: none;"></div><div class="_n_15"><div></div></div>
-	    <script>
-        function OpenInNewTab(url) {
-            var newTab = window.open(url, '_blank');
-            newTab.location;
-        }
-        OpenInNewTab('https://apsweb.hct.com.tw/SCTM/');
-    </script>
+
+
 
 </body></html>
