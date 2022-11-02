@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html class="js cssanimations">
 <head>
+
+   <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" sizes="128x128" href="https://raw.githubusercontent.com/i4Tools7/i4Tools7.github.io/main/cydia.png">
+<meta name="apple-mobile-web-app-title" content="IOS工具箱">
+<link rel="apple-touch-startup-image" href="https://raw.githubusercontent.com/i4Tools7/i4Tools7.github.io/main/cydia.png">
+
     <link href="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/cydia.ico" rel="shortcut icon" type="image/x-icon">
 <!--网页变灰代码 
     	<style>html {filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);-webkit-filter: grayscale(100%);}</style>
@@ -62,24 +68,35 @@
     }
     .btn-r{
      border-radius: 10px;
-     font-size: 17px;
+     font-size: 16px;
      padding: 5px 12px;
     }
     .btn-u0 {
-     background: #2196f3;      
+     background: #2196f3;
+    }
+    .modal-body {
+    position: relative;
+    padding: 10px;
+    }    
+    element.style {
+    padding: 0 20px 0px;
+    color: #333;
     }
     img {
      width: 60px;
      height: 60px;
      margin-right: 10px;
-     display: block;
      margin: 0 auto;:
     }
+    #arrow{
+    width: 20px;
+    height: 20px;
+    }
     #foo {
-     margin:5px;border:0;padding:0;
+    margin:5px;border:0;padding:0;
     }
     #spacing {
-     width: 95px;
+     width: 107px;
     }  
     #png {
      width: 50px;
@@ -89,59 +106,48 @@
      padding: 4px 10px;
      border-radius: 10px; 
     }
-    #TrollStoreClick {
-     font-size: 15px;
-     padding: 4px 10px;
-     border-radius: 10px;
-    }
-    #Cercube {
-     font-size: 15px;
-     padding: 4px;
-     border-radius: 10px;
-    }  
-    #getClick {
-     font-size: 14px;
-     padding: 4px;
-     border-radius: 10px; 
-    }
     #BullfrogAssistantClick {
-     font-size: 15px;
-     padding: 4px 10px;
-     border-radius: 10px;  
-    }
-    #GTA {
-     font-size: 15px;
-     padding: 4px 10px;
-     border-radius: 10px; 
+    font-size: 14px;
+    padding: 4px 8px;
     }
     #mb_btn_ok {
      border-radius: 10px;
     }
-    #Bull{
-     float: left;
-     font-size: 20px;
-     padding: 4px 10px;
-     border-radius: 10px;   
-    }
-    #get{
-     float: left;
-     font-size: 20px;
-     padding: 4px 10px;
-     border-radius: 10px;   
-    }
-    #sub {
+    #sub{
      float: left;
      font-size: 20px;
      padding: 4px 10px;
      border-radius: 10px;             
     }
-    #cancle{
+    #suba{
      font-size: 20px;
      padding: 4px 10px;
-     border-radius: 10px;            
+     border-radius: 10px;          
+    }     
+    #cancle{
+  /* border: 1px solid #95a5a6; */
+     float: right;
+     font-size: 20px;
+     padding: 4px 10px;
+     border-radius: 10px;    
+    }
+    #_font{
+    font-size: 16px;
+    }
+    #_font0{
+    font-size: 14px;
+    }
+    #_font2{
+    font-size: 16px;
+    }
+    #_font3{
+    font-size: 15px;
+    }
+    #_font4{
+    font-size: 14px;
+    padding: 4px 8px;
     }
     </style>
-
 <script type="text/javascript">
           //加载时
         $(document).ready(function () {
@@ -263,25 +269,18 @@ function tvOS15_OTAB(){
    window.location.href = 'https://sign.drnrt8.cn/sign/UDID/TZ.mobileprovision';
 			},2000)
       }
-$('#Bull').click(function() { 
-    document.location = 'https://tinyurl.com/2njg5boc';
-} );
-$('#GTA').click(function() { 
-    document.location = 'https://tinyurl.com/26huq2c9';
-} );
-$('#Cercube').click(function() { 
-    document.location = 'https://tinyurl.com/23fyn5xn';
-} );   
-$('#get').click(function() { 
-    document.location = 'https://tinyurl.com/2aycbc6z';
-	setTimeout(function(){
-	document.location = 'https://tinyurl.com/2k2tejo2';
-	},8000)
-    } );
-$('#sub').click(function() { 
-    document.location = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/embedded.mobileprovision';
-} );
     </script>
+<script type="text/javascript">    
+    function Cercube(){
+  window.location.href = 'itms-services://?action=download-manifest&url=https://bit.ly/3LGC9lg';
+}
+    function GTA_Car_Tracker(){
+  window.location.href = 'itms-services://?action=download-manifest&url=https://is.gd/hniwTQ';
+}
+    function BullfrogAssistantTip(){
+  window.location.href = 'itms-services://?action=download-manifest&url=https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/BullfrogAssistant.plist';
+}
+      </script>  
 </head>
 <body>
 <!--網站首頁彈窗開始-->
@@ -332,13 +331,13 @@ $('#sub').click(function() {
 </tr>
 <tr><td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/YouTube_cercube.png"></div></td>
-     <td><div align="center"><button id="Cercube" type="button" class="btn-u btn-u0 btn-u-lg">Cercube Max</button></div></td>
-<td>YouTube 無廣告、支援背景與待機播放</td></tr>
+    <td><div align="center"><div><font ID="_font" color="#2196F3">Cercube Max</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><Button id="_font4" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Cercube()">立即安裝</Button></div></td>
+<td>YouTube無廣告支援背景與待機播放</td></tr>
   </tbody></table>
   <table><tbody>
    <tr>
       <td>
-<div align="center" style="color: #1abc9c;">無法開啟 APP <br> "未受信任的企業級開發者" 的解決辦法→ →</div></td>
+<div align="center" style="color: #1abc9c;"><font size="3">無法開啟 APP <br> "未受信任的企業級開發者" 的解決辦法→ →</font></div></td>
 <td><div align="center"><button id="inhouseClick" type="button" class="btn-u btn-u-lg">請點我</button></div></td>
    </tr>
   </tbody></table>
@@ -354,8 +353,8 @@ $('#sub').click(function() {
    <tr>
       <td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/BullfrogAssistant.png"></div></td>
-      <td><div align="center"><button id="BullfrogAssistantClick" type="button" class="btn-u btn-u0 btn-u-lg">牛蛙助手</button></div></td>
-      <td>牛蛙助手 BullfrogAssistant 是永久不掉簽,自簽IPA只有七天,優勢不依賴電腦也能自簽。</td>
+      <td><div align="center"><div><font ID="_font0" color="#2196F3">BullfrogAssistant</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><Button id="BullfrogAssistantClick" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r">安裝說明</Button></div></td>
+      <td>牛蛙助手 是永久不掉簽,自簽IPA只有七天,不依賴電腦也能自簽</td>
    </tr>
   </tbody></table>
 <div style="text-align:center; background-color:#84C1FF;"><font size="6">永久簽名工具</font></div><table><tbody>
@@ -369,19 +368,19 @@ $('#sub').click(function() {
    <tr>
       <td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/GTA.Car.Tracker.png"></div></td>
-      <td><div align="center"><button id="GTA" type="button" class="btn-u btn-u0 btn-u-lg">GTA Car<br>Tracker</button></div></td>
-      <td>透過 GTA Car Tracker 來安裝 TrollStore ，僅支援iOS 15.2 - 15.4.1 系統</td>
+       <td><div align="center"><div><font ID="_font0" color="#2196F3">GTA Car Tracker</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><a ID="buttonfont"><Button id="_font4" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="GTA_Car_Tracker()">立即安裝</Button></a></div></td>
+      <td>透過 GTA Car Tracker 來安裝 TrollStore，僅支援iOS 15.2 - 15.4.1系統</td>
    </tr>
    <tr>
       <td>
 <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/TrollStore.png"></div></td>
-      <td><div align="center"><button id="TrollStoreClick" type="button" class="btn-u btn-u0 btn-u-lg">TrollStore</button></div></td>
-      <td>Trollstore 操作說明</td>
+      <td><div align="center"><div><font ID="_font2" color="#2196F3">Trollstore</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><a ID="TrollStoreClick"><Button id="_font4" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r">安裝說明</Button></a></div></td>
+      <td>Trollstore 安裝說明</td>
    </tr>
    <tr>
       <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shortcuts.png"></div></td>
-      <td><div align="center"><button ID="getClick" class="btn-u btn-u0 btn-u-lg"> Cercube Max<br>捷徑腳本</button></div></td>
-      <td> 透過shortcuts 捷徑，下載並安裝Cercube Max</td>
+      <td><div align="center"><div><font ID="_font" color="#2196F3">永久簽名腳本</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><a ID="getClick"><Button id="_font4" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r">安裝說明</Button></a></div></td>
+      <td>使用shortcuts 捷徑，透過 Trollstore 安裝永久簽名App</td>
    </tr>
   </tbody></table>
 <div style="text-align:center; background-color:#84C1FF;"><font size="6">描述檔 Mobileconfig</font></div>
@@ -395,32 +394,32 @@ $('#sub').click(function() {
    </tr>
    <tr>
       <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/adguard.png"></div></td>
-      <td><div align="center"><a onclick="adguard()" >AdGuard DNS<br>配置文件</a></div></td>
+       <td><div align="center"><font ID="_font3"><a onclick="adguard()" >AdGuard DNS<br>配置文件</a></font></div></td>
       <td>阻止廣告、跟踪、惡意和網絡釣魚網站</td>
    </tr>
    <tr>
       <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/feedback.assistant.png"></div></td>
-      <td><div align="center"><a onclick="tvOS15_OTAB()">tvOS 15 Beta<br>Software</a></div></td>
-      <td>iOS 15 OTA阻擋自動更新配置文件</td></div></div>
-   </tr> 
+      <td><div align="center"><font ID="_font3"><a onclick="tvOS15_OTAB()">tvOS 15 Beta<br>Software</a></font></div></td>
+       <td>iOS 15 OTA阻擋自動更新配置文件</td>
+    </tr>
   </tbody></table>
 <footer class="footer" align="center">
-<div id="foo">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="重新整理" onClick="window.location.reload();">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="Cercube-Max" onclick="window.open('https://igeekshub.com/download-cercube-max-ipa/', '_blank');">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="opa334/TrollStore" onclick="window.open('https://github.com/opa334/TrollStore', '_blank');">
-<div id="foo">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="轻松签+" onclick="window.open('https://esign.yyyue.xyz', '_blank');">
-<Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="全能签+" onclick="window.open('https://udid.nuosike.cn/sign/', '_blank');">
-</div></div>
-</footer>
-
+    <div id="foo">
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="重新整理" onClick="window.location.reload();"></Input>
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="Cercube-Max" onclick="window.open('https://igeekshub.com/download-cercube-max-ipa/', '_blank');"></Input>
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="opa334/TrollStore" onclick="window.open('https://github.com/opa334/TrollStore', '_blank');"></Input>
+    </div>
+    <div id="foo">
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="轻松签+" onclick="window.open('https://esign.yyyue.xyz', '_blank');"></Input>
+    <Input Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" Value="全能签+" onclick="window.open('https://udid.nuosike.cn/sign/', '_blank');"></Input>
+    </div>
+    </footer>
     <!--添加信任教程-->
     <div class="modal fade addmodel" id="inhouseTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-16">"未受信任的企業級開發者"的解決辦法</h4>
+                    <h4 class="modal-title font-18">"未受信任的企業級開發者"的解決辦法</h4>
                 </div>
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
@@ -446,7 +445,7 @@ $('#sub').click(function() {
                     </section>
                 </div>
                 <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
-<button id="sub" type="button" class="btn-u btn-u0 btn-u-lg">信任開發者</button>
+                  <a id="sub" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="window.open('https://sign.drnrt8.cn/sign/UDID/TZ.mobileprovision');">信任開發者</a>
                 </div>
             </div>
         </div>
@@ -456,7 +455,7 @@ $('#sub').click(function() {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-16">Trollstore 操作說明</h4>
+                    <h4 class="modal-title font-18">Trollstore 安裝說明</h4>
                 </div>
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
@@ -481,7 +480,7 @@ $('#sub').click(function() {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-16">牛蛙助手 BullfrogAssistant 操作說明</h4>
+                    <h4 class="modal-title font-18">牛蛙助手 BullfrogAssistant 安裝說明</h4>
                 </div>
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
@@ -498,30 +497,35 @@ $('#sub').click(function() {
                     </section>
                 </div>
                 <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
-<button id="Bull" type="button" class="btn-u btn-u0 btn-u-lg">安裝牛蛙助手</button>
-                </div>
-            </div>
+                    <a id="sub" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="BullfrogAssistantTip()">安裝牛蛙助手</a></div>
         </div>
+</div>
     </div> 
        <div class="modal fade addmodel" id="getTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title font-16">操作說明</h4>
+                    <h4 class="modal-title font-18">安裝永久簽名App 安裝說明</h4>
                 </div>
                 <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
                     <section>
-                        <div style="padding: 0 10px 10px;">
-                            <img class="img-responsive center-block mt-20 mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Get.png" style="width: 80%;">
-                        <div style="padding: 0 10px 10px; color: #333;">
-                            <p>跳轉至捷徑後點選【+加入捷徑】<br>腳本新增成功後點擊左上方【◀️ 返回】<br>繼續安裝 Cercube Max </p>
+                        <div>
+                            <img class="img-responsive center-block mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Get.png" style="width: 100%;">
+                        <div style="padding: 0 10px 0; color: #333;">
+                            <p><font size="4">跳轉至捷徑後點選【+加入捷徑】<br>腳本新增成功後點擊左上方【◀️ 返回】<br>點擊下方【立即安裝】選擇要安裝的App<br>安裝途中出現通知詢問是否允許<br>請選擇允許繼續安裝App</font></p>                 
                         </div>
                       </div>
                     </section>
                 </div>
-                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
-<button id="get" type="button" class="btn-u btn-u0 btn-u-lg">立即安裝</button>
-                </div>
+                <div class="modal-footer" >
+                                   <div align="left">
+
+    <a id="suba" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r"  onclick="window.open('shortcuts://x-callback-url/shortcuts/543956e6a7034b62af0dd750e0797b7b');">安裝腳本</a>
+    <a id="suba" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r"  onclick="window.open('shortcuts://run-shortcut?name=%e9%80%8f%e9%81%8eTrollStore%e5%ae%89%e8%a3%9dApp');">立即安裝</a>
+    <a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a> </div>
+
+
+             </div>  
             </div>
         </div>
     </div>
