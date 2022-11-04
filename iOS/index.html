@@ -8,8 +8,6 @@
 <link rel="apple-touch-startup-image" href="https://raw.githubusercontent.com/i4Tools7/i4Tools7.github.io/main/cydia.png">
 
     <link href="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/cydia.ico" rel="shortcut icon" type="image/x-icon">
-<!--网页变灰代码 
-    	<style>html {filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);-webkit-filter: grayscale(100%);}</style>
 <!--网页变灰代码结束-->
 <meta name="apple-mobile-web-app-capable" content="yes">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -77,7 +75,19 @@
     .modal-body {
     position: relative;
     padding: 10px;
-    }    
+    }
+    .modal-Troll_body {
+    position: relative;
+    padding: 1px;
+    }
+   .modal-content {
+    border-radius: 10px;
+    }
+   .modal-header {
+    /* padding: 15px; */
+    border-bottom: 1px solid #e5e5e5;
+    min-height: 16.43px;
+    }
     element.style {
     padding: 0 20px 0px;
     color: #333;
@@ -86,7 +96,7 @@
      width: 60px;
      height: 60px;
      margin-right: 10px;
-     margin: 0 auto;:
+     margin: 0 auto;:      
     }
     #arrow{
     width: 20px;
@@ -96,7 +106,7 @@
     margin:5px;border:0;padding:0;
     }
     #spacing {
-     width: 107px;
+     width: 115px;
     }  
     #png {
      width: 50px;
@@ -145,7 +155,7 @@
     }
     #_font4{
     font-size: 14px;
-    padding: 4px 8px;
+    padding: 4px 10px;
     }
     </style>
 <script type="text/javascript">
@@ -179,8 +189,8 @@
         //加载时
         $(document).ready(function () {
             //教程按钮
-            $('#TrollStoreClick').click(function () {
-                $("#TrollStoreTip").modal('show');
+            $('#TrollStore_HelperClick').click(function () {
+                $("#TrollStore_HelperTip").modal('show');
             });
             //获取IOS系统版本号
             var ua = navigator.userAgent.toLowerCase();
@@ -256,7 +266,32 @@
                 }
             }
         });
-     
+            //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#TrollStoreClick').click(function () {
+                $("#TrollStoreTip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
 function adguard(){
    window.location.href = 'https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/adguard-dns.mobileconfig';
       setTimeout(function(){
@@ -373,9 +408,15 @@ function tvOS15_OTAB(){
    </tr>
    <tr>
       <td>
-<div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/TrollStore.png"></div></td>
-      <td><div align="center"><div><font ID="_font2" color="#2196F3">Trollstore</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><a ID="TrollStoreClick"><Button id="_font4" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r">安裝說明</Button></a></div></td>
+<div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/TrollStore_Helper.png"></div></td>
+      <td><div align="center"><div><font ID="_font0" color="#2196F3">TrollStore Helper</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><a ID="TrollStore_HelperClick"><Button id="_font4" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r">安裝說明</Button></a></div></td>
       <td>Trollstore 安裝說明</td>
+   </tr>
+       <tr>
+      <td>
+<div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Trollstore.png"></div></td>
+      <td><div align="center"><div><font ID="_font2" color="#2196F3">Trollstore</font></div><img ID="arrow" src="https://bit.ly/3FqQfpW"><a ID="TrollStoreClick"><Button id="_font4" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r">安裝說明</Button></a></div></td>
+      <td>透過Trollstore 選擇要安裝的App即可安裝</td>
    </tr>
    <tr>
       <td><div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shortcuts.png"></div></td>
@@ -451,7 +492,7 @@ function tvOS15_OTAB(){
         </div>
     </div> 
 
-        <div class="modal fade addmodel" id="TrollStoreTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal fade addmodel" id="TrollStore_HelperTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -476,6 +517,142 @@ function tvOS15_OTAB(){
             </div>
         </div>
     </div>
+           <div class="modal fade addmodel" id="TrollStoreTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+          <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: 10px;">
+                <div>
+                    <img class="img-responsive center-block" style=" border-top-left-radius: 10px; border-top-right-radius: 10px; width: 100%;" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Troll.png">
+                </div>
+                <div class="modal-Troll_body" style="background: #fff; height: 600px; overflow-y: scroll;">
+                    <section>
+  <table><tbody>
+  <tr>
+    <td id="png">
+<div align="center"><font size="4">圖示</font></div></td>
+       <td id="spacing">
+<div align="center"><font size="4">應用名稱</font></div></td>
+     <td><div align="center"><font size="4">備註</font></div></td>
+</tr>
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/user/YouTube_cercube.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">Cercube Max</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_Cercube()">立即安裝</button></div></td>
+          <td>YouTube無廣告支援背景與待機播放</td>
+      </tr>
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/AdGuard.Pro.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">AdGuard Pro</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_AdGuard_Pro()">立即安裝</button></div></td>
+          <td>AdGuard for iOS封鎖廣告、追蹤器、網路釣魚和其他網路煩惱</td>
+      </tr>      
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/ipaTool.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">IPA提取器</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_ipaTool()">立即安裝</button></div></td>
+          <td>IPA提取器是一個供用戶使用網頁中的IPA並進行測試的應用程序</td>
+      </tr>        
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/DowngradeApp.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">DowngradeApp</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_DowngradeApp()">立即安裝</button></div></td>
+          <td>DowngradeApp免越狱安裝任意版本APP</td>
+      </tr>    
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/shu.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">Shu文件管理器</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_Shu()">立即安裝</button></div></td>
+          <td>Shu文件管理器（TrollStore專用)</td>
+      </tr>      
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Filza.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">Filza文件管理器</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_Filza()">立即安裝</button></div></td>
+          <td>iOS平台文件夾管理器</td>
+      </tr>      
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/NetWorkManager.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">NetWorkManager</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_NetWorkManager()">立即安裝</button></div></td>
+          <td>NetWorkManager網絡權限管理器</td>
+      </tr>      
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/xkdy_app.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">星空電影</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_xkdy_app()">立即安裝</button></div></td>
+          <td>一個全新好用的看劇軟件，可以刷國內外的劇集，電影電視之類的都有</td>
+      </tr>      
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/weixin.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">盘子影视 1.2.3</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_weixin()">立即安裝</button></div></td>
+          <td>藍光畫質的聚合影視搜索引擎APP，提供高質量的追劇體驗</td>
+      </tr>
+      <tr>
+        <td>
+        <div align="center"><img src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/PostBox.png"></div></td>
+        <td>
+            <div align="center"><div><font id="_font" color="#2196F3">PostBox中文版</font></div><img id="arrow" src="https://bit.ly/3FqQfpW">
+            <button id="_font4" type="Button" class="btn-u btn-u0 btn-u-lg btn-r" onclick="Troll_PostBox()">立即安裝</button></div></td>
+          <td>提取DEB文件神器</td>
+      </tr>       
+  </tbody></table>       
+                  </section>
+                </div>
+                <div class="modal-footer"><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">    
+    function Troll_Cercube(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/2anrxxy9';
+}
+    function Troll_AdGuard_Pro(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/288cpte6';
+}    
+    function Troll_ipaTool(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/2b62qu9z';
+}        
+    function Troll_DowngradeApp(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/25rk3t3f';
+}     
+    function Troll_Shu(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/227wr3la';
+}  
+    function Troll_Filza(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/2y5y8x2l';
+}          
+    function Troll_NetWorkManager(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/2bn4p9p5';
+}           
+    function Troll_xkdy_app(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/254pvz4f';
+}     
+    function Troll_weixin(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/2b3lvp74';
+}
+    function Troll_PostBox(){
+  window.location.href = 'apple-magnifier://install?url=https://tinyurl.com/2xp8we2l';
+}
+        </script>    
         <div class="modal fade addmodel" id="BullfrogAssistantTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
