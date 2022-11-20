@@ -72,9 +72,16 @@
             background-color: rgb(236, 0, 140);
             font-weight:bold;
         }
+        #neo_wrapper { 
+            margin: 2px -400px 8px 2px;
+        }
         table{
             margin-left:auto; 
             margin-right:auto;
+        }
+                #neo_wrapper {  
+            width: 100%;
+            margin: 2px -400px 8px 2px;
         }
        </style>
     </head>
@@ -83,7 +90,7 @@
             <caption id="tit">帳單查詢</caption>
             <tr>
                 <th width=24.5%><div align="center" style="background-color: rgb(255, 255, 255);"><a href="javascript:OpenWin" onclick="window.open(' https://ebpp.cht.com.tw/ebpp/login/access.xhtml ', 'https://ebpp.cht.com.tw/', config='height=10000,width=10000');"><img src="https://i4tools7.github.io/fs3312039/CHTlogo.png"></a></div></th>
-                <th width=24.5%><div align="center" style="background-color: rgb(255, 255, 255);"><a href="javascript:OpenWin" onclick="window.open(' https://login.fetnet.net/hlogin/eaiapp/loginForm?ctid=114e35cfd6f246288d0c4a300a2ff702 ', 'https://www.fetnet.net/', config='height=10000,width=10000');"><img   src="https://i4tools7.github.io/fs3312039/FETlogo.png"></a></div></th>
+                <th width=24.5%><div align="center" style="background-color: rgb(255, 255, 255);"><a href="javascript:OpenWin" onclick="window.open(' https://login.fetnet.net/hlogin/eaiapp/loginForm?ctid=114e35cfd6f246288d0c4a300a2ff702 ', 'https://www.fetnet.net/', config='height=10000,width=10000');"><img src="https://i4tools7.github.io/fs3312039/FETlogo.png"></a></div></th>
                 <th width=24.5%><div align="center" style="background-color: rgb(255, 255, 255);"><a href="javascript:OpenWin" onclick="window.open(' https://member.taiwanmobile.com/MemberCenter/logout.jsp?backToLoginPage=Y ', 'https://messaging.taiwanmobile.com/', config='height=10000,width=10000');"><img src="https://i4tools7.github.io/fs3312039/twm-ct20.png"></a></div></th>
                 <th width=24.5%><div align="center" style="background-color: rgb(255, 255, 255);"><a href="javascript:OpenWin" onclick="window.open(' https://sso.aptg.com.tw/cas/login?service=https%3A%2F%2Fwww.aptg.com.tw%2Fecare%2Flogin%2Fcas ', 'https://sso.aptg.com.tw/', config='height=10000,width=10000');"><img src="https://i4tools7.github.io/fs3312039/gt-logo.png"></a></div></th>
             </tr></table>
@@ -91,7 +98,8 @@
             <caption id="tit">【常用連結】</caption>
             <tr>
                 <script async src="https://i4tools7.github.io/cse.js?cx=a688d3a19015f5686"></script>
-                <td><div class="gcse-searchbox-only"></div></td></tr>
+                <td width=150%><div id="neo_wrapper" class="gcse-searchbox-only"></div></td></tr>
+        <table width=100%> 
             <td width=50%  style="background-color:#ff0084; border-radius: 10px;" ><div align="center"><a href="javascript:OpenWin" onclick="window.open(' https://npos.tstartel.com/NPOS/ ', '台灣之星Web POS系統管理平台', config='height=10000,width=10000');"><img id="png_0"  src="https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/npos.PNG"></a></div></td>
             <td width=50% style="background-color:#0072C6; border-radius: 10px;" ><div align="center"><a href="javascript:OpenWin" onclick="window.open(' https://fsmail.tstartel.com/owa/ ', 'Outlook Web App', config='height=10000,width=10000');"><img id="png_0"  src="https://github.com/i4Tools7/i4Tools7.github.io/releases/download/file/Outlook_Web_App.png"></a></div></td>
             <table width=100%>
@@ -172,7 +180,7 @@
                 </table>
 
 
-            </table> 
+
         </div>
         <div id="iRFloating" style="position:absolute">
             <tr>
@@ -218,6 +226,6 @@
                     }
                     fadStart();
             </script>
-        </div>
+            </div></table>
     </body>
 </html>
