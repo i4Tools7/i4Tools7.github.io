@@ -240,32 +240,6 @@
             }
         });       
 
-        //加载时
-        $(document).ready(function () {
-            //教程按钮
-            $('#getClick').click(function () {
-                $("#getTip").modal('show');
-            });
-            //获取IOS系统版本号
-            var ua = navigator.userAgent.toLowerCase();
-            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
-            if (isIOS) {
-                var ver = ua.match(/os (.*?) like mac os/);
-                if (ver) {
-                    var iosbanben = ver[1].replace(/_/g, ".");
-                    if (iosbanben < 10) {
-                        //alert("你当前的Ios系统版本为：" + iosbanben);
-                        $("#down_load").hide();
-                        $("#down_load_a").show();
-                    } else {
-                        $("#down_load").show();
-                        $("#down_load_a").hide();
-                        //$("#down_load").hide();
-                        //$("#down_load_a").show();
-                    }
-                }
-            }
-        });
             //加载时
         $(document).ready(function () {
             //教程按钮
@@ -740,33 +714,6 @@ function tvOS15_OTAB(){
         </div>
 </div>
     </div> 
-       <div class="modal fade addmodel" id="getTip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title font-18">安裝永久簽名App 安裝說明</h4>
-                </div>
-                <div class="modal-body" style="background: #f2f2f2; height: 600px; overflow-y: scroll;">
-                    <section>
-                        <div>
-                            <img class="img-responsive center-block mb-20" src="https://github.com/i4Tools7/i4Jailbreak/releases/download/TrollInstaller2/Get.png" style="width: 100%;">
-                        <div style="padding: 0 10px 0; color: #333;">
-                            <p><font size="4">跳轉至捷徑後點選【+加入捷徑】<br>腳本新增成功後點擊左上方【◀️ 返回】<br>點擊下方【立即安裝】選擇要安裝的App<br>安裝途中出現通知詢問是否允許<br>請選擇允許繼續安裝App</font></p>                 
-                        </div>
-                      </div>
-                    </section>
-                </div>
-                <div class="modal-footer" >
-                                   <div align="left">
-
-    <a id="suba" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r"  onclick="window.open('shortcuts://x-callback-url/shortcuts/543956e6a7034b62af0dd750e0797b7b');">安裝腳本</a>
-    <a id="suba" Type="Button" class="btn-u btn-u0 btn-u-lg btn-r"  onclick="window.open('shortcuts://run-shortcut?name=%e9%80%8f%e9%81%8eTrollStore%e5%ae%89%e8%a3%9dApp');">立即安裝</a>
-    <a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a> 
-            </div>
-             </div>  
-            </div>
-        </div>
-    </div>
 
     <script type="text/javascript">    
     function Troll_Cercube(){
