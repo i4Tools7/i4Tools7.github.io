@@ -17,7 +17,10 @@ select('#btn').addEventListener('click', () => {
 </head>
 <body>
     <input type="text" id="text">
-<button type="button" id="btn">複製</button>
-
+<button data-clipboard-target="text">複製</button>
+<script>
+    //透過selector標註所有複製觸發元素
+    new ClipboardJS("[data-clipboard-target]");
+  </script>
 </body>
 </html>
