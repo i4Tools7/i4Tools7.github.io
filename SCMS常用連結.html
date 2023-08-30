@@ -1,0 +1,1088 @@
+﻿<html lang="zh-Hant"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0">
+<link rel="apple-touch-icon" sizes="76x76" href="https://oauth.taiwanmobile.com/MemberOAuth/images/apple-icon.png">
+
+
+<title>SCMS</title>
+
+
+
+
+
+<link rel="stylesheet" href="https://oauth.taiwanmobile.com/MemberOAuth/css/material-kit.css">
+<link rel="stylesheet" href="https://oauth.taiwanmobile.com/MemberOAuth/css/twm.css?v=20201023">
+<style type="text/css">
+
+
+    #aa {
+    width: 180px !important;
+    padding: 0 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    text-indent: -9999px;
+    text-align: center;
+    display: inline-block;
+}
+
+.btn.btn-lg, .btn-group-lg>.btn, .btn-group-lg .btn {
+    padding: 1rem 0rem;
+    font-size: 16px;
+    line-height: 1.333333;
+    border-radius: 0.2rem;
+}
+.btn-capsule {
+    width: 50% !important;
+}
+.btn-brand-orange {
+    color: #fff;
+    background-color: #ff6100;
+    border-color: #ff6100;
+}
+.btn {
+    position: relative;
+    padding: 12px 30px;
+    margin: 0.3125rem 1px;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.428571;
+    text-decoration: none;
+    letter-spacing: 0;
+    cursor: pointer;
+    background-color: #ff6100;
+    border: 0;
+    border-radius: 0.2rem;
+    outline: 0;
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: box-shadow, transform;
+}
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.46875rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+footer .copyright {
+    padding: 0px 0; 
+}
+
+.oneID-twm, .oneID-template {
+    margin-top: 2.2rem !important;
+}
+.card-login .form {
+    min-height: 240px;
+}
+.card-login .card-header {
+    padding: 5px 0;
+}
+.black_overlay {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+
+    z-index: 1001;
+    opacity: 80;
+}
+.white_content {
+    display: none;
+    position: absolute;
+    top: 14.5%;
+    /* left: 25%; */
+    width: 100%;
+    /* border: 5px solid #ff4c00; */
+    /* background-color: #ff7a01; */
+    z-index: 1036;
+    overflow: auto;
+    background: url(https://oauth.taiwanmobile.com/MemberOAuth/images/twmbg.jpg) top center/cover repeat-y;
+}
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+    font-family: Microsoft JhengHei;
+}
+.card-login .form {
+    min-height: 170px;
+}
+.btn-12 {
+    color: #666660;
+    background-color: #f0f0f0;
+}
+.btn-13 {
+    color: #ffffff;
+    background-color: #3399cc;
+}
+.btn-14 {
+    color: #ffffff;
+    background-color: #3399cc;
+}
+body, h1, h2, h4, h5, h6, .h1, .h2, .h3, .h4 {
+    font-size: 12pt;
+    font-weight: bold;
+    font-weight: 1900;
+
+    font-family: "微軟正黑體";
+
+}
+footer {
+    padding: 0.001rem; 
+    text-align: center;
+    display: -webkit-flex;
+    display: flex;
+}
+.sideNav {
+    width: 140px;
+    position: fixed;
+    top: 0.1px;
+    left: 69%;
+    z-index: 10;
+    margin: 0 0 0 0px;
+}
+.sideNav ul,.sideNav ul li,.sideNav ul li ul,.sideNav ul li ul li {
+margin: 0 auto;
+padding: 0;
+list-style: none;
+text-align: center;}
+.sideNav .nav-body {
+    /* background: #f0f0f0; */
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+.sideNav .nav-body > a {
+    background: #f0f0f0;
+    display: block;
+    padding: 6px 0px;
+    line-height: 1.2;
+    text-align: center;
+    margin: 2px 0 4px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    border-bottom: 1px solid #fff;
+    text-decoration: none;
+}
+.sideNav .nav-body a span.c_discount {
+    color: #000000;
+    font-size: 11px;
+}
+.sideNav .nav-body a span.c_date {
+    color: #000000;
+    font-size: 14px;
+    display: block;
+}
+.sideNav .nav-body a:hover {
+background:#dcdcdc;}
+
+.sideNav0 {
+    width: 99px;
+    position: fixed;
+    top: 72px;
+    left: 74%;
+    z-index: 10;
+    margin: 0 0 0 0px;
+}
+.sideNav0 ul,.sideNav0 ul li,.sideNav0 ul li ul,.sideNav0 ul li ul li {
+margin: 0 auto;
+padding: 0;
+list-style: none;
+text-align: center;}
+.sideNav .nav-body {
+    /* background: #f0f0f0; */
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+.sideNav0 .nav-body0 > a {
+    background: #f0f0f0;
+    display: block;
+    padding: 6px 0px;
+    line-height: 0.6;
+    text-align: center;
+    margin: 2px 0 4px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    border-bottom: 1px solid #fff;
+    text-decoration: none;
+}
+.sideNav0 .nav-body0 a span.c_discount {
+    color: #2d2d70;
+    font-size: 14px;
+}
+.sideNav0 .nav-body0 a span.c_date {
+    color: #000000;
+    font-size: 12px;
+    display: block;
+}
+.sideNav0 .nav-body0 a:hover {
+background:#dcdcdc;}
+
+.sideNav1 {
+    width: 127px;
+    position: fixed;
+    top: 72px;
+    left: 2%;
+    z-index: 10;
+    margin: 0 0 0 0px;
+}
+.sideNav1 ul,.sideNav1 ul li,.sideNav1 ul li ul,.sideNav1 ul li ul li {
+margin: 0 auto;
+padding: 0;
+list-style: none;
+text-align: center;}
+.sideNav .nav-body {
+    /* background: #f0f0f0; */
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+.sideNav1 .nav-body1 > a {
+    background: #f0f0f0;
+    display: block;
+    padding: 6px 0px;
+    line-height: 0.6;
+    text-align: center;
+    margin: 2px 0 4px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    border-bottom: 1px solid #fff;
+    text-decoration: none;
+}
+.sideNav1 .nav-body1 a span.c_discount {
+    color: #2d2d70;
+    font-size: 14px;
+}
+.sideNav1 .nav-body1 a span.c_date {
+    color: #000000;
+    font-size: 14px;
+    display: block;
+}
+.sideNav1 .nav-body1 a:hover {
+background:#dcdcdc;}
+
+.sideNav2 {
+    width: 170px;
+    position: fixed;
+    top: 72px;
+    left: 33.1%;
+    z-index: 10;
+    margin: 0 0 0 0px;
+}
+.sideNav2 ul,.sideNav2 ul li,.sideNav2 ul li ul,.sideNav2 ul li ul li {
+margin: 0 auto;
+padding: 0;
+list-style: none;
+text-align: center;}
+.sideNav .nav-body {
+    /* background: #f0f0f0; */
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+.sideNav2 .nav-body2 > a {
+    background: #f0f0f0;
+    display: block;
+    padding: 6px 0px;
+    line-height: 0.6;
+    text-align: center;
+    margin: 2px 0 4px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    border-bottom: 1px solid #fff;
+    text-decoration: none;
+}
+.sideNav2 .nav-body2 a span.c_discount {
+    color: #2d2d70;
+    font-size: 14px;
+}
+.sideNav2 .nav-body2 a span.c_date {
+    color: #000000;
+    font-size: 14px;
+    display: block;
+}
+.sideNav2 .nav-body2 a:hover {
+background:#dcdcdc;}
+
+.sideNav_phone {
+    width: 130px;
+    position: fixed;
+    top: 0.1px;
+    left: -1%;
+    z-index: 10;
+    margin: 0 0 0 0px;
+}
+.sideNav_phone ul,.sideNav_phone ul li,.sideNav_phone ul li ul,.sideNav_phone ul li ul li {
+margin: 0 auto;
+padding: 0;
+list-style: none;
+text-align: center;}
+.sideNav_phone .nav-body_phone {
+    /* background: #f0f0f0; */
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+}
+.sideNav_phone .nav-body_phone > a {
+    background: #f0f0f0;
+    display: block;
+    padding: 6px 0px;
+    line-height: 1.2;
+    text-align: center;
+    margin: 2px 0 4px 0;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 10px;
+    border-bottom: 1px solid #fff;
+    text-decoration: none;
+}
+.sideNav_phone .nav-body_phone a span.c_discount {
+    color: #000000;
+    font-size: 14px;
+    display: block;
+}
+.sideNav_phone .nav-body_phone a span.c_date {
+    color: #000000;
+    font-size: 11px;
+    display: block;
+}
+.sideNav_phone .nav-body_phone a:hover {
+background:#dcdcdc;}
+
+
+
+body, input, button, select, textarea, a, p, ul, ol, li, span, h1, h2, h3, h4, h5, div, dl, dd, dt, table, thead, tbody, tfoot, tr, th, td {
+    font-family: HPSimplified, Arial, Helvetica, Sans-Serif;
+    outline: none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+* {
+    padding: 0;
+    margin: 0;
+}
+user agent stylesheet
+
+body {
+    background: #fff;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+#footer div.copyright {
+    position: fixed;
+    bottom: 15px;
+    right: 25px;
+    font-size: 12px;
+    white-space: nowrap;
+    display: block;
+    color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+    </style>
+    <script>
+            var Shell = new ActiveXObject('WScript.Shell');
+        function ExecProgram(IndexPath, FilePath) 
+        {
+            var FolderPath = IndexPath.substr(0,IndexPath.lastIndexOf('/')+1);
+            if(Shell)
+                Shell.Run(FolderPath + FilePath);
+        }
+    </script>
+<script>
+    function fv01(){
+      var newWindow = window.open('http://icsvpn.tcc.net.tw/icsinfologin.aspx','icsvpn',config='Width=100,Height=120,top=100,left=150');
+      setTimeout(function(){
+      var FV01window = window.open('http://icsvpn.tcc.net.tw/FICS/RedirectWebPage.aspx?ItemParam=FV01','FV01',config='Width=850,Height=400,top=150,left=20');
+        },1000)
+      setTimeout(function(){    
+      newWindow.close();},2800)
+    }
+    
+    function FB0707(){
+      var newWindow = window.open('http://icsvpn.tcc.net.tw/icsinfologin.aspx','icsvpn',config='Width=100,Height=120,top=100,left=150');
+      setTimeout(function(){
+      var FV01window = window.open('http://icsvpn.tcc.net.tw/FICS/FSCMSRPT.aspx?ItemParam=FB0707','FB0707',config='Width=850,Height=400,top=150,left=20');
+        },800)
+      setTimeout(function(){    
+      newWindow.close();},2800)
+    }
+    function FB0412(){
+      var newWindow = window.open('http://icsvpn.tcc.net.tw/icsinfologin.aspx','icsvpn',config='Width=100,Height=120,top=100,left=150');
+      setTimeout(function(){
+      var FV01window = window.open('http://icsvpn.tcc.net.tw/FICS/FB0412.aspx?ItemParam=FB0412','FB0412',config='Width=720,Height=250,top=150,left=180');
+        },800)
+      setTimeout(function(){    
+      newWindow.close();},2800)
+    }
+
+
+    function openMsgWindow() {
+        var winW = 200;
+        var winH = 100;
+        var winLeft = (screen.width - winW) / 2;
+        var winTop = (screen.height - winH) / 2;
+        var prop = 'scrollbars=no,width=' + winW + ',height=' + winH + ',left=' + winLeft + ',top=' + winTop + ',channelmode=no,toolbar=no';
+        msgWindow = window.open('Other/\messageWindow.html', 'MessageWindow', prop);
+    }
+
+    function lo01(){
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'User.Account/盈穎.vbs');
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'Other/ICSC銷售網EXIT.vbs');
+},8000)
+},2000)
+    }
+    function lo02(){
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'User.Account/惠珍.vbs');
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'Other/ICSC銷售網EXIT.vbs');
+},8000)
+},2000)
+    }
+    function lo03(){
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'User.Account/詩婷.vbs');
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'Other/ICSC銷售網EXIT.vbs');
+},8000)
+},2000)
+    }
+
+
+    function lo04(){
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'User.Account/義峰.vbs');
+    setTimeout(function(){
+  vbscript: ExecProgram(window.location.href,'Other/ICSC銷售網EXIT.vbs');
+},8000)
+},2000)
+    }
+
+
+
+    function deposit(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+    function 預設鶯歌區(){
+
+  vbscript: ExecProgram(window.location.href,'Other/預設鶯歌區.vbs');
+
+    }
+
+
+    function taskkilliexplore(){
+  vbscript: ExecProgram(window.location.href,'Other/taskkilliexplore.vbs');
+    }
+
+
+    function Auto(){
+    setTimeout(function(){
+        var winW = 260;
+        var winH = 60;
+        var winLeft = (screen.width - winW) / 2;
+        var winTop = (screen.height - winH) / 2.3;
+        var prop = 'scrollbars=no,width=' + winW + ',height=' + winH + ',left=' + winLeft + ',top=' + winTop + ',channelmode=no,toolbar=no';
+        msgWindow = window.open('Other/\auto提視窗.html', 'MessageWindow', prop);
+},20000)
+    }
+
+
+
+    function AQ(){
+  vbscript: ExecProgram(window.location.href,'NEW/AQ.vbs');
+    }
+    function NP(){
+  vbscript: ExecProgram(window.location.href,'NEW/NP.vbs');
+    }
+    function ninpps(){
+  vbscript: ExecProgram(window.location.href,'NEW/ninpps.vbs');
+    }
+    function Rt(){
+  vbscript: ExecProgram(window.location.href,'NEW/Rt.vbs');
+    }
+
+</script>
+</head>
+
+
+
+
+
+
+
+<body id="oneID-twm" class="login-page" style="background: url('https://oauth.taiwanmobile.com/MemberOAuth/images/twmbg.jpg') top center/cover repeat-y;">
+<div class="sideNav_phone"><div class="nav-body_phone"><a href="javascript:;" onclick="vbscript: ExecProgram(window.location.href,'Other/規格比較.vbs')"><span class="c_date">myfone</span><span class="c_discount">規格比較專區</span></a></div></div>
+  <div class="sideNav"><div class="nav-body"><a href="javascript:;" onclick="window.open('http://icsvpn.tcc.net.tw/icsinfologin.aspx','NewWindow_137','resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=30,left=50,width=300,height=200')"><span class="c_date">銷售通路資訊網</span><span class="c_discount">(ICSWEB)</span></a></div></div>  
+
+<div class="sideNav0"><div class="nav-body0"><a href="javascript:;" onclick="FB0412()"><span class="c_discount">服務指標查詢</span></a></div></div>
+<div class="sideNav1"><div class="nav-body1"><a href="javascript:;" onclick="vbscript: ExecProgram(window.location.href,'Other/CBR_FS.vbs')"><span class="c_discount">雲端外撥自動登入</span></a></div></div>
+<div class="sideNav2"><div class="nav-body2"><a href="javascript:;" onclick="vbscript: ExecProgram(window.location.href,'Other/Mail2000.vbs')"><span class="c_discount">Mail 2000 -信箱自動登入</span></a></div></div>
+<nav class="navbar">
+    <div class="container justify-content-center">
+        <div class="navbar-translate brand-logo">
+<a id="aa" onclick="taskkilliexplore();" class="navbar-brand" href="javascript:;" style="background-image: url('https://www.taiwanmobile.com/bp-include/Y19/img/logo.svg'); ">台灣大哥大</a>
+            <div class="ripple-container">
+</div>
+        </div>
+    </div>
+</nav>
+
+    <div class="oneID-twm">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 ml-auto mr-auto">
+                    <div class="card card-login">
+                        
+
+
+
+
+
+<div class="card-header topblock text-center px-2">
+    
+       
+        
+        <a href="javascript:;"><h3 id="login-ap" class="card-title" onclick="document.getElementById('light_login').style.display='block';document.getElementById('fade_login').style.display='block';vbscript: ExecProgram(window.location.href,'Other/關閉指定瀏覽器SCMSSSO.vbs')">SCMS 常用連結</h3></a>
+       
+        
+        
+    
+</div>
+
+<form id="login-form" class="form" action="https://oauth.taiwanmobile.com/MemberOAuth/twm/login/c59e1800b428b168f6c3168faffdada4" method="post">
+ 
+    
+    <div class="card-body">
+        
+     
+        
+
+        
+        
+        
+
+       
+  <nobr> <div class="text-center mb-2">
+    
+             
+               <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light0').style.display='block';document.getElementById('fade0').style.display='block'">新申裝作業<div class="ripple-container"></div></a> 
+
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="fv01()">傳真件處理進度查詢<div class="ripple-container"></div></a>
+        </div></nobr>
+<nobr> <div class="text-center mb-2">
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">預付卡儲值<div class="ripple-container"></div></a>     
+
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="FB0707()" ;="">門市收入明細報表查詢<div class="ripple-container"></div></a>
+      </div>  </nobr>
+<nobr> <div class="text-center mb-2">
+    <a href="javascript:;" class="btn btn-capsule btn-lg btn-13" class="nodeSe" onclick="vbscript: ExecProgram(window.location.href,'Other/newPayment.vbs')";>行動電話繳費作業<div class="ripple-container"></div></a>
+<a href="javascript:;" class="btn btn-capsule btn-lg btn-13" onclick="document.getElementById('light_PMT').style.display='block';document.getElementById('fade_PMT').style.display='block'">(固網/有線電視)繳費作業<div class="ripple-container"></div></a>
+ 
+
+    
+
+      </div>  </nobr>           
+           
+         
+    </div>
+</form>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+<div id="footer">
+	    <div class="block other-links">
+    <div class="body">
+    
+  </div>
+</div>
+
+<div class="copyright text-center">台灣大哥大版權所有 © <script>document.write(new Date().getFullYear())</script>2023 TaiwanMobile All Rights Reserved.
+</div>	
+     	     
+
+</div>
+
+
+
+
+
+  
+    
+
+
+
+
+    <div id="light" class="white_content" style="display: none;">
+
+
+
+    
+
+
+
+
+    <div class="oneID-twm">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 ml-auto mr-auto">
+                    <div class="card card-login">
+                        
+
+
+
+
+
+<div class="card-header topblock text-center px-2">
+    
+        
+        
+        <h3 class="card-title">預付卡儲值</h3>
+        
+        
+        
+    
+</div>
+
+<form id="login-form" class="form" action="https://oauth.taiwanmobile.com/MemberOAuth/twm/login/c59e1800b428b168f6c3168faffdada4" method="post">
+    
+    
+    <div class="card-body">
+        
+        
+        
+
+        
+        
+        
+
+       
+  <nobr> <div class="text-center mb-2">
+    
+             
+               <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';window.open('https://scms.tcc.net.tw/newetu/mTopup/deposit','deposit','resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=172,left=150,width=800,height=450');">預付卡儲值 (新)<div class="ripple-container"></div></a> 
+
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';window.open('https://scms.tcc.net.tw/newetu/mOpQuery/OpQuery/UserDepositQuery','UserDepositQuery','resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=192,left=170,width=800,height=450');">用戶儲值查詢<div class="ripple-container"></div></a>
+        </div></nobr>
+<nobr> <div class="text-center mb-2">
+    <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';window.open('https://scms.tcc.net.tw/newetu/mOpQuery/OpQuery/queryPrepaid','queryPrepaid','resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=132,left=110,width=850,height=450');">用戶餘額查詢<div class="ripple-container"></div></a> 
+
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="deposit();document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';">儲值明細自動列印<div class="ripple-container"></div></a>
+      </div>  </nobr>          
+            <nobr> <div class="text-center mb-2">
+    <a href="javascript:;" class="btn btn-capsule btn-lg btn-12" onclick="document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">返回上一頁<div class="ripple-container"></div></a> 
+
+
+      </div>  </nobr> 
+         
+    </div>
+</form>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+
+<footer class="pt-0">
+    <div class="container">
+        <div class="copyright text-center">
+            
+        </div>
+    </div>
+</footer>
+<div id="footer">
+	    <div class="block other-links">
+    <div class="body">
+    
+  </div>
+</div>
+
+<div class="copyright text-center">台灣大哥大版權所有 © <script>document.write(new Date().getFullYear())</script>2023 TaiwanMobile All Rights Reserved.
+</div>	
+     	     
+
+</div>
+    </div>
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<div id="fade" class="black_overlay" style="display: none;"></div>
+
+    <div id="light0" class="white_content" style="display: none;">
+
+
+
+    
+
+
+
+
+    <div class="oneID-twm">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 ml-auto mr-auto">
+                    <div class="card card-login">
+                        
+
+
+
+
+
+<div class="card-header topblock text-center px-2">
+    
+        
+        
+        <h3 class="card-title">新申裝作業</h3>
+        
+        
+        
+    
+</div>
+
+<form id="login-form" class="form" action="https://oauth.taiwanmobile.com/MemberOAuth/twm/login/c59e1800b428b168f6c3168faffdada4" method="post">
+    
+    
+    <div class="card-body">
+        
+        
+        
+
+        
+        
+        
+
+       
+  <nobr> <div class="text-center mb-2">
+    
+             
+                <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light0').style.display='none';document.getElementById('fade0').style.display='none';AQ();">新門號申裝作業<div class="ripple-container"></div></a> 
+
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light0').style.display='none';document.getElementById('fade0').style.display='none';NP();">NP預約申裝作業<div class="ripple-container"></div></a>
+        </div></nobr>
+<nobr> <div class="text-center mb-2">
+    <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light0').style.display='none';document.getElementById('fade0').style.display='none';ninpps();">預付卡新申裝及NP作業<div class="ripple-container"></div></a> 
+    <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light0').style.display='none';document.getElementById('fade0').style.display='none';window.open('https://scms.tcc.net.tw/numberbooking/numberbookOp.do','OP','resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=212,left=150,width=800,height=450')" ;="">選號及保留作業<div class="ripple-container"></div></a>
+
+      </div>  </nobr>          
+            <nobr> <div class="text-center mb-2">
+    <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="document.getElementById('light0').style.display='none';document.getElementById('fade0').style.display='none';Rt();">維繫方案作業/續約作業<div class="ripple-container"></div></a>
+    <a href="javascript:;" class="btn btn-capsule btn-lg btn-12" onclick="document.getElementById('light0').style.display='none';document.getElementById('fade0').style.display='none'">返回上一頁<div class="ripple-container"></div></a> 
+
+
+      </div>  </nobr> 
+         
+    </div>
+</form>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+
+<footer class="pt-0">
+    <div class="container">
+        <div class="copyright text-center">
+            
+        </div>
+    </div>
+</footer>
+<div id="footer">
+	    <div class="block other-links">
+    <div class="body">
+    
+  </div>
+</div>
+
+<div class="copyright text-center">台灣大哥大版權所有 © <script>document.write(new Date().getFullYear())</script>2023 TaiwanMobile All Rights Reserved.
+</div>	
+     	     
+
+</div>
+    </div>
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<div id="fade0" class="black_overlay" style="display: none;"></div>
+
+    <div id="light_PMT" class="white_content" style="display: none;">
+
+
+
+    
+
+
+
+
+    <div class="oneID-twm">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 ml-auto mr-auto">
+                    <div class="card card-login">
+                        
+
+
+
+
+
+<div class="card-header topblock text-center px-2">
+    
+        
+        
+        <h3 class="card-title">(固網/有線電視) 繳費作業</h3>
+        
+        
+        
+    
+</div>
+
+<form id="login-form" class="form" action="https://oauth.taiwanmobile.com/MemberOAuth/twm/login/c59e1800b428b168f6c3168faffdada4" method="post">
+    
+    
+    <div class="card-body">
+        
+      
+        
+      
+       
+  <nobr> <div class="text-center mb-2">
+    
+             
+               <a href="javascript:;" class="btn btn-capsule btn-lg btn-14" onclick="document.getElementById('light_PMT').style.display='none';document.getElementById('fade_PMT').style.display='none'; vbscript: ExecProgram(window.location.href,'Other/tfn.vbs');">(固網類)繳費作業<div class="ripple-container"></div></a> 
+
+<a href="javascript:;" class="btn btn-capsule btn-lg btn-14" onclick="document.getElementById('light_PMT').style.display='none';document.getElementById('fade_PMT').style.display='none'; vbscript: ExecProgram(window.location.href,'Other/cable.vbs');">(有線電視類)繳費作業<div class="ripple-container"></div></a>
+        
+</div></nobr>       
+            <nobr> 
+
+<div class="text-center mb-2">
+    <a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="預設鶯歌區();document.getElementById('light_PMT').style.display='none';document.getElementById('fade_PMT').style.display='none';">寬頻申裝地址檢核<div class="ripple-container"></div></a>
+    <a href="javascript:;" class="btn btn-capsule btn-lg btn-12" onclick="document.getElementById('light_PMT').style.display='none';document.getElementById('fade_PMT').style.display='none'">返回上一頁<div class="ripple-container"></div></a> 
+
+
+      </div>  </nobr> 
+         
+    </div>
+</form>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+
+<footer class="pt-0">
+    <div class="container">
+        <div class="copyright text-center">
+  <br><br><br>
+        </div>
+    </div>
+</footer>
+<div id="footer">
+	    <div class="block other-links">
+    <div class="body">
+    
+  </div>
+</div>
+
+<div class="copyright text-center"><a onclick="vbscript: ExecProgram(window.location.href,'Other/WinHotKey.vbs')">台灣大哥大版權所有 © </a><script>document.write(new Date().getFullYear())</script>2023 TaiwanMobile All Rights Reserved.
+</div>	
+     	     
+
+</div>
+    </div>
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<div id="fade_PMT" class="black_overlay" style="display: none;"></div>
+
+
+    <div id="light_login" class="white_content" style="display: none;">
+    <div class="oneID-twm">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-8 ml-auto mr-auto">
+                    <div class="card card-login">                        
+<div class="card-header topblock text-center px-2"> 
+        <h3 class="card-title">帳號密碼登入</h3>              
+</div>
+<form id="login-form" class="form" action="https://oauth.taiwanmobile.com/MemberOAuth/twm/login/c59e1800b428b168f6c3168faffdada4" method="post">   
+<div class="sideNav0"><div class="nav-body0"><a href="javascript:;" onclick="FB0412()"><span class="c_discount">服務指標查詢</span></a></div></div>
+<div class="sideNav1"><div class="nav-body1"><a href="javascript:;" onclick="vbscript: ExecProgram(window.location.href,'Other/CBR_FS.vbs')"><span class="c_discount">雲端外撥自動登入</span></a></div></div>
+<div class="sideNav2"><div class="nav-body2"><a href="javascript:;" onclick="vbscript: ExecProgram(window.location.href,'Other/Mail2000.vbs')"><span class="c_discount">Mail 2000 -信箱自動登入</span></a></div></div>
+    <div class="card-body">
+  <nobr> <div class="text-center mb-2">         
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="Auto();lo01();openMsgWindow();">盈穎<div class="ripple-container"></div></a> 
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="Auto();lo02();openMsgWindow();">惠珍<div class="ripple-container"></div></a>
+      </div></nobr>
+<nobr> <div class="text-center mb-2">
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="Auto();lo04();openMsgWindow();">義峰<div class="ripple-container"></div></a>
+<a href="javascript:;" class="btn btn-brand-orange btn-capsule btn-lg" onclick="Auto();lo03();openMsgWindow();">詩婷<div class="ripple-container"></div></a>
+      </div></nobr>          
+            <nobr> <div class="text-center mb-2">
+    <a href="javascript:;" class="btn btn-capsule btn-lg btn-12" onclick="document.getElementById('light_login').style.display='none';document.getElementById('fade_login').style.display='none'">返回上一頁<div class="ripple-container"></div></a> 
+
+
+      </div>  </nobr>   
+    </div>
+</form>
+                    </div>
+                </div>
+            </div>
+        </div>      
+<footer class="pt-0">
+    <div class="container">
+        <div class="copyright text-center">
+            
+        </div>
+    </div>
+</footer>
+<div id="footer">
+	    <div class="block other-links">
+    <div class="body">
+    
+  </div>
+</div>
+
+<div class="copyright text-center">台灣大哥大版權所有 © <script>document.write(new Date().getFullYear())</script>2023 TaiwanMobile All Rights Reserved.
+</div>	
+     	     
+
+</div>
+    </div>  
+
+
+</div>
+<div id="fade_login" class="black_overlay" style="display: none;"><div class="sideNav_phone"><div class="nav-body_phone"><a href="javascript:;" onclick="vbscript: ExecProgram(window.location.href,'Other/規格比較.vbs')"><span class="c_date">myfone</span><span class="c_discount">規格比較專區</span></a></div></div>
+  <div class="sideNav"><div class="nav-body"><a href="javascript:;" onclick="window.open('http://icsvpn.tcc.net.tw/icsinfologin.aspx','NewWindow_137','resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=30,left=50,width=300,height=200')"><span class="c_date">銷售通路資訊網</span><span class="c_discount">(ICSWEB)</span></a></div></div>  
+
+
+<nav class="navbar">
+    <div class="container justify-content-center">
+        <div class="navbar-translate brand-logo">
+            <a id="aa" onclick="taskkilliexplore();" class="navbar-brand" href="javascript:;" style="background-image: url('https://www.taiwanmobile.com/bp-include/Y19/img/logo.svg');">台灣大哥大<div class="ripple-container"></div></a>
+        </div>
+    </div>
+</nav></div>
+
+
+
+</body></html>
