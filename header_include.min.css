@@ -5246,7 +5246,6 @@ button.close {
 .modal {
     display: none;
     overflow: auto;
-    overflow-y: scroll;
     position: fixed;
     z-index: 1050;
     -webkit-overflow-scrolling: touch;
@@ -21424,7 +21423,10 @@ section.section-getCode .input-group > a#getCode, section.section-getCode .input
                 height: calc(100vh);
                 margin: 0;
                 background: #f4f4f4;
-                overflow: scroll;
+                overflow: 
+                    
+                
+        ;
                 overflow-x: hidden
             }
 
