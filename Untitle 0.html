@@ -1,0 +1,358 @@
+﻿<html><head>
+<title>
+	聯歐通訊聯盟
+</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    
+<!--网页变灰代码结束-->
+<meta name="apple-mobile-web-app-capable" content="yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+ 
+
+    <style type="text/css"></style>
+    <script src="https://i4tools7.github.io/jquery.min.js"></script>
+    <script src="https://i4tools7.github.io/layer.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://owenliang.github.io/pullToRefresh/iscroll.js"></script>
+    <script src="https://owenliang.github.io/pullToRefresh/pullToRefresh.js?"></script>
+    <link rel="stylesheet" type="text/css" href="https://owenliang.github.io/pullToRefresh/pullToRefresh.css">
+    <link href="https://i4tools7.github.io/layer.css?2.0" type="text/css" rel="styleSheet" id="layermcss">
+    <link href="https://i4tools7.github.io/layer.css" rel="stylesheet">
+<script type="text/javascript" src="https://i4tools7.github.io/bootstrap.min.js"></script>
+<link href="https://i4tools7.github.io/header_include.min.css" rel="stylesheet">
+    
+
+      <style type="text/css"> 
+.btn-aciton0 {
+     border-radius: 10px; 
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    }
+
+
+.btn-aciton {
+     border-radius: 10px; 
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    }
+body {
+    width: 100%;
+    height: 100%;
+    margin-left: -0px;
+    margin-bottom: -20px;
+    margin-right: -5px;
+    margin-top: -30px;
+    padding: 0;
+}
+   .modal-content {
+    border-radius: 10px;
+    }
+   .modal-header {
+    /* padding: 15px; */
+    border-bottom: 1px solid #e5e5e5;
+    min-height: 16.43px;
+    }
+
+#container {
+  width: 175%;
+  height: 175%;
+
+  align-items: center;
+  justify-content: center;
+}
+.img-thumbnail, body {
+    background-color: #1867b1;
+}
+.modal-body0 {
+    position: relative;
+}
+.modal-footer {
+    margin-top: 0px; 
+    padding:8px 15px 8px;
+    text-align: right;
+    /* border-top: 1px solid #e5e5e5; */
+}
+       </style>
+    <script>
+            var Shell = new ActiveXObject('WScript.Shell');
+        function ExecProgram(IndexPath, FilePath) 
+        {
+            var FolderPath = IndexPath.substr(0,IndexPath.lastIndexOf('/')+1);
+            if(Shell)
+                Shell.Run(FolderPath + FilePath);
+        }
+    </script>
+    
+
+<script type="text/javascript">
+          //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#RD1Click').click(function () {
+                $("#RD1Tip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+
+          //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#RD2Click').click(function () {
+                $("#RD2Tip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+
+          //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#RD3Click').click(function () {
+                $("#RD3Tip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+
+          //加载时
+        $(document).ready(function () {
+            //教程按钮
+            $('#RD4Click').click(function () {
+                $("#RD4Tip").modal('show');
+            });
+            //获取IOS系统版本号
+            var ua = navigator.userAgent.toLowerCase();
+            var isIOS = ua.indexOf("iphone") != -1 || ua.indexOf("ipad") != -1 || ua.indexOf("mac os") != -1;
+            if (isIOS) {
+                var ver = ua.match(/os (.*?) like mac os/);
+                if (ver) {
+                    var iosbanben = ver[1].replace(/_/g, ".");
+                    if (iosbanben < 10) {
+                        //alert("你当前的Ios系统版本为：" + iosbanben);
+                        $("#down_load").hide();
+                        $("#down_load_a").show();
+                    } else {
+                        $("#down_load").show();
+                        $("#down_load_a").hide();
+                        //$("#down_load").hide();
+                        //$("#down_load_a").show();
+                    }
+                }
+            }
+        });
+    function RD1_bill(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+    function RD1_POS(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+
+    function RD2_bill(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+    function RD2_POS(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+
+    function RD3_bill(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+    function RD3_POS(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+
+    function RD4_bill(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+    function RD4_POS(){
+  vbscript: ExecProgram(window.location.href,'Other/儲值明細自動列印.vbs');
+    }
+
+
+
+
+</script>
+
+
+
+
+
+<meta name="description" content="The description of my page"></head>
+
+
+<body leftmargin="0" marginwidth="0" marginheight="0" bgcolor="#1867B1">
+
+<table width="100%" id="container"  align="center" border="0">
+    <form method="post" action="./" id="Form1" autocomplete="off">
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" style="border: #3F628F; border-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px">
+            <tbody><tr background="http://pos.l-w.com.tw/images/login_0.gif">
+                <td>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tbody><tr>
+                            <td id="img1" background="http://pos.l-w.com.tw/images/bklogin.gif" width="560" height="70" colspan="3" align="right" color="#005887"><BR/>
+                             <font size="5" color="blue" ><span style="font-weight:bold;font-family: 標楷體">
+                                    聯歐通訊聯盟內部&nbsp;<br>管理系統&nbsp;</span></td>
+                        </tr>
+                    </tbody>
+
+
+</table>
+                </td>
+            </tr>
+              
+　<tr>
+
+
+　<td align="center" bgcolor="#ffffff" width="560" height="124">
+
+<input type="button" id="RD1Click" class="btn-aciton" value="盈   穎" style="width:140px;height:40px;font-size:20px;"> 
+<input type="button" id="RD2Click" class="btn-aciton" value="惠   珍" style="width:140px;height:40px;font-size:20px;">
+<br>
+<input type="button" id="RD3Click" class="btn-aciton" value="詩   婷" style="width:140px;height:40px;font-size:20px;"> <input type="button" id="RD4Click" class="btn-aciton" value="義   峯" style="width:140px;height:40px;font-size:20px;">
+
+</td>
+　</tr>
+    
+         
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tbody><tr>
+                            <td id="img1" background="http://pos.l-w.com.tw/images/bklogin_bottom.gif"  height="40" colspan="3" align="right" color="#005887"></td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+        </tbody></table></table> 
+</form>
+
+    <div class="modal fade addmodel" id="RD1Tip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="font-weight:bold;">"帳號密碼自動登入</span></div>
+<div align="center" class="modal-body0" style="background: #f2f2f2; height: 100px; ">
+   
+                        <div style="padding: 0 10px 10px;">                 
+                     <br>      
+ <input type="button" onclick="RD1_POS();" class="btn-aciton0" value="POS銷貨捷徑" style="width:130px;height:40px;font-size:18px; " > 
+<input type="button" onclick="RD1_bill();"class="btn-aciton0" value="開立雲端發票" style="width:130px;height:40px;font-size:18px;">                   
+      </div>
+</div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="modal fade addmodel" id="RD2Tip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="font-weight:bold;">"帳號密碼自動登入</span></div>
+<div align="center" class="modal-body0" style="background: #f2f2f2; height: 100px; ">
+   
+                        <div style="padding: 0 10px 10px;">                 
+                     <br>      
+ <input type="button" onclick="RD2_POS();" class="btn-aciton0" value="POS銷貨捷徑" style="width:130px;height:40px;font-size:18px; " > 
+<input type="button" onclick="RD2_bill();" class="btn-aciton0" value="開立雲端發票" style="width:130px;height:40px;font-size:18px;">                   
+      </div>
+</div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="modal fade addmodel" id="RD3Tip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="font-weight:bold;">"帳號密碼自動登入</span></div>
+<div align="center" class="modal-body0" style="background: #f2f2f2; height: 100px; ">
+   
+                        <div style="padding: 0 10px 10px;">                 
+                     <br>      
+ <input type="button" onclick="RD3_POS();" class="btn-aciton0" value="POS銷貨捷徑" style="width:130px;height:40px;font-size:18px; " > 
+<input type="button" onclick="RD3_bill();" class="btn-aciton0" value="開立雲端發票" style="width:130px;height:40px;font-size:18px;">                   
+      </div>
+</div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="modal fade addmodel" id="RD4Tip" tabindex="0" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index: 1045; display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span style="font-weight:bold;">"帳號密碼自動登入</span></div>
+<div align="center" class="modal-body0" style="background: #f2f2f2; height: 100px; ">
+   
+                        <div style="padding: 0 10px 10px;">                 
+                     <br>      
+ <input type="button" onclick="RD4_POS();" class="btn-aciton0" value="POS銷貨捷徑" style="width:130px;height:40px;font-size:18px; " > 
+<input type="button" onclick="RD4_bill();" class="btn-aciton0" value="開立雲端發票" style="width:130px;height:40px;font-size:18px;">                   
+      </div>
+</div>
+                <div class="modal-footer" ><a data-dismiss="modal" href="javascript:void(0)" type="button" class="btn btn-u btn-u btn-u-default" id="cancle">關閉</a>
+                </div>
+            </div>
+        </div>
+    </div> 
+</body></html>
+
