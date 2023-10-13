@@ -1,26 +1,35 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-    <meta charset="utf-8">
-    <title></title>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js">
-  </script>
-<script>
 
-select('#btn').addEventListener('click', () => {
-  navigator.clipboard.writeText(select('#text').value);
-})
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
 
+<title>过10秒自动关闭页面</title>
+
+<script type="text/javascript">
+
+<!--函数-->
+
+function closeit()
+
+{
+
+setTimeout("self.close()", 3000);
+
+}
+
+<!--执行函数-->
+
+closeit();
 
 </script>
+
 </head>
+
 <body>
-    <input type="text" id="text">
-<button data-clipboard-target="text">複製</button>
-<script>
-    //透過selector標註所有複製觸發元素
-    new ClipboardJS("[data-clipboard-target]");
-  </script>
+
 </body>
+
 </html>
