@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Title</title>
-<script>
-function OpenInNewTab(url) {
-var newTab = window.open(url, '_blank');
-newTab.location;
-}
-OpenInNewTab('http://google.com.tw');
-</script>
-</head>
-<body>
-    開啟本頁面會自動開啟 http://google.com.tw
-</body>
+<html> 
+<head> 
+<script LANGUAGE="JavaScript"> 
+<!-- 
+　　function openwin() { 
+　　window.open ("page.html", "newwindow", "height=100, width=400, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no") //要寫成一行
+　　} 
+//--> 
+</script> 
+</head> 
+<body onload="openwin()"> 
+任意的頁面內容... 
+</body> 
 </html>
