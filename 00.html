@@ -1,6 +1,17 @@
-<script language=javascript>  
-<!--  
-this.window.opener = null;  
-window.close();  
-//-->  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+<script>
+function OpenInNewTab(url) {
+var newTab = window.open(url, '_blank');
+newTab.location;
+}
+OpenInNewTab('http://google.com.tw');
 </script>
+</head>
+<body>
+    開啟本頁面會自動開啟 http://google.com.tw
+</body>
+</html>
