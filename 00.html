@@ -9,13 +9,8 @@
     <script language="JavaScript">
 function OpenWindow()
 {
-window.status = "";
-strFeatures = "top=80,left=10,width=400,height=305,toolbar=0,menubar=0,
-location=0,directories=0,status=0";
-objNewWindow = window.open("http://dob.tnc.edu.tw/authorHD/1/js-demo.htm" , "MyNew", strFeatures);
-window.status = "範例視窗";
-window.event.cancelBubble = true;
-window.event.returnValue = false;
+window.open ('new.html', 'newwindow', config='height=400, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no')
+
 }
 
 </script>
