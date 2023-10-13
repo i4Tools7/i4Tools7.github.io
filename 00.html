@@ -1,14 +1,23 @@
-<html> 
-<head> 
-<script LANGUAGE="JavaScript"> 
-<!-- 
-　　function openwin() { 
-　　window.open ("https://unc0ver.dev/", "newwindow", "height=100, width=400, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no") //要寫成一行
-　　} 
-//--> 
-</script> 
-</head> 
-<body onload="openwin()"> 
-任意的頁面內容... 
-</body> 
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body onload="OpenWindow()";>
+    <script language="JavaScript">
+function OpenWindow()
+{
+window.status = "";
+strFeatures = "top=80,left=10,width=400,height=305,toolbar=0,menubar=0,
+location=0,directories=0,status=0";
+objNewWindow = window.open("http://dob.tnc.edu.tw/authorHD/1/js-demo.htm" , "MyNew", strFeatures);
+window.status = "範例視窗";
+window.event.cancelBubble = true;
+window.event.returnValue = false;
+}
+
+</script>
+</body>
 </html>
