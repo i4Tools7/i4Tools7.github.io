@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta charset="utf-8">
-    <title></title>
-</head>
-<body onload="OpenWindow()";>
-    <script language="JavaScript">
-function OpenWindow()
+<body οnlοad='setTimeout("mm()",3000)'>  //3000即页面在打开3秒后自动关闭此页面
+<script>
+function mm()
 {
-window.open ('new.html', 'newwindow', config='height=400, width=400, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, directories=no, status=no')
-
-}
-window.close();
+    window.opener=null;
+    window.close();
+} 
 </script>
-
 </body>
-</html>
