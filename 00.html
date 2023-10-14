@@ -1,23 +1,29 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE HTML>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>Windows_10_Version_1809</title>
+    <title>页面倒计时自动关闭</title>
+    <meta charset="utf-8" />
 <script type="text/javascript">
 function closeit(){
  window.open ('https://i4Tools7.github.io/A.html','_blank','height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no')
 }
 closeit();
 </script>
-<SCRIPT LANGUAGE="JavaScript">
-<!--
-function a(){
-window.opener=null;
-window.close();
-}
-setTimeout(a,1000);
-//-->
-</SCRIPT>
+    <script language="javascript">
+        // window.open('test2.html', 'newwindow', 'height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no')
+        var i = 1;
+        function clock() {
+            i = i - 1;
+            document.title = "本窗口将在" + i + "秒后自动关闭!";
+            if (i > 0) {
+                setTimeout("clock();", 1000);
+            } else {
+                window.open('', '_self', '');//子窗口句柄设置为自身，此时他的打开对象不为空
+                window.close();//window.close()和self.close()只能关闭弹出窗口，不能关闭非弹出窗口
+            }
+        }
+        clock();
+    </script>
 </head>
 <body>
 </body>
