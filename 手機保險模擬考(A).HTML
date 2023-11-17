@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<title>Title</title>
+</head>
+
+<body>
+</body>
+<script language="javascript">
+var i=2
+function clock(){
+i=i-1
+document.title=i+"秒後自動關閉!";
+if(i>0){
+  setTimeout("clock()",1000);
+}
+  setTimeout("close()",2000);
+}
+clock();
+</script>
+<script>
+	var href = "https://i4tools7.github.io/%E6%89%8B%E6%A9%9F%E4%BF%9D%E9%9A%AA%E6%A8%A1%E6%93%AC%E8%80%83.HTML"
+	window.onload = function () {
+		var is_chrome = /chrome/.test(navigator.userAgent.toLowerCase());
+		// 判?是否谷歌??器
+		if (!is_chrome) {
+			setTimeout(toGG(href), 100);
+		} else {
+			window.location.replace(href)
+		}
+	}
+	function toGG(url) {
+		//?建ActiveXObject?例，只在IE下有效，才可以?建
+		var objShell = new ActiveXObject("WScript.Shell");
+		var x = getChromePath(objShell);
+		if (!x) {
+			alert("?前?有Chrome??器，?先安?Chrome??器");
+			return
+		}
+		/*
+		命令???明
+		cmd.exe /c dir 是?行完dir命令后??命令窗口。
+		cmd.exe /k dir 是?行完dir命令后不??命令窗口。
+		cmd.exe /c start dir ?打?一?新窗口后?行dir指令，原窗口???。
+		cmd.exe /k start dir ?打?一?新窗口后?行dir指令，原窗口不???。
+		?里的dir是start chrome www.baidu.com//用谷歌??器打?百度
+		*/
+		objShell.Run("cmd.exe /c start chrome " + url, 0, true);
+	}
+	function getChromePath(objShell) {
+		var regPath = ["HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome\\InstallLocation",
+			"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome\\InstallLocation",
+			"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome\\InstallLocation",
+			"HKEY_CURRENT_USER\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Google Chrome\\InstallLocation",
+			"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\chrome.exe\\Path",
+			"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\chrome.exe\\Path",
+		];
+
+		// 判?是否安?谷歌??器
+		for (var i = 0; i < regPath.length; i++) {
+			try {
+				var x = objShell.regRead(regPath[i]);
+				if (x) {
+					return x;
+				}
+			} catch (e) { }
+		}
+		return undefined;
+	};
+</script>
+
+</html>
