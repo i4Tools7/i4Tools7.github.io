@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://scms.tcc.net.tw/openchannel/checkExtLogin.do -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>SCMS通路銷售系統(Open channel)</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="x-ua-compatible" content="IE=11">
+
+<link href="./SCMS通路銷售系統(Open channel)_files/w3.css" rel="stylesheet">
+<link href="./SCMS通路銷售系統(Open channel)_files/jquery-ui.css" rel="stylesheet">
+<script src="./SCMS通路銷售系統(Open channel)_files/jquery.js.下載"></script>
+<script src="./SCMS通路銷售系統(Open channel)_files/jquery-ui.js.下載"></script>
+
+
+<style>
+	#divLeft{
+		width:    240px;
+		height:   calc(100vh-68px-60px);
+	}
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+     var isOpenedScms = "N";
+
+	var isOcUser = "true";
+	//已經有一個instance存在
+	if (isOpenedScms=="Y") {
+		alert("您已重覆開啟SCMS系統，請關閉所有SCMS視窗，再重新進行登入作業!!!");
+
+		//self.name = "SCMSOCExit";
+		//opener = null;
+		//top.self.close();
+        //關閉menutree子視窗
+       //window.document.getElementsByName('leftFrame')[0].contentWindow.doCloseWin();;
+       try{
+           window.frames['leftFrame'].frameElement.contentWindow.doCloseWin();
+       }catch(e) {}
+       //delete token cookie
+
+       window.top.location.href = '/sso/logout.jsp?authType=SCMS&timeOut=false&winClose=false&storeType=SC';
+
+	} else {
+		if (isOcUser=="N") {
+
+		}
+	}
+	// ???? div ???
+	function resizeFrame1(){
+		$("#divLeft").hide();
+		$("#showLeftBlock").show();
+		$("#hideLeftBlock").hide();
+		return true;
+	}
+
+	function resizeFrame2(){
+		$("#divLeft").show();
+		$("#showLeftBlock").hide();
+		$("#hideLeftBlock").show();
+		return true;
+	}
+
+	$("#indexBody").height(window.screen.availHeight - 68);
+	$("#divMainBottom").hide();
+
+	function resetDivRight() { // kiosk ????????
+		var availHeight = $("#divRight").height();
+		$("#divMainTop").height( 120);
+		$("#divMainMid").height( availHeight - 120 - 25);
+	}
+
+	var mainAreaStatus="showedTop"; // default ??? kiosk
+	function changeMainArea(){
+		var availHeight = $("#divRight").height();
+		if (mainAreaStatus=="showedTop") { // ????? kiosk , ????? ???
+	 		$("#divMainTop").height( 0);
+			$("#divMainMid").height( availHeight - 25);
+	 		mainAreaStatus="showedMid";
+		} else {                         // ????? ??? , ????? kiosk
+	 		$("#divMainTop").height( availHeight - 25);
+			$("#divMainMid").height( 0);
+	 		mainAreaStatus="showedTop";
+		}
+	}
+
+	window.addEventListener("message",function(event){
+        if ("resetPwd"==event.data) { // ????, ? kiosk ???
+        	var availHeight = $("#divRight").height();
+        	$("#divMainTop").height( availHeight - 25);
+			$("#divMainMid").height( 0);
+	 		mainAreaStatus="showedTop";
+        }
+
+	},false);
+
+    document.cookie = "remoteIp=; path=/; domain=tcc.net.tw; secure";
+</script>
+<script language="JavaScript">
+
+   var tid;
+   var hWnd;
+   var ret;
+   //讀取cookie值
+   function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+
+
+   //確認cookie紀錄時間是否過時<10分鐘>
+   function cookieToDate(lastaccesstime){
+           return new Date(
+                   lastaccesstime.substring(0,4) ,
+                   lastaccesstime.substring(4,6) -1,
+                   lastaccesstime.substring(6,8) ,
+                   lastaccesstime.substring(8,10) ,
+                   lastaccesstime.substring(10,12) ,
+                   lastaccesstime.substring(12) );
+   }
+
+   function getIdleCookie() {
+     const cookiesArray = document.cookie.split(';');
+	 var lastone = "";
+     var matchingCookie = "";
+
+     for (let i = 0; i < cookiesArray.length; i++) {
+       var cookie = cookiesArray[i].trim();
+
+       if (cookie.startsWith('SSOXD24Date=')) {
+    	   matchingCookie = cookie.substring('SSOXD24Date'.length + 1);
+    	   if (matchingCookie.trim().length > 0)  {
+    	   	  if (lastone == "" || cookieToDate(matchingCookie) > cookieToDate(lastone)) {
+    			  lastone =  matchingCookie ;
+    	   	   }
+    	   }
+       }
+     }
+
+     // 返回包含所有匹配cookie值的数组
+     return lastone;
+   }
+
+
+
+   //設定cookie
+  function setCookie(name, value, maxage, path, domain, secure) {
+       document.cookie = name + "=" + escape(value) +
+          ((maxage == null) ? "" : "; max-age=" + maxage) +
+          ((path == null) ? "" : "; path=" + path) +
+          ((domain == null) ? "" : "; domain=" + domain) +
+          ((secure == null) ? "" : "; secure");
+
+  }
+
+
+
+  //抓取系統日期yyyymmddhh24miss
+  function getDateString() {
+        var d=new Date();
+        var yyyy = d.getFullYear().toString();
+        var mm = (d.getMonth() + 101).toString().slice(-2);     //0-11
+        var dd = (d.getDate() + 100).toString().slice(-2);      //1-31
+        var hh = (d.getHours()+ 100).toString().slice(-2);      //0-23
+        var mi = (d.getMinutes()+ 100).toString().slice(-2);    //0-59
+        var ss = (d.getSeconds()+ 100).toString().slice(-2);    //0-59
+        return yyyy + mm + dd + hh + mi +ss;
+    }
+
+
+
+  //確認cookie紀錄時間是否過時<10分鐘>
+  function isIdleOverLimit(){
+          var lastaccesstime = getIdleCookie();
+          if  (lastaccesstime == "")
+              return false;
+          var cookiedate = new Date(
+                  lastaccesstime.substring(0,4) ,
+                  lastaccesstime.substring(4,6) -1,
+                  lastaccesstime.substring(6,8) ,
+                  lastaccesstime.substring(8,10) ,
+                  lastaccesstime.substring(10,12) ,
+                  lastaccesstime.substring(12) );
+
+          var minutesAgo10 = new Date(new Date().getTime()-(10*60*1000));
+         // console.log(cookiedate + ',' + minutesAgo10);
+          return (cookiedate < minutesAgo10)
+         //  return true;
+
+  }
+  var countDownDate =  new Date(new Date().getTime() + (60 * 1000)); ;
+  var x;
+  var Y;
+    $(function() {
+        $("#dialog").dialog({
+            modal : true,
+            height : 'auto',
+            width : 320,
+            closeOnEscape : false,
+            autoOpen : false,
+            close:  function(event, ui){
+                setCookie("SSOXD24Date", getDateString(), null, '/','tcc.net.tw', null);
+                ret = "KeepAlive";
+                Y = setInterval(timeoutcheck,5000);
+                clearInterval(x);
+                countDownDate = new Date(new Date().getTime() + (60 * 1000));
+            }
+        });
+    })
+
+
+
+    function act() {
+    	  $( "#dialog" ).dialog('open');
+    }
+
+
+    function timeoutcheck() {
+
+        if (isIdleOverLimit()) {
+     //   	alert('timeoutcheck-isIdleOverLimit=true' );
+        	countDownDate = new Date(new Date().getTime() + (60 * 1000));
+            act();
+			clearInterval(Y);
+
+            // Update the count down every 1 second
+            x = setInterval("doCountdownm()", 1000);
+
+        }
+    }
+
+    function doCountdownm() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="demo"
+        document.getElementById("countbox").innerHTML = "閒置逾時時間 : 倒數 " + seconds + "秒 ";
+	//	alert('docountdown-' + distance);
+        // 60秒登出
+        if (distance < 0) {
+            clearInterval(x);
+            clearInterval(Y);
+            isLogout = true;
+            setCookie("SSOXD24Date", null, 0, '/','tcc.net.tw', null);
+            window.top.location.href = '/sso/logout.jsp?authType=SCMS&timeOut=false&winClose=false&storeType=SC';
+        }
+
+    }
+    setCookie("SSOXD24Date", getDateString(), null, '/','tcc.net.tw', null);
+    Y = setInterval(timeoutcheck,5000);
+</script>
+</head>
+<body id="indexBody" style="border-style: none; margin: 0px; overflow: hidden; cursor: auto;">
+	<header style="height: 100px">
+		<iframe src="./SCMS通路銷售系統(Open channel)_files/top.html" name="topFrame" style="overflow:hidden;width: 100%; height:100%"> </iframe>
+	</header>
+	<div id="divMain" style="width: 100%; height: 100%; overflow: hidden;">
+		<div id="divLeft" style="width:224px; height: 84vh;" class="w3-cell">
+			<iframe src="./SCMS通路銷售系統(Open channel)_files/left.html" id="leftFrame" name="leftFrame" style="width:100%; height:100%; overflow:auto;"></iframe>
+        </div>
+		<div id="divSep" style="height: 84vh; overflow: visible; background-color: #979088; vertical-align: top; width: 15px;" class="w3-cell">
+			<table style="margin-left: auto; width:100%; border:0">
+				<tbody><tr>
+					<td id="showLeftBlock" style="display: none" valign="top"><img id="imgArr2" src="./SCMS通路銷售系統(Open channel)_files/right.gif" style="cursor: pointer;" onclick="resizeFrame2();" width="16" height="16"></td>
+					<td id="hideLeftBlock" align="left" valign="top"><img id="imgArr1" src="./SCMS通路銷售系統(Open channel)_files/left.gif" style="cursor: pointer;" onclick="resizeFrame1();" width="16" height="16"></td>
+				</tr>
+			</tbody></table>
+        </div>
+		<div id="divRight" style="width: 100vw; height: 84vh; overflow: hidden;" class="w3-cell w3-cell-top">
+			<div id="divMidTop" style="width:100%; height:25px;">
+				<table bgcolor="#F0F0F0" width="100%">
+                <tbody><tr>
+						<td width="93%" align="center" valign="TOP">
+							<div id="fade" style="text-align:center; font-style: normal; font-size: 13px;"></div>
+						</td>
+						<td width="3%" align="center" valign="middle">
+							<img id="imgArr2" src="./SCMS通路銷售系統(Open channel)_files/big_minus.gif" style="cursor: hand;" onclick="resetDivRight();">
+						</td>
+						<td width="3%" align="center">
+							<img id="imgArr3" src="./SCMS通路銷售系統(Open channel)_files/down.gif" style="cursor: hand;" onclick="changeMainArea();">
+						</td>
+                </tr>
+            </tbody></table>
+        </div>
+			<div id="divMainTop" style="height:100%; width:100%; overflow: auto;">
+				<iframe src="./SCMS通路銷售系統(Open channel)_files/CustomerKiosk_doQueryCustomer.html" id="topPanel" name="topPanel" height="100%" width="100%" style="overflow:auto;">
+				</iframe>
+			</div>
+			<div id="divMainMid" style="background-color: #ffffff; width:100%; height:0px">
+				<iframe src="./SCMS通路銷售系統(Open channel)_files/saved_resource.html" id="MiddlePanel" name="MiddlePanel" height="100%" width="100%"> </iframe>
+			</div>
+			<div id="divMainBottom" style="width:100%; height:0px">
+				<iframe src="./SCMS通路銷售系統(Open channel)_files/saved_resource(1).html" id="bottomPanel" name="bottomPanel" width="100%" height="0%"> </iframe>
+			</div>
+		</div>
+        </div>
+
+
+	
+
+
+
+
+
+
+
+
+
+<div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-draggable ui-resizable" aria-describedby="dialog" aria-labelledby="ui-id-1" style="position: absolute; height: auto; width: 320px; top: 251.25px; left: 322.5px; z-index: 101;"><div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle"><span id="ui-id-1" class="ui-dialog-title">逾時登出</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button></div><div id="dialog" class="ui-dialog-content ui-widget-content" style="width: auto; min-height: 87.5px; max-height: none; height: auto;">
+		<p>
+			<font color="#0000FF" size="2"> 您的連線即將逾時，系統將會自動登出，請點選[X]關閉倒數視窗，重新延長連線時間。</font>
+		</p><div id="countbox" style="font: 9pt Arial; color: #FF0000;">閒置逾時時間 : 倒數 35秒 </div>
+		<p></p>
+	</div><div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-w" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90;"></div></div><div class="ui-widget-overlay ui-front" style="z-index: 100;"></div></body></html>

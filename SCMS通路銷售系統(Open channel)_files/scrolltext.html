@@ -1,0 +1,170 @@
+
+<!-- saved from url=(0061)https://scms.tcc.net.tw/openchannel/main-frame/scrolltext.jsp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>TWM經銷通路系統</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<style type="text/css">
+<!--
+A:link {
+	color:"#FFFFFF";
+	text-decoration:"none";}
+
+A:visited {
+	color:"#FFFFFF";
+	text-decoration:"none";}
+
+A:active {
+	color:"#FFFFFF";
+	text-decoration:"none";}
+
+A:hover {
+	color:"#FFFFFF";
+	text-decoration:"none";}
+-->
+</style>
+<script type="text/javascript" src="./popup_windows(1).js.下載"></script>
+
+
+<script type="text/javascript">
+var newWinObj = new Array();
+function openDependentWindow(url, winname, winfeatures, replacebool) {
+	if (!url)
+		url = "";
+	if (!winname)
+		winname = "";
+	if (!winfeatures)
+		winfeatures = "";
+
+	var newWinObj2 = new Array();
+	for (var i = 0; i < newWinObj.length; i++) {
+		if (!newWinObj[i].closed)
+			newWinObj2[newWinObj2.length] = newWinObj[i];
+	}
+	newWinObj = newWinObj2;
+
+	var DWinObj = window.open(url, winname, winfeatures, (!!replacebool));
+	newWinObj[newWinObj.length] = DWinObj;
+
+	if (DWinObj != null) {
+		if (DWinObj == null) {
+			DWinObj.opener = self;
+		}
+		DWinObj.focus();
+	}
+}
+
+/*if (!!window.onunload) {
+	alert('window 正在關閉. 177');
+	window.onUnloadDWinObj = window.onunload;
+} else {
+	window.onUnloadDWinObj = function() {
+		alert('window 正在關閉. 181');
+	}
+}*/
+
+/*
+ * 與scroll_text.jsp共用，但各自獨立。
+ * 關閉該視窗所開的所有彈跳視窗。
+ */
+window.onunload = function() {
+
+	//window.onUnloadDWinObj();
+	for (var i = 0; i < newWinObj.length; i++) {
+
+		if (newWinObj[i] && !newWinObj[i].closed) {
+			try {
+				if (newWinObj[i].name == 'PMT') {
+					// 繳費視窗開啟時，若變數未設定初始值或是false,則設定true.繳費就不會作關機前提醒
+					if (newWinObj[i].SYSTEM_isAskForPaymentToClose == 'undefined'
+					    || newWinObj[i].SYSTEM_isAskForPaymentToClose != true) {
+						newWinObj[i].SYSTEM_isAskForPaymentToClose = true;
+					}
+
+				}
+			} catch (e) {
+				//window當前在拒絕存取狀態
+			}
+			newWinObj[i].close();
+		}
+
+	}
+}
+
+function openTrusWin()
+{
+	var width = window.screen.width;
+	var height = window.screen.height;
+	//20220531 modify by marya-leon
+	openDependentWindow('/openchannel/redirect-url/ExtraWebRedirect.jsp?systemID=TRUS','TRUS','resize=yes, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=' + width + ',height=' + height +'');
+
+}
+
+function createHttp()
+{
+
+	var instance = null;
+	try {
+		instance = new ActiveXObject("Msxml2.XMLHTTP");
+	} catch(e) {
+		try {
+			instance = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch(oc) {
+			instance = null;
+		}
+	}
+if ( !instance && typeof XMLHttpRequest != "undefined" )
+	{
+		instance = new XMLHttpRequest();
+	}
+	return instance;
+}
+
+function scrolltext()
+{
+	var xmlhttp = null;
+	try {
+		xmlhttp = createHttp();
+		var url = "/openchannel/scrolltextService.do";
+		url = url + "?bcId=DNC10370&storeId=02191002&storeType=SC";
+		xmlhttp.open("GET", url, false);
+		xmlhttp.send();
+
+		if ((xmlhttp.readyState == 4) && (xmlhttp.status == 200))
+		{
+// 			var cleanStr = DOMPurify.sanitize( xmlhttp.responseText );
+			var cleanStr = xmlhttp.responseText;
+			document.getElementById("fade").innerHTML =
+				"<MARQUEE BEHAVIOR=SCROLL SCROLLAMOUNT=3 onMouseOver=this.stop() onMouseOut=this.start()>" +
+			     "<a href='javascript:openTrusWin();'><font color=#FF0000></font></a>" +
+			     "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + cleanStr + "</MARQUEE>";
+
+			     console.write(cleanStr);
+		}
+	} catch(e) {
+		xmlhttp = null;
+	}
+
+}
+
+
+</script>
+</head>
+<body bgcolor="#F0F0F0" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellpadding="5" cellspacing="0">
+  <tbody><tr>
+    <td nowrap="" bgcolor="#D8DFE7">
+		<div id="fade" style="text-align:center; font-style: normal; font-size: 13px;"><marquee behavior="SCROLL" scrollamount="3" onmouseover="this.stop()" onmouseout="this.start()"><a href="javascript:openTrusWin();"><font color="#FF0000"></font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;已開通完成的門號: 0987246698(TWM)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000">暫存中門號：0988789175，請盡速完成申裝開通作業!!!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#FF0000">暫存中門號：0906083514，請盡速完成申裝開通作業!!!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#FF0000">暫存中門號：0909099359，請盡速完成申裝開通作業!!!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#FF0000">暫存中門號：0982011255，請盡速完成申裝開通作業!!!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></marquee></div>
+    </td>
+  </tr>
+</tbody></table>
+<script type="text/javascript">
+scrolltext();
+window.setInterval(scrolltext, 900000);
+</script>
+
+
+
+</body></html>

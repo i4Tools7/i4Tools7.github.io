@@ -1,0 +1,239 @@
+
+<!-- saved from url=(0043)https://scms.tcc.net.tw/openchannel/top.jsp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>SCMS作業系統(Open channel)</title>
+
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="private,no-cache,no-store">
+<meta http-equiv="Expires" content="0">
+
+<script language="JavaScript">
+function onclicksubapp(i) {
+  
+	window.parent.postMessage("resetPwd","*");
+	parent.document.getElementById('topPanel').src=i;
+
+  
+}
+
+
+function resizeFrame1(panel){
+  alert("error call resizeFrame1()");
+}
+
+var titleMessage="SCMS作業系統(OpenChannel) -- OC10.3D1 - Online : 13";
+
+function setTitle(){
+	window.top.document.title = titleMessage;
+}
+
+//setTitle();
+
+var isLogout = false;
+
+function onclicklogout(){
+	if(confirm("您確定要登出TWM SCMS銷售通路管理系統?")) {
+		isLogout = true;
+	    // sso/logout.jsp
+		window.top.location.href = "https://scms.tcc.net.tw/sso/logout.jsp?authType=SCMS&timeOut=false&winClose=false&storeType=SC";
+	}
+}
+var beforeunload = function () {
+ //   return "即將登出TWM SCMS銷售通路管理系統";
+}
+var unload = function () {
+	//關閉menutree子視窗
+	window.top.leftFrame.window.doCloseWin();
+
+	if (!isLogout) {
+		window.open("https://scms.tcc.net.tw/sso/logout.jsp?authType=SCMS&timeOut=false&winClose=true&storeType=SC", "_blank", 'left='+(screen.width-200)/2+',top='+(screen.height-100)/2+',width=200,height=100,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no');
+	}
+}
+
+function createHttp() {
+	var instance = null;
+	try {
+		instance = new ActiveXObject("Msxml2.XMLHTTP")
+	} catch(e) {
+		try {
+			instance = new ActiveXObject("Microsoft.XMLHTTP");
+		} catch(oc) {
+			instance = null;
+		}
+	}
+	if ( !instance && typeof XMLHttpRequest != "undefined" )
+	{
+		instance = new XMLHttpRequest();
+	}
+	return instance;
+}
+
+function ssoLogout(){
+
+	var xmlhttp = createHttp();
+	var isSuccess = true;
+	var servers = "https://scms.tcc.net.tw/sso/SSOLogout.jsp";
+	var text = "";
+	try {
+		xmlhttp.open("GET",servers,false)
+		xmlhttp.send();
+		if ( xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			// var str = xmlhttp.responseText;
+			alert("您已登出TWM SCMS銷售通路管理系統");
+		} else {
+			isSuccess = false;
+			alert("您未登出TWM SCMS銷售通路管理系統，請關閉所有視窗進行登出!!!");
+		}
+	} catch(ex) {
+		isSuccess = false;
+		alert("您未登出TWM SCMS銷售通路管理系統，請關閉所有視窗進行登出!!!");
+	}
+}
+window.onbeforeunload=beforeunload;
+window.onunload=unload;
+
+</script>
+
+
+<script language="JavaScript">
+
+   var tid;
+   var hWnd;
+   var ret;
+   //讀取cookie值
+   function getCookie(cname) {
+	    var name = cname + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i = 0; i <ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0) == ' ') {
+	            c = c.substring(1);
+	        }
+	        if (c.indexOf(name) == 0) {
+	            return c.substring(name.length, c.length);
+	        }
+	    }
+	    return "";
+	}
+   //設定cookie
+  function setCookie(name, value, expires, path, domain, secure) {
+	   document.cookie = name + "=" + escape(value) +
+	      ((expires == null) ? "" : "; expires=" + expires.toGMTString()) +
+	      ((path == null) ? "" : "; path=" + path) +
+	      ((domain == null) ? "" : "; domain=" + domain) +
+	      ((secure == null) ? "" : "; secure");
+
+  }
+  //抓取系統日期yyyymmddhh24miss
+  function getDateString() {
+		var d=new Date();
+		var yyyy = d.getFullYear().toString();
+		var mm = (d.getMonth() + 101).toString().slice(-2); 	//0-11
+		var dd = (d.getDate() + 100).toString().slice(-2); 		//1-31
+		var hh = (d.getHours()+ 100).toString().slice(-2);		//0-23
+		var mi = (d.getMinutes()+ 100).toString().slice(-2);	//0-59
+		var ss = (d.getSeconds()+ 100).toString().slice(-2);	//0-59
+		return yyyy + mm + dd + hh + mi +ss;
+	}
+  //確認cookie紀錄時間是否過時<10分鐘>
+  function isIdleOverLimit(){
+	   	  var lastaccesstime = getCookie("SSOXD24Date");
+	   	  if  (lastaccesstime == "")
+	   		  return false;
+		  var cookiedate = new Date(
+				  lastaccesstime.substring(0,4) ,
+				  lastaccesstime.substring(4,6) -1,
+				  lastaccesstime.substring(6,8) ,
+				  lastaccesstime.substring(8,10) ,
+				  lastaccesstime.substring(10,12) ,
+				  lastaccesstime.substring(12) );
+		  var minutesAgo10 = new Date(new Date().getTime()-(10*60*1000));
+
+		  return (cookiedate < minutesAgo10)
+
+
+  }
+
+
+
+//    // 逾時登出
+//    function timeoutcheck () {
+//   		if (isIdleOverLimit()) {
+// 			clearInterval(tid);
+//      		ret=window.open("/openchannel/countdown.htm","Arguments","top="+(screen.height-150)/2+"px, left="+(screen.width-500)/2+"px, height=150px,width=500px,toolbar=no,menubar=no,scrollbars=no,resizable=no,location=no,status=no" );
+//      		ret.focus();
+//   		}
+// 	}
+
+
+// 	function  keepAlive(){
+// 		setCookie("SSOXD24Date",getDateString(),null,'/','tcc.net.tw',null);
+// 		//剛從閒置狀態回來
+// 		tid = window.setInterval(timeoutcheck, 5000);
+// 	}
+
+// 	function letsOut(){
+// 		setCookie("SSOXD24Date",null,null,'/','tcc.net.tw',null);
+// 		isLogout = true;
+
+// 	}
+
+// 	tid = window.setInterval(timeoutcheck,5000);
+</script>
+
+
+</head><body bgcolor="#000000" leftmargin="0" rightmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bordercolor="#000000" height="65">
+  <tbody><tr>
+    <td width="262" style="background-color:#B5C2D2;border-color:#8DA4BA" rowspan="3"><img src="./TWM_Website_top3.jpg" width="262" height="67"></td>
+    <td width="100%" style="background-color:#B5C2D2" align="right"><font face="Geneva, Arial, Helvetica, san-serif" size="2">
+ 	    &nbsp;&nbsp;
+    
+	    
+	      	DNC10370
+	      	鶯歌－建國(聯歐16)
+	      	黃義？
+		
+		
+	
+    &nbsp;&nbsp;</font>
+    </td>
+  </tr>
+
+  
+  
+  <tr>
+    <td width="100%" style="background-color:#B5C2D2;border-color:#8DA4BA" bordercolor="#B5C2D2" align="right">
+      <font face="Geneva, Arial, Helvetica, san-serif" color="#000000" size="2">
+      	登入時間 :112年11月30日  15:24:53
+       &nbsp;&nbsp;</font>
+    </td>
+  </tr>
+  <tr>
+    <td width="100%" style="background-color:#B5C2D2;border-color:#8DA4BA" align="right">
+        <font size="2" color="#000000">
+        <span style="CURSOR: hand" onclick="javascript:onclicklogout()">登出 </span>|
+        <span style="CURSOR: hand" onclick="javascript:onclicksubapp(&quot;/sso/auth/changepwd.do?view=false&quot;)">密碼更改 </span>
+        
+		<span style="CURSOR: hand" onclick="">&nbsp;</span>
+		
+        &nbsp;
+        </font>
+    </td>
+  </tr>
+</tbody></table>
+
+<iframe id="topfrm" name="top" marginwidth="0" marginheight="0" src="./scrolltext.html" frameborder="no" width="100%" height="29" scrolling="no"></iframe>
+
+<!--
+iframe功能加盟人員於第一次登入時連動，POS系統就自動建立相關的帳號資料
+//-->
+true
+
+//--&gt;
+
+
+
+</body></html>

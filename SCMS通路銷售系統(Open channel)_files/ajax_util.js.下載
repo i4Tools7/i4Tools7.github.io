@@ -1,0 +1,29 @@
+//Detect IE
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+window.onload =  function() {
+//    console.log( "ready! isIE=" + isIE );
+};
+
+function getHTTPObject() {
+	var xRequest = null;
+	if (window.XMLHttpRequest) {
+		xRequest = new XMLHttpRequest();
+	} else if (typeof ActiveXObject != "undefined") {
+		xRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	return xRequest;
+}
+
+function ajaxCall ( url, parameters, asynchronous , func){
+//	console.log("ajaxCall parameter",parameters)
+//	console.log("ajaxCall url",url)
+		
+	httpRequest = getHTTPObject();
+	//httpRequest.open('POST', "storeJudgeAction.do", true);
+	httpRequest.open('POST', url, asynchronous);
+	httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	httpRequest.onreadystatechange = func;
+	httpRequest.send(parameters);
+	
+	return httpRequest;
+}

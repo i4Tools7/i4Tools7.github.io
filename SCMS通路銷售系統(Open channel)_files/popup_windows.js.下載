@@ -1,0 +1,211 @@
+/*
+ * $Id: popup_window.js,v 1.1 2008/04/22 07:57:48 EricYen Exp $
+ * ======================================================================
+ * Copyright (c) 2000-2001 TBCommerce Network Corp, All rights reserved.
+ *
+ * @author <a href="mailto:xinchen@tbcommerce.com">Anthony Xin Chen</a>
+ * @version $Revision: 1.1 $ $Date: 2008/04/22 07:57:48 $
+ */
+
+//   We want to make sure:
+//		1. If a popup window is already openned, reuse it instead of openning new.
+//		2. Before closing main window, make sure all child windows are closed. 
+// Global variables
+_winList = new Array(0); // list of popup windows openned
+
+/*
+ * This method has the same signauture as the window.open() method. urlString -
+ * the url to be openned in the popup windown popupWinName - the name of the
+ * window popupWinOption - the option of the popup window
+ * 
+ * Note: we use the popupWinName to decide if a existing popup window already
+ * exists.
+ */
+function openPopupWindow(urlString, popupWinName, popupWinOption, width, height) {
+	var popupWinOptionNew = popupWinOption;
+	if (width != null && height != null) {
+		var px = 50;
+		var py = 50;
+
+		if (screen.width > width) {
+			px = (screen.width - width) / 2;
+		}
+
+		if (screen.height > height) {
+			py = (screen.height - height) / 2;
+		}
+		popupWinOptionNew += ",left=" + px + ",top=" + py;
+	}
+	var code = ".open(\"" + urlString + "\",\"" + popupWinName + "\",\""
+			+ popupWinOptionNew + "\");";
+
+	var index = alreadyOpenned(popupWinName);
+	var remote;
+
+	if (index >= 0) {
+		code = "_winList[" + index + "]" + code;
+		remote = eval(code);
+	} else {
+		code = "window" + code;
+		remote = eval(code);
+		myPush(remote);
+	}
+
+	if (remote != null) {
+		if (remote.opener == null) {
+			remote.opener = self;
+		}
+		remote.focus();
+	}
+
+	return remote;
+}
+
+/*
+ * Close the named popup window.
+ */
+function closePopupWindow(popupWinName) {
+	var index = alreadyOpenned(popupWinName);
+	if (index >= 0) {
+		var aWin = _winList[index];
+
+		if (aWin != null && !aWin.closed) {
+			aWin.close();
+		}
+	}
+
+	return true;
+}
+
+/*
+ * This closes all popup windows. Should be called before closing the main
+ * window.
+ */
+function closeAllPopupWindow() {
+	var size = _winList.length;
+	for (var i = 0; i < size; i++) {
+		var aWin = _winList[i];
+
+		if (aWin != null && !aWin.closed) {
+			aWin.close();
+		}
+	}
+	return true;
+}
+
+/*
+ * Places the popup win to the center of the screen. win - a popup window width -
+ * the width of the window height - the height of the window
+ */
+function centerWindow(win, width, height) {
+	var px = 50;
+	var py = 50;
+
+	if (screen.width > width) {
+		px = (screen.width - width) / 2;
+	}
+
+	if (screen.height > height) {
+		py = (screen.height - height) / 2;
+	}
+
+	win.moveTo(px, py);
+}
+
+// ***** private methods *****
+
+/*
+ * Array.push is not working in IE5.0
+ */
+function myPush(o) {
+	_winList[_winList.length] = o;
+}
+
+/*
+ * If there is a existing popup window with same name as the given param, its
+ * index in the _winList is returned.
+ * 
+ * Otherwise, -1 is returned.
+ */
+function alreadyOpenned(popupWinName) {
+	var size = _winList.length;
+	for (var i = 0; i < size; i++) {
+		var aWin = _winList[i];
+
+		if (aWin != null && !aWin.closed && (aWin.name == popupWinName)) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+function openSearchWin(type) {
+	var link = "/tna/AdminSearchEmp.do?first=true&type=" + type;
+	openPopupWindow(link, "AdminSearchEmp", "toolbar=no,width=600 height=500",
+			600, 500);
+}
+
+/*var newWinObj = new Array();
+function openDependentWindow(url, winname, winfeatures, replacebool) {
+	if (!url)
+		url = "";
+	if (!winname)
+		winname = "";
+	if (!winfeatures)
+		winfeatures = "";
+
+	var newWinObj2 = new Array();
+	for (var i = 0; i < newWinObj.length; i++) {
+		if (!newWinObj[i].closed)
+			newWinObj2[newWinObj2.length] = newWinObj[i];
+	}
+	newWinObj = newWinObj2;
+
+	var DWinObj = window.open(url, winname, winfeatures, (!!replacebool));
+	newWinObj[newWinObj.length] = DWinObj;
+
+	if (DWinObj != null) {
+		if (DWinObj == null) {
+			DWinObj.opener = self;
+		}
+		DWinObj.focus();
+	}
+}
+
+if (!!window.onunload) {
+	alert('window 正在關閉. 177');
+	window.onUnloadDWinObj = window.onunload;
+} else {
+	window.onUnloadDWinObj = function() {
+		alert('window 正在關閉. 181');
+	}
+}
+
+
+ * 與scroll_text.jsp共用，但各自獨立。
+ * 關閉該視窗所開的所有彈跳視窗。
+ 
+window.onunload = function() {
+	
+	//window.onUnloadDWinObj();
+	for (var i = 0; i < newWinObj.length; i++) {
+
+		if (newWinObj[i] && !newWinObj[i].closed) {
+			try {
+				if (newWinObj[i].name == 'PMT') {
+					// 繳費視窗開啟時，若變數未設定初始值或是false,則設定true.繳費就不會作關機前提醒
+					if (newWinObj[i].SYSTEM_isAskForPaymentToClose == 'undefined'
+					    || newWinObj[i].SYSTEM_isAskForPaymentToClose != true) {
+						newWinObj[i].SYSTEM_isAskForPaymentToClose = true;
+					}
+
+				}
+			} catch (e) {
+				//window當前在拒絕存取狀態
+			}
+			newWinObj[i].close();
+		}
+
+	}
+}
+*/

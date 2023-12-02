@@ -1,0 +1,66 @@
+
+.Arrow
+{ 
+ width:15;
+ height:15
+}
+
+
+.MainItemIn
+{
+    COLOR: #000000;
+    FONT-FAMILY: "Geneva", "Arial", "Helvetica", "sans-serif";
+    FONT-SIZE: 12pt;
+    FONT-STYLE: normal;
+    FONT-WEIGHT: normal;
+    CURSOR: hand         
+}   
+
+.MainItemOut
+{
+    COLOR: #666666;
+    FONT-FAMILY: "Geneva", "Arial", "Helvetica", "sans-serif";
+    FONT-SIZE: 12pt;
+    FONT-STYLE: normal;
+    FONT-WEIGHT: normal;
+    CURSOR: hand;
+}
+
+
+A:visited
+{
+    COLOR: #800080;
+    FONT-FAMILY: "Geneva", "Arial", "Helvetica", "sans-serif";
+    FONT-SIZE: 12pt;
+    FONT-STYLE: normal;
+    FONT-WEIGHT: normal;
+    text-decoration: none
+}
+A:active
+{
+    COLOR: #0000ff;
+    FONT-FAMILY: "Geneva", "Arial", "Helvetica", "sans-serif";
+    FONT-SIZE: 12pt;
+    FONT-STYLE: normal;
+    FONT-WEIGHT: normal;
+    text-decoration: none
+}
+A:link
+{
+    COLOR: #800080;
+    FONT-FAMILY: "Geneva", "Arial", "Helvetica", "sans-serif";
+    FONT-SIZE: 12pt;
+    FONT-STYLE: normal;
+    FONT-WEIGHT: normal;
+    text-decoration: none    
+}
+A:hover
+{
+    COLOR: #ff0000;
+    FONT-FAMILY: "Geneva", "Arial", "Helvetica", "sans-serif";
+    FONT-SIZE: 12pt;
+    FONT-STYLE: normal;
+    FONT-WEIGHT: normal;
+    text-decoration: none    
+}
+

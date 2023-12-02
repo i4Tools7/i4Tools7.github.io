@@ -1,0 +1,5253 @@
+
+<!-- saved from url=(0047)https://scms.tcc.net.tw/openchannel/menuTree.do -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+<title>SCMS作業系統(Open channel)</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<link rel="stylesheet" href="./menu.css">
+<link rel="StyleSheet" href="./dtree.css" type="text/css">
+<link rel="stylesheet" href="./FlatPanel.css" type="text/css">
+<style>
+.ringstyle {
+	position: absolute;
+	visibility: visible;
+	top: -50px;
+	font-size: 5pt;
+	font-family: Verdana;
+	color: FF0000
+}
+</style>
+<script src="./popup_windows.js.下載"></script>
+<script src="./dtree.js.下載"></script>
+<script src="./FlatPanel.js.下載"></script>
+<script src="./jquery-1.11.1.js.下載"></script>
+<script src="./ajax_util.js.下載"></script>
+
+<script>
+var x,y;
+var timer;
+var i_fontsize=0;
+var step=0;
+var thisx,thisy;
+var salingwin = null;
+
+function handlerMM(e){
+	x = (document.layers) ? e.pageX : event.clientX;
+	y = (document.layers) ? e.pageY : event.clientY;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+
+
+function setCookie(name, value, expires, path, domain, secure) {
+	   document.cookie = name + "=" + escape(value) +
+	      ((expires == null) ? "" : "; expires=" + expires.toGMTString()) +
+	      ((path == null) ? "" : "; path=" + path) +
+	      ((domain == null) ? "" : "; domain=" + domain) +
+	      ((secure == null) ? "" : "; secure");
+
+}
+//取得系統日期，此為cookie SSOXD24Date的格式
+function getDateString() {
+	var d=new Date();
+	var yyyy = d.getFullYear().toString();
+	var mm = (d.getMonth() + 101).toString().slice(-2); 	//0-11
+	var dd = (d.getDate() + 100).toString().slice(-2); 		//1-31
+	var hh = (d.getHours()+ 100).toString().slice(-2);		//0-23
+	var mi = (d.getMinutes()+ 100).toString().slice(-2);	//0-59
+	var ss = (d.getSeconds()+ 100).toString().slice(-2);	//0-59
+	return yyyy + mm + dd + hh + mi +ss;
+}
+
+function ringup(){
+	//重設操作時間，此為閒置強迫登出用途
+	setCookie("SSOXD24Date",getDateString(),null,'/','tcc.net.tw',null);
+	
+}
+
+function ringupMsgInit() {
+
+		thisx = x;
+		thisy = y;
+		ringupMsgMain();
+
+}
+
+function ringupMsgMain() {
+	return;
+	if (document.getElementById("ring")) {
+		if (i_fontsize<=1530) {
+			document.getElementById("ring").style.fontSize=i_fontsize;
+			document.getElementById("ring").style.color="rgb(255,"+Math.floor(i_fontsize/6)+","+Math.floor(i_fontsize/6)+")";
+    		document.getElementById("ring").style.posLeft=thisx-(Math.floor(i_fontsize/3));
+			document.getElementById("ring").style.posTop=thisy-(Math.floor(i_fontsize/1.4));
+			step+=4;
+			i_fontsize+=step;
+			timer=setTimeout("ringupMsgInit(2)",50);
+		} else {
+			clearTimeout(timer);
+			i_fontsize=0;
+			step=0;
+			document.getElementById("ring").style.posTop=-10000;
+		}
+	}
+}
+
+//偵測是否有延伸螢幕
+function checkExtendScreen(){
+	return window.screen.isExtended;
+}
+
+function onclicksubapp(funcLinkType, i) {
+    window.status = "funcLinkType is (else) " + funcLinkType;
+
+	if(isUserSignOnLogAvailable()){
+		//alert("isUserSignOnLogAvailable is false");
+		return;
+	} else {
+		//alert("isUserSignOnLogAvailable is true:" + funcLinkType + "/" + i);
+	}
+	if(i=="AdminLeave") {
+	   load("LeaveProfile");
+	} else if(i=="AdminOvertime") {
+	   load("OvertimeProfile");
+	} else if(i=="AdminShift") {
+	   load("ShiftProfile");
+	} else if(i=="AdminShiftTypeList") {
+	   load("ScheduleCodeProfile");
+	} else {
+		
+	   		if (funcLinkType == "T") {
+	     		parent.document.getElementById('topPanel').src=i;
+                parent.document.getElementById('MiddlePanel').src="about:blank";
+                parent.document.getElementById('bottomPanel').src="about:blank";
+
+	   		}else if (funcLinkType == "H") {
+// 	   			$("#topPanel").attr("src", i);
+                parent.document.getElementById('topPanel').src=i;
+
+			} else {
+// 	     		$("#MiddlePanel").attr("src", i);
+                parent.document.getElementById('MiddlePanel').src=i;
+                parent.document.getElementById('bottomPanel').src="about:blank";
+
+                parent.resetDivRight();
+	   		}
+
+		
+		//ringup();
+		//alert($("#topPanel").attr("src"));
+	}
+}
+
+function openInNewWindow(i) {
+	if(isUserSignOnLogAvailable()){
+		return;
+	}
+	window.open(i);
+	ringup();
+}
+
+function opennewwindow(targetUrl,pageName,pageproperty)
+{
+	if(isUserSignOnLogAvailable()){
+		return;
+	}
+    window.open(targetUrl,pageName,pageproperty);
+    ringup();
+}
+
+function resizeFrame1(panel){
+	alert('resizeFrame1 in tree');
+//   var frameSet = window.parent.mainFrame.document.getElementsByTagName("frameset")[1];
+//   if(panel == "TopPanel"){
+//     frameSet.rows="100%,*,0";
+//   }else{
+//     //if(frameSet.rows == "100%,*,*")
+//       frameSet.rows="17%,*,0";
+//   }
+}
+
+document.onmousemove = handlerMM;
+
+//判斷使用者登入狀態是否有效
+function isUserSignOnLogAvailable(){
+	
+			//ajax呼叫AjaxCommonServlet.isUserSignOnLogAvailable(), 檢查session是否有效
+			var url = "/openchannel/ajaxCommon.do";
+			//var myAjax = new Ajax.Request(url, {method: 'post', asynchronous: false});
+			var myAjax = ajaxCall ( url, null, false , null)
+			if(myAjax.readyState == 4){
+
+	        	var isAvailable = myAjax.responseText;
+
+	        	var arrayStr = isAvailable.split("|"); //分割字串存放在字串陣列 arrayStr
+
+				if(arrayStr[0] == "false"){
+					alert("帳號" + arrayStr[1] + "已經在" + arrayStr[2] + "店登入SCMS系統，此帳號不可再作業將被強制登出。");
+					//登出
+					window.top.location.href="https://scms.tcc.net.tw/sso/logout.jsp?authType=SCMS&timeOut=false&winClose=false&storeType=SC";
+					return true;
+				}
+        	}
+	
+	return false;
+}
+
+var newWinObj = new Array();
+function openDependentWindow(url, winname, winfeatures, replacebool) {
+	if (!url)
+		url = "";
+	if (!winname)
+		winname = "";
+	if (!winfeatures)
+		winfeatures = "";
+
+	var newWinObj2 = new Array();
+	for (var i = 0; i < newWinObj.length; i++) {
+		if (newWinObj && newWinObj[i] != null && !newWinObj[i].closed)
+			newWinObj2[newWinObj2.length] = newWinObj[i];
+	}
+	newWinObj = newWinObj2;
+
+	var DWinObj = window.open(url, winname, winfeatures, (!!replacebool));
+	newWinObj[newWinObj.length] = DWinObj;
+
+	if (DWinObj != null) {
+		if (DWinObj == null) {
+			DWinObj.opener = self;
+		}
+		DWinObj.focus();
+	}
+}
+
+
+ function doCloseWin() {
+
+	//window.onUnloadDWinObj();
+	for (var i = 0; i < newWinObj.length; i++) {
+
+		if (newWinObj[i] && !newWinObj[i].closed) {
+			try {
+				if (newWinObj[i].name == 'PMT') {
+					// 繳費視窗開啟時，若變數未設定初始值或是false,則設定true.繳費就不會作關機前提醒
+					if (newWinObj[i].SYSTEM_isAskForPaymentToClose == 'undefined'
+					    || newWinObj[i].SYSTEM_isAskForPaymentToClose != true) {
+						newWinObj[i].SYSTEM_isAskForPaymentToClose = true;
+					}
+
+				}
+			} catch (e) {
+				//window當前在拒絕存取狀態
+			}
+			newWinObj[i].close();
+		}
+
+	}
+}
+
+</script>
+</head>
+<body leftmargin="0" topmargin="0" bgcolor="#F0F0F0">
+
+	<div style="width: 300px;">
+
+
+		<script type="text/javascript">
+
+		var width = window.screen.width;
+		var height = window.screen.height;
+		var w_width = window.screen.width-260;//左frame=224,左右邊框=36
+		var w_height = window.screen.height-155;//不含工作列30+topframe92+上下邊框33
+
+		//20150708 alec add 記錄各區塊的Id、ImageUrl
+		var treeIDArray = [];
+		var menuImageUrlArray = [];
+		var cnt = 0;
+		//20150715 alec add 判斷是否含有子類別使用
+		var haveSubcategory = [];
+		var hasKioskQuery = false;
+		
+		
+		
+		
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeoc01";
+			menuImageUrlArray[cnt]="/images/menutree/folder_telcom.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeoc01 = new dTree('treeoc01');
+			treeoc01.config.folderLinks=false;
+			treeoc01.config.useLines=false;
+			treeoc01.config.useIcons=true;
+			treeoc01.add('oc01',-1,'電信服務');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeoc01.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0104','oc01','用戶搜尋');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			
+			 	// 開啟在SCMS主視窗TOP框架內
+				treeoc01.add(	'oc00300','oc0104','用戶搜尋','javascript:onclicksubapp(\'T\',\'/queryX_Web/CustomerKiosk_doQueryCustomer.do\')');
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+			hasKioskQuery=true;
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M93','oc01','繳費');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			
+			
+			
+			 	// 每次另開在指定同一個新視窗，並與SCMS同步關閉
+				treeoc01.add(	'oc10057','M93','行動電話繳費作業','javascript:openDependentWindow(\'/newPayment/unfinishChargeProc.do?Init=Yes\',\'PMT\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width='+width+',height='+w_height+'\');');
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			
+			
+			
+			 	// 每次另開在指定同一個新視窗，並與SCMS同步關閉
+				treeoc01.add(	'oc10062','M93','(固網類)繳費作業','javascript:openDependentWindow(\'/newPayment/tfnBillCharge.do?action=tfnBillCharge&amp;Init=Yes\',\'PMT\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width='+width+',height='+w_height+'\');');
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			
+			
+			
+			 	// 每次另開在指定同一個新視窗，並與SCMS同步關閉
+				treeoc01.add(	'oc10061','M93','(有線電視類)繳費作業','javascript:openDependentWindow(\'/newPayment/cableBillChargeProc.do?Init=Yes\',\'PMT\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width='+width+',height='+w_height+'\');');
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			
+			
+			
+			 	// 每次另開在指定同一個新視窗，並與SCMS同步關閉
+				treeoc01.add(	'oc10056','M93','取消繳款','javascript:openDependentWindow(\'/newPayment/cancelPaymentList.do?action=init\',\'PMT\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width='+width+',height='+w_height+'\');');
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10063','M93','已繳款資料查詢','javascript:onclicksubapp(\'L\',\'/newPayment/payList.do?action=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10064','M93','日結/取消日結','javascript:onclicksubapp(\'L\',\'/newPayment/dailyBalance.do?action=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10059','M93','繳費櫃暫停推薦設定','javascript:onclicksubapp(\'L\',\'/EBM/initEbmPeriod.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10058','M93','簡訊發送狀態查詢','javascript:onclicksubapp(\'L\',\'/newPayment/querySms.do?action=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			
+			
+			
+			 	// 每次另開在指定同一個新視窗，並與SCMS同步關閉
+				treeoc01.add(	'oc10116','M93','自助補單機','javascript:openDependentWindow(\'/PaymentBillPrint/scmsIndex.jsp\',\'PMTBS\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width='+width+',height='+w_height+'\');');
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0117','oc01','維繫方案作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00067','oc0117','用戶資格查詢/續約作業','javascript:onclicksubapp(\'L\',\'/rt/first/init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10083','oc0117','續約取消交易','javascript:onclicksubapp(\'L\',\'/rt/change/init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M67','oc01','拆挽退租作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10041','M67','預約退租查詢/取消','javascript:onclicksubapp(\'L\',\'/RMSV/bookChurnCancel_query.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10144','M67','拆挽續約作業','javascript:onclicksubapp(\'L\',\'/rt/first/init.action?menutree=cpRt\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0103','oc01','資料查詢');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00301','oc0103','手機/商品交易價查詢','javascript:onclicksubapp(\'L\',\'/AQNP/handsetPrice.do?method=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10117','oc0103','Myfone出貨商品庫存查詢','javascript:onclicksubapp(\'L\',\'/ScmsCommon/myfoneQueryStock.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00302','oc0103','證號名下欠費查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/CustomerQualifyQuery_doGetCustomerQualify.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10172','oc0103','證號名下門號查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/CustomerInfo_getPhoneNumberByIdInit.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00303','oc0103','基本資料查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/CustomerInfo.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00304','oc0103','帳務明細查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/CustomerBill.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00305','oc0103','加值服務查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/CustomerService.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10104','oc0103','上網速度查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/CustomerBoard_doSpeedLimitHistory.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeoc01.add(	'oc10093','oc0103','收訊強度查詢功能','javascript:openDependentWindow(\'/openchannel/redirect-url/gisStrength.jsp\',\'NewWindow_28\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M95','oc01','預繳試算');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10072','M95','過戶/一退一租預繳試算','javascript:onclicksubapp(\'L\',\'/servicechange/tryPrepayAction.do?state=initTryPrepay\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0114','oc01','門號選取作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00055','oc0114','選號及保留作業','javascript:onclicksubapp(\'L\',\'/numberbooking/numberbookOp.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00056','oc0114','店點門號查詢及取消保留','javascript:onclicksubapp(\'L\',\'/numberbooking/numberunbook.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10095','oc0114','其他店點門號表及預約號查詢','javascript:onclicksubapp(\'L\',\'/numberbooking/numberquery.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10094','oc0114','門號調撥申請進度及歷程查詢','javascript:onclicksubapp(\'L\',\'/numberbooking/numberAllotApplyInit.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00057','oc0114','過期門號展期作業','javascript:onclicksubapp(\'L\',\'/numberbooking/numberextend.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10177','oc0114','熱號回流','javascript:onclicksubapp(\'L\',\'/numberbooking/numberreturnDs.do?AFACL_QRY_FUNCID=DNB007F01\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0115','oc01','新申裝作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00059','oc0115','用戶資格查詢/新申裝作業','javascript:onclicksubapp(\'L\',\'/AQNP/subscriptionAN01.do?subscriptionType=AQ\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10082','oc0115','取消申裝','javascript:onclicksubapp(\'L\',\'/AQNP/cancellation.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00060','oc0115','新申裝申請進度查詢','javascript:onclicksubapp(\'L\',\'/AQNP/qryANProgress01.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0116','oc01','門號移入申裝作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00063','oc0116','用戶資格查詢/NP預約申裝','javascript:onclicksubapp(\'L\',\'/AQNP/subscriptionAN01.do?subscriptionType=NP\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10131','oc0116','取消NP','javascript:onclicksubapp(\'L\',\'/AQNP/changeRequestNP01.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00065','oc0116','NP申裝進度查詢','javascript:onclicksubapp(\'L\',\'/AQNP/npQuery01.do?method=loadForm\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00066','oc0116','NP用戶取消申請資格查詢','javascript:onclicksubapp(\'L\',\'/AQNP/qryCancelNP01.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M240','oc01','兩段式申裝查詢/開通作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10120','M240','兩段式申裝查詢/開通作業','javascript:onclicksubapp(\'L\',\'/AQNP/subscriptionDraftQuery.do?method=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0118','oc01','異動作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00069','oc0118','異動作業','javascript:onclicksubapp(\'L\',\'/servicechange/multipleModificationEntry.do?state=init&amp;clear=1\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00109','oc0118','付款方式修改作業','javascript:onclicksubapp(\'L\',\'/ExtraApp/installments_init.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00097','oc0118','e帳單作業','javascript:onclicksubapp(\'L\',\'/billingsupport/ebill/InitEbillSmsApply.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00070','oc0118','異動進度及補印申請書','javascript:onclicksubapp(\'L\',\'/servicechange/logQueryAction.do?state=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00071','oc0118','資費方案預約變更明細表 ','javascript:onclicksubapp(\'L\',\'/servicechange/changePackageRptAction.do?state=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00072','oc0118','異動作業明細表','javascript:onclicksubapp(\'L\',\'/servicechange/modificationDetailRptAction.do?state=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00073','oc0118','異動作業統計表','javascript:onclicksubapp(\'L\',\'/servicechange/modificationSumRptAction.do?state=init\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10051','oc0118','手機IMEI異動作業','javascript:onclicksubapp(\'L\',\'/ExtraApp/changeImei_init.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10112','oc0118','專案贈品宅配資料異動','javascript:onclicksubapp(\'L\',\'/ExtraApp/ecGiftAddress_init.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10156','oc0118','MGM/優惠關連作業','javascript:onclicksubapp(\'L\',\'/servicechange/mgmModifyTwmAction.do?state=initMgmModify\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M253','oc01','帳務作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10163','M253','轉帳申請作業','javascript:onclicksubapp(\'L\',\'/accountsReceivableWeb/applyArAction.do?state=chkInitAdd\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10164','M253','轉帳取消作業','javascript:onclicksubapp(\'L\',\'/accountsReceivableWeb/cancelArAction.do?state=chkInitAdd\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0121','oc01','預付卡作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00098','oc0121','用戶申辦資格查詢','javascript:onclicksubapp(\'L\',\'/ninpps/qryCustomerQualify.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10031','oc0121','基本資料查詢','javascript:onclicksubapp(\'L\',\'/ninpps/qrySubscrData.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10032','oc0121','加值服務查詢','javascript:onclicksubapp(\'L\',\'/ninpps/tabFrame.do?actionType=svcQuery\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10109','oc0121','上網速度查詢','javascript:onclicksubapp(\'L\',\'/ninpps/qryQosInit.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10044','oc0121','儲值查詢','javascript:onclicksubapp(\'L\',\'/ninpps/tabFrame.do?actionType=refillQuery\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10038','oc0121','加值服務記錄查詢','javascript:onclicksubapp(\'L\',\'/ninpps/initSdmpLog.do?method=initSdmpLog\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00065','oc0121','NP申裝進度查詢','javascript:onclicksubapp(\'L\',\'/AQNP/npQuery01.do?method=loadForm\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10033','oc0121','專案/優惠查詢','javascript:onclicksubapp(\'L\',\'/ninpps/qryProject.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10079','oc0121','新申裝及NP作業','javascript:onclicksubapp(\'L\',\'/ninpps/initSubscription.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10035','oc0121','加掛優惠作業','javascript:onclicksubapp(\'L\',\'/ninpps/addProject.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10084','oc0121','加掛優惠反悔作業','javascript:onclicksubapp(\'L\',\'/ninpps/cancelProject.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10036','oc0121','服務異動','javascript:onclicksubapp(\'L\',\'/ninpps/initChngIndex.do?isAlert2G3GMsg=true&amp;isAlert2GUpgradeMsg=true\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10037','oc0121','儲值卡儲值','javascript:onclicksubapp(\'L\',\'/ninpps/refillByPassword.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10065','oc0121','手機IMEI異動作業','javascript:onclicksubapp(\'L\',\'/ninpps/chgPhoneIMEI.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M258','oc01','070網路電話');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10181','M258','資料查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/Customer070.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M55','oc01','預付卡儲值');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10127','M55','預付卡儲值 (新)','javascript:onclicksubapp(\'L\',\'/newetu/mTopup/deposit\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10150','M55','網路預約/OK APP儲值','javascript:onclicksubapp(\'L\',\'/newetu/mTopup/prepayDeposit\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00082','M55','用戶儲值查詢','javascript:onclicksubapp(\'L\',\'/newetu/mOpQuery/OpQuery/UserDepositQuery\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'9170','M55','用戶餘額查詢','javascript:onclicksubapp(\'L\',\'/newetu/mOpQuery/OpQuery/queryPrepaid\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00083','M55','店點儲值明細查詢','javascript:onclicksubapp(\'L\',\'/newetu/mOpQuery/OpQuery/queryRechargeTrans\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00084','M55','商品銷售統計查詢','javascript:onclicksubapp(\'L\',\'/newetu/mOpQuery/OpQuery/querySalesSummary\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10138','M55','取消儲值作業','javascript:onclicksubapp(\'L\',\'/newetu/mTopup/cancelBalanceSB\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0124','oc01','申請書補印作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00091','oc0124','新申裝/NP申請書補印','javascript:onclicksubapp(\'L\',\'/AQNP/reprint.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00110','oc0124','續約/維繫申請書補印','javascript:onclicksubapp(\'L\',\'/rt/reprint/init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10054','oc0124','預付卡加掛優惠申請書補印','javascript:onclicksubapp(\'L\',\'/ninpps/initReprint.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10139','oc0124','預付卡新申裝/NP申請書補印','javascript:onclicksubapp(\'L\',\'/ninpps/initReprintSubscription.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('oc0122','oc01','0月租');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc00111','oc0122','再預繳-已繳款資料查詢','javascript:onclicksubapp(\'L\',\'/arZmf/CancelRecharge.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M243','oc01','行動裝置保險資料查詢');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10125','M243','月繳/年繳型查詢及提前終止','javascript:onclicksubapp(\'L\',\'/ExtraApp/insurepairQuery_init.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10173','M243','經銷手機贈送行動安心保','javascript:onclicksubapp(\'L\',\'/fia/initMobileInsurance.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M230','oc01','舊機回收作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10113','M230','舊機回收作業','javascript:onclicksubapp(\'L\',\'/ScmsCommon/commute.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc01.add('M254','oc01','家用寬頻上網');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10162','M254','家用寬頻預約供裝查詢','javascript:onclicksubapp(\'L\',\'/ExtraApp/convergenceOrderQuery_init.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10166','M254','BB工單二派作業','javascript:onclicksubapp(\'L\',\'/ExtraApp/convergence/broadbandInfoResend.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10176','M254','好速加值服務作業','javascript:onclicksubapp(\'L\',\'/ExtraApp/convergence/convergenceOrderAddService.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10170','M254','家用寬頻增鋪線路查詢','javascript:onclicksubapp(\'L\',\'/ExtraApp/convergence/queryEvaluateAddress.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10175','M254','好速案外撥核資作業','javascript:onclicksubapp(\'L\',\'/rt/custIdentify/init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeoc01.add(	'oc10191','M254','家用寬頻申裝地址檢核','javascript:openDependentWindow(\'/ExtraApp/convergenceAddrQuery.do?module=EXTRA\',\'NewWindow_106\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc01.add(	'oc10209','oc01','用戶初次申辦拍照作業','javascript:onclicksubapp(\'L\',\'/ScmsCommon/initCustPrePhoto.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+			
+				document.write(treeoc01);
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeM99";
+			menuImageUrlArray[cnt]="/images/menutree/folder_sales.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeM99 = new dTree('treeM99');
+			treeM99.config.folderLinks=false;
+			treeM99.config.useLines=false;
+			treeM99.config.useIcons=true;
+			treeM99.add('M99',-1,'銷售作業');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeM99.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM99.add('M100','M99','前台銷貨作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10000','M100','銷貨作業','javascript:onclicksubapp(\'L\',\'/newpos/saleAction_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10001','M100','銷貨查詢','javascript:onclicksubapp(\'L\',\'/newpos/saleQueryAction_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10165','M100','指定手機回收作業','javascript:onclicksubapp(\'L\',\'/newpos/RecycleA32Action_initPage_Add.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10194','M100','加盟單機銷售作業','javascript:onclicksubapp(\'L\',\'/newpos/saleAModal_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10074','M100','結帳明細表','javascript:onclicksubapp(\'L\',\'/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=SAR02\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM99.add('M101','M99','後台結帳作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10006','M101','每日關帳設定','javascript:onclicksubapp(\'L\',\'/newpos/dailyClosing_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10008','M101','每日開帳設定','javascript:onclicksubapp(\'L\',\'/newpos/dailyOpening_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM99.add('M103','M99','點數卡銷售作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10075','M103','銷貨作業(點數卡)','javascript:onclicksubapp(\'L\',\'/newpos/gameCard_createInit.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10076','M103','銷貨查詢作業(點數卡)','javascript:onclicksubapp(\'L\',\'/newpos/gameCardQuery_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM99.add(	'oc10077','M103','點數卡相關業務-對帳明細表','javascript:onclicksubapp(\'L\',\'/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=SAR46\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+			
+				document.write(treeM99);
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeM248";
+			menuImageUrlArray[cnt]="/images/menutree/folder_eshop_plateform.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeM248 = new dTree('treeM248');
+			treeM248.config.folderLinks=false;
+			treeM248.config.useLines=false;
+			treeM248.config.useIcons=true;
+			treeM248.add('M248',-1,'電商到店取貨');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeM248.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM248.add('M249','M248','門市取貨作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM248.add(	'oc10132','M249','門市收/退貨/客戶拒收作業','javascript:onclicksubapp(\'L\',\'/newpos/saleStoreReceiptGoods_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM248.add(	'oc10133','M249','到店取貨作業','javascript:onclicksubapp(\'L\',\'/newpos/storeGetGoods_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM248.add(	'oc10134','M249','到店取貨查詢作業','javascript:onclicksubapp(\'L\',\'/newpos/storeGetGoodsQuery_init.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM248.add('M250','M248','門市取貨報表');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM248.add(	'oc10135','M250','預計到貨及待收貨列印作業','javascript:onclicksubapp(\'L\',\'/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=STS03\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM248.add(	'oc10136','M250','待取貨列印作業','javascript:onclicksubapp(\'L\',\'/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=STS01\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM248.add(	'oc10137','M250','待退貨列印作業','javascript:onclicksubapp(\'L\',\'/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=STS02\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM248.add(	'oc10157','M250','經辦人明細表','javascript:onclicksubapp(\'L\',\'/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=CAPR4317\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+			
+				document.write(treeM248);
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeM118";
+			menuImageUrlArray[cnt]="/images/menutree/folder_favorite.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeM118 = new dTree('treeM118');
+			treeM118.config.folderLinks=false;
+			treeM118.config.useLines=false;
+			treeM118.config.useIcons=true;
+			treeM118.add('M118',-1,'常用連結');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeM118.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM118.add(	'oc00108','M118','銷售通路資訊網(ICSWEB)','javascript:openDependentWindow(\'http://icsvpn.tcc.net.tw/icsinfologin.aspx\',\'NewWindow_133\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM118.add(	'oc10171','M118','momo幣回饋紀錄查詢','javascript:onclicksubapp(\'L\',\'/queryX_Web/CustomerMoCoin.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM118.add(	'9165','M118','戶政司證件查詢','javascript:openDependentWindow(\'https://www.ris.gov.tw/app/portal/3014\',\'NewWindow_135\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM118.add(	'oc10066','M118','商品報修系統(TRUS)','javascript:openDependentWindow(\'/openchannel/redirect-url/ExtraWebRedirect.jsp?systemID=TRUS\',\'NewWindow_136\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM118.add(	'oc10081','M118','到店客訴作業','javascript:onclicksubapp(\'L\',\'/KioskDesk_Web/fsComplaintInit.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+			
+				document.write(treeM118);
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeM121";
+			menuImageUrlArray[cnt]="/images/menutree/folder_report.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeM121 = new dTree('treeM121');
+			treeM121.config.folderLinks=false;
+			treeM121.config.useLines=false;
+			treeM121.config.useIcons=true;
+			treeM121.add('M121',-1,'報表');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeM121.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM121.add(	'oc10188','M121','新申裝報表','javascript:onclicksubapp(\'L\',\'/AQNP/rptAQSubscription01.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM121.add(	'oc00087','M121','新申裝/NP申裝明細表','javascript:onclicksubapp(\'L\',\'/AQNP/rptANReturn01.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM121.add(	'oc00088','M121','新申裝/NP Fraud案件明細表','javascript:onclicksubapp(\'L\',\'/AQNP/rptANFraud01.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM121.add(	'oc00089','M121','維繫方案/同意書回送明細表','javascript:onclicksubapp(\'L\',\'/rt/report/rptRetention.action\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+			
+				document.write(treeM121);
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeM119";
+			menuImageUrlArray[cnt]="/images/menutree/folder_cocompany.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeM119 = new dTree('treeM119');
+			treeM119.config.folderLinks=false;
+			treeM119.config.useLines=false;
+			treeM119.config.useIcons=true;
+			treeM119.add('M119',-1,'關係企業');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeM119.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM119.add(	'oc10118','M119','TWM富邦聯名卡申請作業','javascript:onclicksubapp(\'L\',\'/fia/initCoBrandedApplyAction.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM119.add(	'oc10142','M119','凱擘預約供裝系統','javascript:openDependentWindow(\'https://booking.kbro.com.tw\',\'NewWindow_145\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM119.add(	'oc10141','M119','台媒預約供裝系統','javascript:openDependentWindow(\'https://booking.twmbroadband.net/\',\'NewWindow_146\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM119.add(	'oc10140','M119','屏南/大新店預約供裝系統','javascript:openDependentWindow(\'https://booking.cable-giant.com.tw\',\'NewWindow_147\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM119.add(	'oc10162','M119','家用寬頻預約供裝查詢','javascript:onclicksubapp(\'L\',\'/ExtraApp/convergenceOrderQuery_init.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM119.add(	'oc10166','M119','BB工單二派作業','javascript:onclicksubapp(\'L\',\'/ExtraApp/convergence/broadbandInfoResend.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+			
+				document.write(treeM119);
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeoc02";
+			menuImageUrlArray[cnt]="/images/menutree/folder_management.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeoc02 = new dTree('treeoc02');
+			treeoc02.config.folderLinks=false;
+			treeoc02.config.useLines=false;
+			treeoc02.config.useIcons=true;
+			treeoc02.add('oc02',-1,'管理權限');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeoc02.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc02.add('oc0203','oc02','帳號管理');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc02.add(	'oc00045','oc0203','解除帳號鎖定','javascript:onclicksubapp(\'L\',\'/sso/mgmt/acct/unlockacct.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc02.add(	'oc00047','oc0203','重設密碼','javascript:onclicksubapp(\'L\',\'/sso/mgmt/acct/resetpwd.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc02.add(	'oc10159','oc0203','店點櫃檯設定','javascript:onclicksubapp(\'L\',\'/KioskDesk_Web/showDeskSettingTreeFrame.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeoc02.add('M127','oc02','多門號徵審作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeoc02.add(	'oc10106','M127','多門號徵審進度查詢','javascript:onclicksubapp(\'L\',\'/ninpps/initMultiIdFrame.do?type=query\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+			
+				document.write(treeoc02);
+			
+
+			
+			
+			//20150708 alec add 記錄各區塊的Id、ImageUrl
+			
+			treeIDArray[cnt]="treeM120";
+			menuImageUrlArray[cnt]="/images/menutree/folder_other.png";
+			//20150715 alec add 紀錄子類別有無資料-預設無
+			haveSubcategory[cnt]=false;
+			cnt++;
+			treeM120 = new dTree('treeM120');
+			treeM120.config.folderLinks=false;
+			treeM120.config.useLines=false;
+			treeM120.config.useIcons=true;
+			treeM120.add('M120',-1,'其他');
+		
+
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+				// 登入後系統自動觸發開啟，另開在不同的新視窗，並與SCMS同步關閉
+				treeM120.add(	'','oc00','','javascript:onclicksubapp(\'\',\'\')');
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM120.add('M128','M120','贈品相關作業');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM120.add(	'oc00213','M128','贈品活動專案查詢','javascript:onclicksubapp(\'L\',\'/pbc/jsp/searchQueryInit.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM120.add(	'oc00212','M128','贈品兌換作業','javascript:onclicksubapp(\'L\',\'/pbc/jsp/exchangeInit.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM120.add(	'oc10086','M128','贈品預約查詢/取消作業','javascript:onclicksubapp(\'L\',\'/pbc/jsp/resCancelInt.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM120.add(	'oc10126','M120','Happy New Year 兔 You抽獎','javascript:onclicksubapp(\'L\',\'/pbc/lottery/execFillInit.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM120.add('M129','M120','關於台灣大哥大');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM120.add(	'oc00099','M129','經營理念與團隊','javascript:openDependentWindow(\'http://corp.taiwanmobile.com/company-profile/brand-concept.html\',\'NewWindow_164\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			 	// 每次另開在固定同一個新視窗，並與SCMS同步關閉
+				treeM120.add(	'oc00100','M129','里程碑','javascript:openDependentWindow(\'http://corp.taiwanmobile.com/twmg/milestone.do?method=enterPage\',\'NewWindow_165\',\'resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width='+width+',height='+height+'\');');
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+			treeM120.add('M251','M120','用戶端螢幕');
+		
+
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM120.add(	'oc10208','M251','顯示資訊(銷售/不樂見行為)','javascript:onclicksubapp(\'L\',\'/ExtraApp/plsales_initItemShow.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			
+			
+			
+			
+			
+			
+	  		
+			
+			  	// 登入後系統自動觸發開啟，另開在延伸螢幕相同一個新視窗，並與SCMS同步關閉
+				//如果有外螢幕，彈跳出廣告輪播 登入時開啟，登出時關閉
+				if (checkExtendScreen()) {
+					treeM120.add(	'oc10147','M251','更新輪撥廣告','javascript:openDependentWindow(\'/ExtraApp/plsales_initItemSaling.do\',\'NewWindow_168\',\'resize=no, resizable=no, menubar=no, scrollbars=no,channelmode=no,toolbar=no,location=no,status=no,top=0,left=' + (screen.width +1) + ',width=768,height=1024\');');
+					openDependentWindow('/ExtraApp/plsales_initItemSaling.do','NewWindow_168','resize=no, resizable=no, menubar=no, scrollbars=no,channelmode=no,toolbar=no,location=no,status=no,top=0,left=' + (screen.width + 1) + ',width=768,height=1024');
+				}else{
+					treeM120.add(	'oc10147','M251','更新輪撥廣告','javascript:void()');
+				}
+			
+			
+			
+			
+			
+		
+		
+
+		
+		
+    	
+		
+
+		
+			//20150715 alec add 紀錄子類別有資料
+			haveSubcategory[cnt-1]=true;
+		
+		
+
+		
+		
+			 	// 開啟在SCMS主視窗VIEW框架內
+				treeM120.add(	'oc10160','M120','無紙化作業事務機掃瞄測試','javascript:onclicksubapp(\'L\',\'/ScmsCommon/ImageFileTest.do\')');
+			
+			
+			
+			
+			
+			
+	  		
+			
+			
+			
+			
+			
+			
+		
+		
+
+		
+			document.write(treeM120);
+		
+		
+    	
+    	var openFlag=true;
+		//20150708 alec add 套用FlatPanel.js 去實現展開/縮回各模組
+    	for(var i=0; i<treeIDArray.length; i++ ){
+    		//20150715 alec add 判斷子類別有無資料若無資料則不顯示主類別
+    		if(haveSubcategory[i]){
+    			new FlatPanel(menuImageUrlArray[i],treeIDArray[i],2,openFlag);
+    			openFlag=false;
+    		}
+    	}
+
+
+	</script><div class="dtree">
+<div id="treeoc01" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_telcom.png" style="cursor: pointer;"></div><div class="FlatPanelBody"> <a href="javascript:javascript:treeoc01.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeoc01.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeoc010" class="clip" style="display:block;"><div class="dTreeNode"><img id="itreeoc012" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(2);" class="node">用戶搜尋</a></div><div id="dtreeoc012" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc013" src="./point.gif" alt=""><a id="streeoc013" class="node" href="javascript:onclicksubapp(&#39;T&#39;,&#39;/queryX_Web/CustomerKiosk_doQueryCustomer.do&#39;)" onclick="javascript: treeoc01.s(3);">用戶搜尋</a></div></div><div class="dTreeNode"><img id="itreeoc014" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(4);" class="node">繳費</a></div><div id="dtreeoc014" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc015" src="./point.gif" alt=""><a id="streeoc015" class="node" href="javascript:openDependentWindow(&#39;/newPayment/unfinishChargeProc.do?Init=Yes&#39;,&#39;PMT&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width=1024,height=613&#39;);" onclick="javascript: treeoc01.s(5);">行動電話繳費作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc016" src="./point.gif" alt=""><a id="streeoc016" class="node" href="javascript:openDependentWindow(&#39;/newPayment/tfnBillCharge.do?action=tfnBillCharge&amp;Init=Yes&#39;,&#39;PMT&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width=1024,height=613&#39;);" onclick="javascript: treeoc01.s(6);">(固網類)繳費作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc017" src="./point.gif" alt=""><a id="streeoc017" class="node" href="javascript:openDependentWindow(&#39;/newPayment/cableBillChargeProc.do?Init=Yes&#39;,&#39;PMT&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width=1024,height=613&#39;);" onclick="javascript: treeoc01.s(7);">(有線電視類)繳費作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc018" src="./point.gif" alt=""><a id="streeoc018" class="node" href="javascript:openDependentWindow(&#39;/newPayment/cancelPaymentList.do?action=init&#39;,&#39;PMT&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width=1024,height=613&#39;);" onclick="javascript: treeoc01.s(8);">取消繳款</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc019" src="./point.gif" alt=""><a id="streeoc019" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newPayment/payList.do?action=init&#39;)" onclick="javascript: treeoc01.s(9);">已繳款資料查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0110" src="./point.gif" alt=""><a id="streeoc0110" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newPayment/dailyBalance.do?action=init&#39;)" onclick="javascript: treeoc01.s(10);">日結/取消日結</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0111" src="./point.gif" alt=""><a id="streeoc0111" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/EBM/initEbmPeriod.do&#39;)" onclick="javascript: treeoc01.s(11);">繳費櫃暫停推薦設定</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0112" src="./point.gif" alt=""><a id="streeoc0112" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newPayment/querySms.do?action=init&#39;)" onclick="javascript: treeoc01.s(12);">簡訊發送狀態查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0113" src="./point.gif" alt=""><a id="streeoc0113" class="node" href="javascript:openDependentWindow(&#39;/PaymentBillPrint/scmsIndex.jsp&#39;,&#39;PMTBS&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=92,left=0,width=1024,height=613&#39;);" onclick="javascript: treeoc01.s(13);">自助補單機</a></div></div><div class="dTreeNode"><img id="itreeoc0114" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(14);" class="node">維繫方案作業</a></div><div id="dtreeoc0114" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0115" src="./point.gif" alt=""><a id="streeoc0115" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/rt/first/init.action&#39;)" onclick="javascript: treeoc01.s(15);">用戶資格查詢/續約作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0116" src="./point.gif" alt=""><a id="streeoc0116" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/rt/change/init.action&#39;)" onclick="javascript: treeoc01.s(16);">續約取消交易</a></div></div><div class="dTreeNode"><img id="itreeoc0117" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(17);" class="node">拆挽退租作業</a></div><div id="dtreeoc0117" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0118" src="./point.gif" alt=""><a id="streeoc0118" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/RMSV/bookChurnCancel_query.do&#39;)" onclick="javascript: treeoc01.s(18);">預約退租查詢/取消</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0119" src="./point.gif" alt=""><a id="streeoc0119" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/rt/first/init.action?menutree=cpRt&#39;)" onclick="javascript: treeoc01.s(19);">拆挽續約作業</a></div></div><div class="dTreeNode"><img id="itreeoc0120" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(20);" class="node">資料查詢</a></div><div id="dtreeoc0120" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0121" src="./point.gif" alt=""><a id="streeoc0121" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/handsetPrice.do?method=init&#39;)" onclick="javascript: treeoc01.s(21);">手機/商品交易價查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0122" src="./point.gif" alt=""><a id="streeoc0122" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ScmsCommon/myfoneQueryStock.do&#39;)" onclick="javascript: treeoc01.s(22);">Myfone出貨商品庫存查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0123" src="./point.gif" alt=""><a id="streeoc0123" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/CustomerQualifyQuery_doGetCustomerQualify.do&#39;)" onclick="javascript: treeoc01.s(23);">證號名下欠費查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0124" src="./point.gif" alt=""><a id="streeoc0124" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/CustomerInfo_getPhoneNumberByIdInit.do&#39;)" onclick="javascript: treeoc01.s(24);">證號名下門號查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0125" src="./point.gif" alt=""><a id="streeoc0125" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/CustomerInfo.do&#39;)" onclick="javascript: treeoc01.s(25);">基本資料查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0126" src="./point.gif" alt=""><a id="streeoc0126" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/CustomerBill.do&#39;)" onclick="javascript: treeoc01.s(26);">帳務明細查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0127" src="./point.gif" alt=""><a id="streeoc0127" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/CustomerService.do&#39;)" onclick="javascript: treeoc01.s(27);">加值服務查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0128" src="./point.gif" alt=""><a id="streeoc0128" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/CustomerBoard_doSpeedLimitHistory.do&#39;)" onclick="javascript: treeoc01.s(28);">上網速度查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0129" src="./point.gif" alt=""><a id="streeoc0129" class="node" href="javascript:openDependentWindow(&#39;/openchannel/redirect-url/gisStrength.jsp&#39;,&#39;NewWindow_28&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeoc01.s(29);">收訊強度查詢功能</a></div></div><div class="dTreeNode"><img id="itreeoc0130" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(30);" class="node">預繳試算</a></div><div id="dtreeoc0130" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0131" src="./point.gif" alt=""><a id="streeoc0131" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/servicechange/tryPrepayAction.do?state=initTryPrepay&#39;)" onclick="javascript: treeoc01.s(31);">過戶/一退一租預繳試算</a></div></div><div class="dTreeNode"><img id="itreeoc0132" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(32);" class="node">門號選取作業</a></div><div id="dtreeoc0132" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0133" src="./point.gif" alt=""><a id="streeoc0133" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/numberbooking/numberbookOp.do&#39;)" onclick="javascript: treeoc01.s(33);">選號及保留作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0134" src="./point.gif" alt=""><a id="streeoc0134" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/numberbooking/numberunbook.do&#39;)" onclick="javascript: treeoc01.s(34);">店點門號查詢及取消保留</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0135" src="./point.gif" alt=""><a id="streeoc0135" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/numberbooking/numberquery.do&#39;)" onclick="javascript: treeoc01.s(35);">其他店點門號表及預約號查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0136" src="./point.gif" alt=""><a id="streeoc0136" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/numberbooking/numberAllotApplyInit.do&#39;)" onclick="javascript: treeoc01.s(36);">門號調撥申請進度及歷程查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0137" src="./point.gif" alt=""><a id="streeoc0137" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/numberbooking/numberextend.do&#39;)" onclick="javascript: treeoc01.s(37);">過期門號展期作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0138" src="./point.gif" alt=""><a id="streeoc0138" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/numberbooking/numberreturnDs.do?AFACL_QRY_FUNCID=DNB007F01&#39;)" onclick="javascript: treeoc01.s(38);">熱號回流</a></div></div><div class="dTreeNode"><img id="itreeoc0139" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(39);" class="node">新申裝作業</a></div><div id="dtreeoc0139" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0140" src="./point.gif" alt=""><a id="streeoc0140" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/subscriptionAN01.do?subscriptionType=AQ&#39;)" onclick="javascript: treeoc01.s(40);">用戶資格查詢/新申裝作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0141" src="./point.gif" alt=""><a id="streeoc0141" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/cancellation.do&#39;)" onclick="javascript: treeoc01.s(41);">取消申裝</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0142" src="./point.gif" alt=""><a id="streeoc0142" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/qryANProgress01.do&#39;)" onclick="javascript: treeoc01.s(42);">新申裝申請進度查詢</a></div></div><div class="dTreeNode"><img id="itreeoc0143" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(43);" class="node">門號移入申裝作業</a></div><div id="dtreeoc0143" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0144" src="./point.gif" alt=""><a id="streeoc0144" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/subscriptionAN01.do?subscriptionType=NP&#39;)" onclick="javascript: treeoc01.s(44);">用戶資格查詢/NP預約申裝</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0145" src="./point.gif" alt=""><a id="streeoc0145" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/changeRequestNP01.do&#39;)" onclick="javascript: treeoc01.s(45);">取消NP</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0146" src="./point.gif" alt=""><a id="streeoc0146" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/npQuery01.do?method=loadForm&#39;)" onclick="javascript: treeoc01.s(46);">NP申裝進度查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0147" src="./point.gif" alt=""><a id="streeoc0147" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/qryCancelNP01.do&#39;)" onclick="javascript: treeoc01.s(47);">NP用戶取消申請資格查詢</a></div></div><div class="dTreeNode"><img id="itreeoc0148" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(48);" class="node">兩段式申裝查詢/開通作業</a></div><div id="dtreeoc0148" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0149" src="./point.gif" alt=""><a id="streeoc0149" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/subscriptionDraftQuery.do?method=init&#39;)" onclick="javascript: treeoc01.s(49);">兩段式申裝查詢/開通作業</a></div></div><div class="dTreeNode"><img id="itreeoc0150" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(50);" class="node">異動作業</a></div><div id="dtreeoc0150" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0151" src="./point.gif" alt=""><a id="streeoc0151" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/servicechange/multipleModificationEntry.do?state=init&amp;clear=1&#39;)" onclick="javascript: treeoc01.s(51);">異動作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0152" src="./point.gif" alt=""><a id="streeoc0152" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/installments_init.do&#39;)" onclick="javascript: treeoc01.s(52);">付款方式修改作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0153" src="./point.gif" alt=""><a id="streeoc0153" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/billingsupport/ebill/InitEbillSmsApply.do&#39;)" onclick="javascript: treeoc01.s(53);">e帳單作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0154" src="./point.gif" alt=""><a id="streeoc0154" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/servicechange/logQueryAction.do?state=init&#39;)" onclick="javascript: treeoc01.s(54);">異動進度及補印申請書</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0155" src="./point.gif" alt=""><a id="streeoc0155" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/servicechange/changePackageRptAction.do?state=init&#39;)" onclick="javascript: treeoc01.s(55);">資費方案預約變更明細表 </a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0156" src="./point.gif" alt=""><a id="streeoc0156" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/servicechange/modificationDetailRptAction.do?state=init&#39;)" onclick="javascript: treeoc01.s(56);">異動作業明細表</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0157" src="./point.gif" alt=""><a id="streeoc0157" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/servicechange/modificationSumRptAction.do?state=init&#39;)" onclick="javascript: treeoc01.s(57);">異動作業統計表</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0158" src="./point.gif" alt=""><a id="streeoc0158" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/changeImei_init.do&#39;)" onclick="javascript: treeoc01.s(58);">手機IMEI異動作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0159" src="./point.gif" alt=""><a id="streeoc0159" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/ecGiftAddress_init.do&#39;)" onclick="javascript: treeoc01.s(59);">專案贈品宅配資料異動</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0160" src="./point.gif" alt=""><a id="streeoc0160" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/servicechange/mgmModifyTwmAction.do?state=initMgmModify&#39;)" onclick="javascript: treeoc01.s(60);">MGM/優惠關連作業</a></div></div><div class="dTreeNode"><img id="itreeoc0161" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(61);" class="node">帳務作業</a></div><div id="dtreeoc0161" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0162" src="./point.gif" alt=""><a id="streeoc0162" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/accountsReceivableWeb/applyArAction.do?state=chkInitAdd&#39;)" onclick="javascript: treeoc01.s(62);">轉帳申請作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0163" src="./point.gif" alt=""><a id="streeoc0163" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/accountsReceivableWeb/cancelArAction.do?state=chkInitAdd&#39;)" onclick="javascript: treeoc01.s(63);">轉帳取消作業</a></div></div><div class="dTreeNode"><img id="itreeoc0164" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(64);" class="node">預付卡作業</a></div><div id="dtreeoc0164" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0165" src="./point.gif" alt=""><a id="streeoc0165" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/qryCustomerQualify.do&#39;)" onclick="javascript: treeoc01.s(65);">用戶申辦資格查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0166" src="./point.gif" alt=""><a id="streeoc0166" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/qrySubscrData.do&#39;)" onclick="javascript: treeoc01.s(66);">基本資料查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0167" src="./point.gif" alt=""><a id="streeoc0167" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/tabFrame.do?actionType=svcQuery&#39;)" onclick="javascript: treeoc01.s(67);">加值服務查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0168" src="./point.gif" alt=""><a id="streeoc0168" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/qryQosInit.do&#39;)" onclick="javascript: treeoc01.s(68);">上網速度查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0169" src="./point.gif" alt=""><a id="streeoc0169" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/tabFrame.do?actionType=refillQuery&#39;)" onclick="javascript: treeoc01.s(69);">儲值查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0170" src="./point.gif" alt=""><a id="streeoc0170" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/initSdmpLog.do?method=initSdmpLog&#39;)" onclick="javascript: treeoc01.s(70);">加值服務記錄查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0171" src="./point.gif" alt=""><a id="streeoc0171" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/npQuery01.do?method=loadForm&#39;)" onclick="javascript: treeoc01.s(71);">NP申裝進度查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0172" src="./point.gif" alt=""><a id="streeoc0172" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/qryProject.do&#39;)" onclick="javascript: treeoc01.s(72);">專案/優惠查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0173" src="./point.gif" alt=""><a id="streeoc0173" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/initSubscription.do&#39;)" onclick="javascript: treeoc01.s(73);">新申裝及NP作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0174" src="./point.gif" alt=""><a id="streeoc0174" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/addProject.do&#39;)" onclick="javascript: treeoc01.s(74);">加掛優惠作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0175" src="./point.gif" alt=""><a id="streeoc0175" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/cancelProject.do&#39;)" onclick="javascript: treeoc01.s(75);">加掛優惠反悔作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0176" src="./point.gif" alt=""><a id="streeoc0176" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/initChngIndex.do?isAlert2G3GMsg=true&amp;isAlert2GUpgradeMsg=true&#39;)" onclick="javascript: treeoc01.s(76);">服務異動</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0177" src="./point.gif" alt=""><a id="streeoc0177" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/refillByPassword.do&#39;)" onclick="javascript: treeoc01.s(77);">儲值卡儲值</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0178" src="./point.gif" alt=""><a id="streeoc0178" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/chgPhoneIMEI.do&#39;)" onclick="javascript: treeoc01.s(78);">手機IMEI異動作業</a></div></div><div class="dTreeNode"><img id="itreeoc0179" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(79);" class="node">070網路電話</a></div><div id="dtreeoc0179" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0180" src="./point.gif" alt=""><a id="streeoc0180" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/Customer070.do&#39;)" onclick="javascript: treeoc01.s(80);">資料查詢</a></div></div><div class="dTreeNode"><img id="itreeoc0181" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(81);" class="node">預付卡儲值</a></div><div id="dtreeoc0181" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0182" src="./point.gif" alt=""><a id="streeoc0182" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newetu/mTopup/deposit&#39;)" onclick="javascript: treeoc01.s(82);">預付卡儲值 (新)</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0183" src="./point.gif" alt=""><a id="streeoc0183" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newetu/mTopup/prepayDeposit&#39;)" onclick="javascript: treeoc01.s(83);">網路預約/OK APP儲值</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0184" src="./point.gif" alt=""><a id="streeoc0184" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newetu/mOpQuery/OpQuery/UserDepositQuery&#39;)" onclick="javascript: treeoc01.s(84);">用戶儲值查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0185" src="./point.gif" alt=""><a id="streeoc0185" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newetu/mOpQuery/OpQuery/queryPrepaid&#39;)" onclick="javascript: treeoc01.s(85);">用戶餘額查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0186" src="./point.gif" alt=""><a id="streeoc0186" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newetu/mOpQuery/OpQuery/queryRechargeTrans&#39;)" onclick="javascript: treeoc01.s(86);">店點儲值明細查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0187" src="./point.gif" alt=""><a id="streeoc0187" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newetu/mOpQuery/OpQuery/querySalesSummary&#39;)" onclick="javascript: treeoc01.s(87);">商品銷售統計查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0188" src="./point.gif" alt=""><a id="streeoc0188" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newetu/mTopup/cancelBalanceSB&#39;)" onclick="javascript: treeoc01.s(88);">取消儲值作業</a></div></div><div class="dTreeNode"><img id="itreeoc0189" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(89);" class="node">申請書補印作業</a></div><div id="dtreeoc0189" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0190" src="./point.gif" alt=""><a id="streeoc0190" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/reprint.do&#39;)" onclick="javascript: treeoc01.s(90);">新申裝/NP申請書補印</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0191" src="./point.gif" alt=""><a id="streeoc0191" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/rt/reprint/init.action&#39;)" onclick="javascript: treeoc01.s(91);">續約/維繫申請書補印</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0192" src="./point.gif" alt=""><a id="streeoc0192" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/initReprint.do&#39;)" onclick="javascript: treeoc01.s(92);">預付卡加掛優惠申請書補印</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0193" src="./point.gif" alt=""><a id="streeoc0193" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/initReprintSubscription.do&#39;)" onclick="javascript: treeoc01.s(93);">預付卡新申裝/NP申請書補印</a></div></div><div class="dTreeNode"><img id="itreeoc0194" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(94);" class="node">0月租</a></div><div id="dtreeoc0194" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0195" src="./point.gif" alt=""><a id="streeoc0195" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/arZmf/CancelRecharge.do&#39;)" onclick="javascript: treeoc01.s(95);">再預繳-已繳款資料查詢</a></div></div><div class="dTreeNode"><img id="itreeoc0196" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(96);" class="node">行動裝置保險資料查詢</a></div><div id="dtreeoc0196" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0197" src="./point.gif" alt=""><a id="streeoc0197" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/insurepairQuery_init.do&#39;)" onclick="javascript: treeoc01.s(97);">月繳/年繳型查詢及提前終止</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc0198" src="./point.gif" alt=""><a id="streeoc0198" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/fia/initMobileInsurance.do&#39;)" onclick="javascript: treeoc01.s(98);">經銷手機贈送行動安心保</a></div></div><div class="dTreeNode"><img id="itreeoc0199" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(99);" class="node">舊機回收作業</a></div><div id="dtreeoc0199" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc01100" src="./point.gif" alt=""><a id="streeoc01100" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ScmsCommon/commute.do&#39;)" onclick="javascript: treeoc01.s(100);">舊機回收作業</a></div></div><div class="dTreeNode"><img id="itreeoc01101" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc01.o(101);" class="node">家用寬頻上網</a></div><div id="dtreeoc01101" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc01102" src="./point.gif" alt=""><a id="streeoc01102" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/convergenceOrderQuery_init.do&#39;)" onclick="javascript: treeoc01.s(102);">家用寬頻預約供裝查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc01103" src="./point.gif" alt=""><a id="streeoc01103" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/convergence/broadbandInfoResend.do&#39;)" onclick="javascript: treeoc01.s(103);">BB工單二派作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc01104" src="./point.gif" alt=""><a id="streeoc01104" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/convergence/convergenceOrderAddService.do&#39;)" onclick="javascript: treeoc01.s(104);">好速加值服務作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc01105" src="./point.gif" alt=""><a id="streeoc01105" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/convergence/queryEvaluateAddress.do&#39;)" onclick="javascript: treeoc01.s(105);">家用寬頻增鋪線路查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc01106" src="./point.gif" alt=""><a id="streeoc01106" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/rt/custIdentify/init.action&#39;)" onclick="javascript: treeoc01.s(106);">好速案外撥核資作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc01107" src="./point.gif" alt=""><a id="streeoc01107" class="node" href="javascript:openDependentWindow(&#39;/ExtraApp/convergenceAddrQuery.do?module=EXTRA&#39;,&#39;NewWindow_106&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeoc01.s(107);">家用寬頻申裝地址檢核</a></div></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeoc01108" src="./point.gif" alt=""><a id="streeoc01108" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ScmsCommon/initCustPrePhoto.do&#39;)" onclick="javascript: treeoc01.s(108);">用戶初次申辦拍照作業</a></div></div></div></div></div></div><div class="dtree">
+<div id="treeM99" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_sales.png" style="cursor: pointer;"></div><div class="FlatPanelBody" style="display: none;"> <a href="javascript:javascript:treeM99.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeM99.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeM990" class="clip" style="display:block;"><div class="dTreeNode"><img id="itreeM992" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM99.o(2);" class="node">前台銷貨作業</a></div><div id="dtreeM992" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM993" src="./point.gif" alt=""><a id="streeM993" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/saleAction_init.action&#39;)" onclick="javascript: treeM99.s(3);">銷貨作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM994" src="./point.gif" alt=""><a id="streeM994" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/saleQueryAction_init.action&#39;)" onclick="javascript: treeM99.s(4);">銷貨查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM995" src="./point.gif" alt=""><a id="streeM995" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/RecycleA32Action_initPage_Add.action&#39;)" onclick="javascript: treeM99.s(5);">指定手機回收作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM996" src="./point.gif" alt=""><a id="streeM996" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/saleAModal_init.action&#39;)" onclick="javascript: treeM99.s(6);">加盟單機銷售作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM997" src="./point.gif" alt=""><a id="streeM997" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=SAR02&#39;)" onclick="javascript: treeM99.s(7);">結帳明細表</a></div></div><div class="dTreeNode"><img id="itreeM998" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM99.o(8);" class="node">後台結帳作業</a></div><div id="dtreeM998" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM999" src="./point.gif" alt=""><a id="streeM999" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/dailyClosing_init.action&#39;)" onclick="javascript: treeM99.s(9);">每日關帳設定</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM9910" src="./point.gif" alt=""><a id="streeM9910" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/dailyOpening_init.action&#39;)" onclick="javascript: treeM99.s(10);">每日開帳設定</a></div></div><div class="dTreeNode"><img id="itreeM9911" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM99.o(11);" class="node">點數卡銷售作業</a></div><div id="dtreeM9911" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM9912" src="./point.gif" alt=""><a id="streeM9912" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/gameCard_createInit.action&#39;)" onclick="javascript: treeM99.s(12);">銷貨作業(點數卡)</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM9913" src="./point.gif" alt=""><a id="streeM9913" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/gameCardQuery_init.action&#39;)" onclick="javascript: treeM99.s(13);">銷貨查詢作業(點數卡)</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM9914" src="./point.gif" alt=""><a id="streeM9914" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=SAR46&#39;)" onclick="javascript: treeM99.s(14);">點數卡相關業務-對帳明細表</a></div></div></div></div></div></div><div class="dtree">
+<div id="treeM248" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_eshop_plateform.png" style="cursor: pointer;"></div><div class="FlatPanelBody" style="display: none;"> <a href="javascript:javascript:treeM248.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeM248.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeM2480" class="clip" style="display:block;"><div class="dTreeNode"><img id="itreeM2482" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM248.o(2);" class="node">門市取貨作業</a></div><div id="dtreeM2482" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM2483" src="./point.gif" alt=""><a id="streeM2483" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/saleStoreReceiptGoods_init.action&#39;)" onclick="javascript: treeM248.s(3);">門市收/退貨/客戶拒收作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM2484" src="./point.gif" alt=""><a id="streeM2484" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/storeGetGoods_init.action&#39;)" onclick="javascript: treeM248.s(4);">到店取貨作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM2485" src="./point.gif" alt=""><a id="streeM2485" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/storeGetGoodsQuery_init.action&#39;)" onclick="javascript: treeM248.s(5);">到店取貨查詢作業</a></div></div><div class="dTreeNode"><img id="itreeM2486" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM248.o(6);" class="node">門市取貨報表</a></div><div id="dtreeM2486" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM2487" src="./point.gif" alt=""><a id="streeM2487" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=STS03&#39;)" onclick="javascript: treeM248.s(7);">預計到貨及待收貨列印作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM2488" src="./point.gif" alt=""><a id="streeM2488" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=STS01&#39;)" onclick="javascript: treeM248.s(8);">待取貨列印作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM2489" src="./point.gif" alt=""><a id="streeM2489" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=STS02&#39;)" onclick="javascript: treeM248.s(9);">待退貨列印作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM24810" src="./point.gif" alt=""><a id="streeM24810" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/newpos/sysReportManagerAction_dispPrintReportPage.action?reportId=CAPR4317&#39;)" onclick="javascript: treeM248.s(10);">經辦人明細表</a></div></div></div></div></div></div><div class="dtree">
+<div id="treeM118" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_favorite.png" style="cursor: pointer;"></div><div class="FlatPanelBody" style="display: none;"> <a href="javascript:javascript:treeM118.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeM118.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeM1180" class="clip" style="display:block;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1182" src="./point.gif" alt=""><a id="streeM1182" class="node" href="javascript:openDependentWindow(&#39;http://icsvpn.tcc.net.tw/icsinfologin.aspx&#39;,&#39;NewWindow_133&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM118.s(2);">銷售通路資訊網(ICSWEB)</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1183" src="./point.gif" alt=""><a id="streeM1183" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/queryX_Web/CustomerMoCoin.do&#39;)" onclick="javascript: treeM118.s(3);">momo幣回饋紀錄查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1184" src="./point.gif" alt=""><a id="streeM1184" class="node" href="javascript:openDependentWindow(&#39;https://www.ris.gov.tw/app/portal/3014&#39;,&#39;NewWindow_135&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM118.s(4);">戶政司證件查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1185" src="./point.gif" alt=""><a id="streeM1185" class="node" href="javascript:openDependentWindow(&#39;/openchannel/redirect-url/ExtraWebRedirect.jsp?systemID=TRUS&#39;,&#39;NewWindow_136&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM118.s(5);">商品報修系統(TRUS)</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1186" src="./point.gif" alt=""><a id="streeM1186" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/KioskDesk_Web/fsComplaintInit.do&#39;)" onclick="javascript: treeM118.s(6);">到店客訴作業</a></div></div></div></div></div><div class="dtree">
+<div id="treeM121" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_report.png" style="cursor: pointer;"></div><div class="FlatPanelBody" style="display: none;"> <a href="javascript:javascript:treeM121.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeM121.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeM1210" class="clip" style="display:block;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1212" src="./point.gif" alt=""><a id="streeM1212" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/rptAQSubscription01.do&#39;)" onclick="javascript: treeM121.s(2);">新申裝報表</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1213" src="./point.gif" alt=""><a id="streeM1213" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/rptANReturn01.do&#39;)" onclick="javascript: treeM121.s(3);">新申裝/NP申裝明細表</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1214" src="./point.gif" alt=""><a id="streeM1214" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/AQNP/rptANFraud01.do&#39;)" onclick="javascript: treeM121.s(4);">新申裝/NP Fraud案件明細表</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1215" src="./point.gif" alt=""><a id="streeM1215" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/rt/report/rptRetention.action&#39;)" onclick="javascript: treeM121.s(5);">維繫方案/同意書回送明細表</a></div></div></div></div></div><div class="dtree">
+<div id="treeM119" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_cocompany.png" style="cursor: pointer;"></div><div class="FlatPanelBody" style="display: none;"> <a href="javascript:javascript:treeM119.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeM119.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeM1190" class="clip" style="display:block;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1192" src="./point.gif" alt=""><a id="streeM1192" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/fia/initCoBrandedApplyAction.do&#39;)" onclick="javascript: treeM119.s(2);">TWM富邦聯名卡申請作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1193" src="./point.gif" alt=""><a id="streeM1193" class="node" href="javascript:openDependentWindow(&#39;https://booking.kbro.com.tw&#39;,&#39;NewWindow_145&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM119.s(3);">凱擘預約供裝系統</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1194" src="./point.gif" alt=""><a id="streeM1194" class="node" href="javascript:openDependentWindow(&#39;https://booking.twmbroadband.net/&#39;,&#39;NewWindow_146&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM119.s(4);">台媒預約供裝系統</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1195" src="./point.gif" alt=""><a id="streeM1195" class="node" href="javascript:openDependentWindow(&#39;https://booking.cable-giant.com.tw&#39;,&#39;NewWindow_147&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM119.s(5);">屏南/大新店預約供裝系統</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1196" src="./point.gif" alt=""><a id="streeM1196" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/convergenceOrderQuery_init.do&#39;)" onclick="javascript: treeM119.s(6);">家用寬頻預約供裝查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1197" src="./point.gif" alt=""><a id="streeM1197" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/convergence/broadbandInfoResend.do&#39;)" onclick="javascript: treeM119.s(7);">BB工單二派作業</a></div></div></div></div></div><div class="dtree">
+<div id="treeoc02" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_management.png" style="cursor: pointer;"></div><div class="FlatPanelBody" style="display: none;"> <a href="javascript:javascript:treeoc02.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeoc02.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeoc020" class="clip" style="display:block;"><div class="dTreeNode"><img id="itreeoc022" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc02.o(2);" class="node">帳號管理</a></div><div id="dtreeoc022" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc023" src="./point.gif" alt=""><a id="streeoc023" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/sso/mgmt/acct/unlockacct.do&#39;)" onclick="javascript: treeoc02.s(3);">解除帳號鎖定</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc024" src="./point.gif" alt=""><a id="streeoc024" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/sso/mgmt/acct/resetpwd.do&#39;)" onclick="javascript: treeoc02.s(4);">重設密碼</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc025" src="./point.gif" alt=""><a id="streeoc025" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/KioskDesk_Web/showDeskSettingTreeFrame.do&#39;)" onclick="javascript: treeoc02.s(5);">店點櫃檯設定</a></div></div><div class="dTreeNode"><img id="itreeoc026" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeoc02.o(6);" class="node">多門號徵審作業</a></div><div id="dtreeoc026" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeoc027" src="./point.gif" alt=""><a id="streeoc027" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ninpps/initMultiIdFrame.do?type=query&#39;)" onclick="javascript: treeoc02.s(7);">多門號徵審進度查詢</a></div></div></div></div></div></div><div class="dtree">
+<div id="treeM120" class="FlatPanel"><div class="FlatPanelHead"><img src="./folder_other.png" style="cursor: pointer;"></div><div class="FlatPanelBody" style="display: none;"> <a href="javascript:javascript:treeM120.oAll(true);"><img border="0" src="./expendall.gif" title="�����i�}"></a> <a href="javascript:javascript:treeM120.oAll(false);"><img border="0" src="./collapseall.gif" title="�������X"></a><div class="dTreeNode"></div><div id="dtreeM1200" class="clip" style="display:block;"><div class="dTreeNode"><img id="itreeM1202" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM120.o(2);" class="node">贈品相關作業</a></div><div id="dtreeM1202" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM1203" src="./point.gif" alt=""><a id="streeM1203" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/pbc/jsp/searchQueryInit.do&#39;)" onclick="javascript: treeM120.s(3);">贈品活動專案查詢</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM1204" src="./point.gif" alt=""><a id="streeM1204" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/pbc/jsp/exchangeInit.do&#39;)" onclick="javascript: treeM120.s(4);">贈品兌換作業</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM1205" src="./point.gif" alt=""><a id="streeM1205" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/pbc/jsp/resCancelInt.do&#39;)" onclick="javascript: treeM120.s(5);">贈品預約查詢/取消作業</a></div></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM1206" src="./point.gif" alt=""><a id="streeM1206" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/pbc/lottery/execFillInit.do&#39;)" onclick="javascript: treeM120.s(6);">Happy New Year 兔 You抽獎</a></div><div class="dTreeNode"><img id="itreeM1207" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM120.o(7);" class="node">關於台灣大哥大</a></div><div id="dtreeM1207" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM1208" src="./point.gif" alt=""><a id="streeM1208" class="node" href="javascript:openDependentWindow(&#39;http://corp.taiwanmobile.com/company-profile/brand-concept.html&#39;,&#39;NewWindow_164&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM120.s(8);">經營理念與團隊</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM1209" src="./point.gif" alt=""><a id="streeM1209" class="node" href="javascript:openDependentWindow(&#39;http://corp.taiwanmobile.com/twmg/milestone.do?method=enterPage&#39;,&#39;NewWindow_165&#39;,&#39;resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=no,top=0,left=120,width=1024,height=768&#39;);" onclick="javascript: treeM120.s(9);">里程碑</a></div></div><div class="dTreeNode"><img id="itreeM12010" src="./arrow_right_gray.gif" alt=""><a href="javascript: treeM120.o(10);" class="node">用戶端螢幕</a></div><div id="dtreeM12010" class="clip" style="display:none;"><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM12011" src="./point.gif" alt=""><a id="streeM12011" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ExtraApp/plsales_initItemShow.do&#39;)" onclick="javascript: treeM120.s(11);">顯示資訊(銷售/不樂見行為)</a></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img src="./empty.gif" alt=""><img id="itreeM12012" src="./point.gif" alt=""><a id="streeM12012" class="node" href="javascript:void()" onclick="javascript: treeM120.s(12);">更新輪撥廣告</a></div></div><div class="dTreeNode"><img src="./empty.gif" alt=""><img id="itreeM12013" src="./point.gif" alt=""><a id="streeM12013" class="node" href="javascript:onclicksubapp(&#39;L&#39;,&#39;/ScmsCommon/ImageFileTest.do&#39;)" onclick="javascript: treeM120.s(13);">無紙化作業事務機掃瞄測試</a></div></div></div></div></div>
+	
+	<div id="ring" class="ringstyle"></div>
+
+	<script language="javascript">
+	
+    
+    	openDependentWindow("https://icsvpn.tcc.net.tw/ICSInfologin.aspx","NewWindow_5","resize=true, resizable=yes, menubar=no, scrollbars=yes,channelmode=no,toolbar=yes,top=240,left=350,width=640,height=300");
+    
+    if (hasKioskQuery) {
+    	onclicksubapp('T','/queryX_Web/CustomerKiosk_doQueryCustomer.do');
+    }
+</script>
+
+
+
+
+</body></html>

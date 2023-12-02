@@ -1,0 +1,3005 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)https://scms.tcc.net.tw/queryX_Web/CustomerKiosk_doQueryCustomer.do -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title></title>
+
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+
+
+
+
+ 
+<link rel="stylesheet" href="./jquery-ui(1).css">
+
+<script type="text/javascript" src="./jquery-3.6.1.js.下載"></script>
+<script type="text/javascript" src="./jquery-ui(1).js.下載"></script>
+<script type="text/javascript" src="./jquery.ui.datepicker-zh-TW.js.下載" charset="big5"></script>
+<script type="text/javascript" src="./crawler.js.下載" charset="big5"></script>
+
+<script language="JavaScript" type="text/JavaScript">
+// <!--
+	//for test
+// 	document.domain = window.location.host;
+	
+	var Core = {
+		qxScreenDpi : '' == "true" ? true : false
+	}
+
+	$(function() {
+		$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
+
+		$.datepicker.setDefaults({
+			buttonText : "Calendar",
+			buttonImageOnly : true,
+			buttonImage : "images/calendar.gif",
+			changeYear : true,
+			changeMonth : true,
+			dateFormat : "yy/mm/dd",
+			firstDay : 0,
+			rangeSelect : true,
+			showOn : 'button'
+		});
+	});
+//-->
+</script>
+<link href="./style.css" type="text/css" rel="stylesheet">
+<link href="./kiosk.css" type="text/css" rel="stylesheet">
+<style type="text/css">
+ .watermark { 
+ 
+    /*background-image: url("./images/confidential.png");    */  
+    /*background-size:240px;*/
+    content: "";  
+    opacity: 0.6;  
+    position: absolute;  
+    top: 0;  
+    bottom: 0;  
+    right: 0; 
+    left: 0; 
+    z-index: -1; 
+    pointer-events:none;
+    filter:Alpha(opacity=60); 
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+    width:100%;
+    height:100%;
+ 
+}
+
+ 
+
+</style>
+<script language="JavaScript" src="./util.js.下載" charset="big5"></script>
+<script language="JavaScript" src="./validate.js.下載" charset="big5"></script>
+<script language="JavaScript" src="./showtab.js.下載"></script>
+<script language="JavaScript" src="./dialogbox.js.下載"></script>
+
+<script>
+var queryStatus;
+var insertCookie="N";
+var authMsg = "";
+
+var isRMSVandOverRecycleDate = "";
+var isCheckUserStatusAlertOpen = "N";
+
+// 230703 for tst window close
+var tstStatusWin = null;
+var showChkTstWin = null;
+
+function queryList(){
+	cleanGeneralQueryResult();// 清空固定資料區的查詢資料[依存於子頁面]
+	
+	checkUserStatus();
+	
+	// 230629 close tst window
+	closeTstWindows();
+	
+	var phone = document.getElementById('phone').value;
+	var idNumber = document.getElementById('idNumber').value.toUpperCase();
+    if(phone=="" || idNumber=="" ){
+        alert("請輸入查詢值");
+        return;
+    }else if(phone < '0'){
+    	alert("輸入參數錯誤");
+    	return;
+    }
+    
+    //20220505 modify by marya-leon
+//     if(	phone.length !=10 ){
+//        	alert("查詢門號限定輸入10個數字!");
+//        	return;
+//     }
+	if(	phone.length != 10 && phone.length != 11  ){
+       	alert("查詢門號碼數不符！");
+       	return;
+    }
+    divmesage.style.display="";
+    document.getElementById('errMsgTable').innerHTML = '';
+    document.getElementById('queryResult').innerHTML = '';
+	//document.getElementById('queryCondition').innerText = maskId(queryValue,4);
+	document.getElementById('queryCondition').innerText = phone;
+	document.getElementById('qbtn').disabled = true;
+	
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_doQueryCustomerList.do';
+	paramObj.sync = true;
+	paramObj.parameters = "phoneNumber="+phone
+						 +"&idNumber="+idNumber;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="companyType";
+	rtnParamArray[1]="subscrId";
+	rtnParamArray[2]="number";
+	rtnParamArray[3]="custName";
+	rtnParamArray[4]="activeDate";
+	rtnParamArray[5]="serviceStatus";
+	rtnParamArray[6]="firstDocId";
+	rtnParamArray[7]="contractDueDate";
+	rtnParamArray[8]="hlrgType";
+	rtnParamArray[9]="subscrTypeCust";
+	rtnParamArray[10]="password";
+	rtnParamArray[11]="workType";
+	rtnParamArray[12]="avgBill";
+	rtnParamArray[13]="birthday";
+	rtnParamArray[14]="subscrTypeBill";
+	rtnParamArray[15]="billInfo";
+	rtnParamArray[16]="companyNbr";
+	rtnParamArray[17]="homeNbr";
+	rtnParamArray[18]="otherNbr";
+	rtnParamArray[19]="program";
+	rtnParamArray[20]="billAddress";
+	rtnParamArray[21]="simCardNo";
+	rtnParamArray[22]="deactiveDate";
+	rtnParamArray[23]="custType";
+	rtnParamArray[24]="titleDscr";
+	rtnParamArray[25]="userClass";
+	rtnParamArray[26]="idCheckType";
+	rtnParamArray[27]="billAccount";
+	rtnParamArray[28]="billingCycle";
+	rtnParamArray[29]="errMsg";
+	rtnParamArray[30]="restriction";
+	rtnParamArray[31]="subscrTypeName";
+	rtnParamArray[32]="bbMessage";  
+	rtnParamArray[33]="isBB";
+	rtnParamArray[34]="firstIdType";
+	//20210709 add by marya-leon
+	rtnParamArray[35]="serviceStatusCode";
+	rtnParamArray[36]="workTypeCode";
+	// 230526 for T案
+	rtnParamArray[37]="isTst";
+	rtnParamArray[38]="tstSubId";
+	rtnParamArray[39]="portingCmFlag";
+	rtnParamArray[40]="portingBillingFlag";
+	rtnParamArray[41]="openTstWinFlag";
+	//230518 for T案狀態按鈕/改接日
+	rtnParamArray[42]="showTstBtnFlag";
+	rtnParamArray[43]="tstContractDate";
+	paramObj.rtnParamArray = rtnParamArray;
+	ajaxQuery( paramObj );    
+}
+
+//20210709 add by marya-leon 確認是否要執行OTP驗證
+var isNeedOTPVerify;
+var verifyObj;	
+
+function checkIfNeedOTPVerify(companyType, firstIdType){
+	isNeedOTPVerify = "N";
+	if(companyType == "TWM" || companyType == "TCC"){
+	  if(firstIdType == 'PID' || firstIdType == 'CID' || firstIdType == 'SID' || firstIdType == 'LID' || firstIdType == 'NPID'
+		  	|| firstIdType == 'PPID' || firstIdType == 'CRID' || firstIdType == 'RID' || firstIdType == 'FID' || firstIdType == 'WID'
+			|| firstIdType == 'APRP' || firstIdType == 'VID'){
+	  	checkOTPStore();
+	  }
+	}else if(companyType == "INPPS"){
+	  if(firstIdType == 'PID' || firstIdType == 'CID' || firstIdType == 'SID' || firstIdType == 'LID' || firstIdType == 'NPID'
+		  	|| firstIdType == 'PPID' || firstIdType == 'CRID' || firstIdType == 'RID' || firstIdType == 'FID' || firstIdType == 'WID'
+			|| firstIdType == 'APRP' || firstIdType == 'VID'){
+	  	checkOTPStore();
+	  }
+	}
+}
+
+//檢查該店點是否需要OTP驗證
+function checkOTPStore(){
+  var paramObj = new Object();
+  paramObj.method = 'POST';
+  paramObj.action = 'CustomerKiosk_checkOTPStore.do';
+  paramObj.sync = true;
+
+  var rtnParamArray = new Array();
+  rtnParamArray[0]="isNeedOTPVerify";  
+  rtnParamArray[1]="errCde"; 
+  rtnParamArray[2]="errMsg"; 
+  paramObj.rtnParamArray = rtnParamArray;
+  ajaxQuery( paramObj );
+}
+
+function checkOTPStoreResult(rtnObj){
+	if(rtnObj[1] == "00"){
+		isNeedOTPVerify = rtnObj[0];
+	}else{
+		isNeedOTPVerify = "N";
+	}
+}
+
+//開啟OTP驗證頁面
+var showOtpVerifyDefer;
+var showOtpVerifyWin;
+var detectInterval;
+function showOtpVerify(serviceStatusCode, workTypeCode, phoneNumber, companyType, subscrId, 
+		subscrTypeName, custName, firstDocId, titleDscr, firstIdType, isDeputy){
+	//alert("showOtpVerify isDeputy:" + isDeputy);
+	
+	showOtpVerifyDefer = $.Deferred();
+	var otpVerifyUrl = 'CustomerKiosk_otpVerify.do?serviceStatusCode=' + serviceStatusCode + '&workTypeCode=' + workTypeCode + '&phoneNumber=' + phoneNumber
+					+ '&companyType=' + companyType + '&subscrId=' + subscrId + '&subscrTypeName=' + subscrTypeName
+					+ '&custName=' + custName + '&firstDocId=' + firstDocId + '&titleDscr=' + titleDscr + "&firstIdType=" + firstIdType
+					+ "&isDeputy=" + isDeputy;
+	
+	showOtpVerifyWin = window.open(otpVerifyUrl, "", 'center=yes,height=360,width=550,top=200,left=400,help=no,status=no');
+	detectInterval = window.setInterval(detectShowOtpVerifyWin, 1000);
+        
+    return showOtpVerifyDefer.promise();
+}
+
+function detectShowOtpVerifyWin(){
+	if(showOtpVerifyWin != null && showOtpVerifyWin.closed && verifyObj == null){
+		showOtpVerifyDefer.resolve(false);
+		window.clearInterval(detectInterval);
+	}
+}
+
+//20230301 add by marya-leon
+function receiveMessage(event){
+	console.log(event.data);
+	var messageObj = JSON.parse(event.data);
+	var id = messageObj.id;
+	var url = "";
+	var result = "";
+	if(id == "sopVerifyDS"){	//sopVerify改為sopVerifyDS
+// 		var isDeputy = messageObj.message;
+// 		if (isDeputy == 'Y') {
+// 			objAccessLog.parameters += "&deputy=Y";
+// 		} else if(isDeputy == 'N') {
+// 			objAccessLog.parameters += "&deputy=N";
+// 		} else {
+// 			execDeputyDefer.resolve(false);
+// 		}
+
+		var rtnObj = JSON.parse(messageObj.message);
+		var isDeputy = rtnObj.isDeputy;
+		var personalIdty = rtnObj.personalIdty;
+		var agentIdty = rtnObj.agentIdty;
+				
+		if (isDeputy != '' && isDeputy != null) {
+			objAccessLog.parameters += "&deputy=" + isDeputy + "&personalIdty=" + personalIdty + "&agentIdty=" + agentIdty;
+			document.getElementById('isDeputy').value = isDeputy; // set to hidden value to check otp window		
+		
+			// 221206 公司戶判別，用戶身分確認視窗確認後發送簡訊
+			if (execDeputyObj.firstIdType == "BID") {
+				// 221215 不執行OTP，判別後發送通知簡訊
+				beforeSendNoticeSMS(execDeputyObj.phoneNumber, execDeputyObj.companyType, execDeputyObj.subscrId, execDeputyObj.subscrTypeName, execDeputyObj.custName,
+								execDeputyObj.firstDocId, execDeputyObj.titleDscr, execDeputyObj.firstIdType,
+								execDeputyObj.serviceStatusCode, execDeputyObj.workTypeCode);
+				execDeputyDefer.resolve(true);
+			} else {
+				// 20220325 判斷是否開啟OTP驗證視窗  
+				chkOtpVerify(execDeputyObj.phoneNumber, "Y");
+				var chkOtpVerifyVal = document.getElementById("chkOtpVerifyVal").value;
+				
+				// 230519 otp驗證通過用戶本人與代理人才需判斷
+				if (chkOtpVerifyVal == "Y" && (isDeputy == "Y" || isDeputy == "N")) {
+					alert("『該門號今日已通過OTP驗證檢核』");
+					//20220608 add by marya-leon 若今日已通過OTP驗證檢核，則otpOption直接塞1
+					verifyObj = new Object();
+					verifyObj.otpOption = "1";
+					execDeputyDefer.resolve(true);
+				} else {
+					// 230413等於3表先前點選繳交NP移轉費，不做OTP相關流程
+					if(isDeputy != "3"){
+						//20210709 add by marya-leon 執行OTP驗證
+						if (isNeedOTPVerify == 'Y') {
+							showOtpVerify(execDeputyObj.serviceStatusCode, execDeputyObj.workTypeCode, execDeputyObj.phoneNumber, execDeputyObj.companyType, 
+									execDeputyObj.subscrId, execDeputyObj.subscrTypeName, execDeputyObj.custName, execDeputyObj.firstDocId, 
+									execDeputyObj.titleDscr, execDeputyObj.firstIdType, isDeputy).then(function(returnValue){
+							    			
+							    if (verifyObj == null || verifyObj == undefined || verifyObj.isVerify == "N") {
+								    alert("尚未通過OTP認證，客戶資料將不會帶到資料區，請重新驗證");
+									execDeputyDefer.resolve(false);
+								} else {
+									execDeputyDefer.resolve(true);
+								}						    			
+							});
+						} else {
+							// 221215 不執行OTP，判別後發送通知簡訊
+							beforeSendNoticeSMS(execDeputyObj.phoneNumber, execDeputyObj.companyType, execDeputyObj.subscrId, execDeputyObj.subscrTypeName, 
+									execDeputyObj.custName, execDeputyObj.firstDocId, execDeputyObj.titleDscr, execDeputyObj.firstIdType,
+									execDeputyObj.serviceStatusCode, execDeputyObj.workTypeCode);
+							execDeputyDefer.resolve(true);
+						}
+					}else{
+						execDeputyDefer.resolve(true);
+					}
+				}
+			}
+		}else{
+			execDeputyDefer.resolve(false);
+		}
+	}else if(id == "otpVerify"){
+		window.clearInterval(detectInterval);
+		verifyObj = messageObj;
+		showOtpVerifyDefer.resolve(true);
+	}
+}
+	
+window.addEventListener("message", receiveMessage, false);
+
+var resultArray;
+function updatePage(rtnObj){
+	
+	// for test
+	var idNumber = document.getElementById('idNumber').value.toUpperCase();
+	
+	document.getElementById('phone').value='';
+	document.getElementById('idNumber').value='';
+	divmesage.style.display="none";
+	resultArray = new Array();
+	document.getElementById('queryResult').innerHTML = '';
+	var content = '<table id=resultTable  cellpadding=1 border=0 cellspacing=0 width=100%><tr bgcolor="#ddffee">'+
+				  '<td></td>'+
+            	  '<td>系統</td>'+
+            	  '<td>合約代碼</td>'+
+            	  '<td>門號</td>'+
+            	  '<td>姓名</td>'+
+            	  '<td>申裝日</td>'+
+            	  '<td>門號狀態</td>'+
+            	  '<td>專案限制</td></tr>';
+    var itemNum = 0;
+    
+    if( rtnObj[0] != null ){
+    	if( rtnObj[0].indexOf('|')  != -1 ){
+			itemNum = rtnObj[0].split('|').length;
+
+			var  companyType     = rtnObj[0].split('|');
+			var  subscrId        = rtnObj[1].split('|'); 
+			var  number          = rtnObj[2].split('|'); 
+			var  custName        = rtnObj[3].split('|'); 
+			var  activeDate      = rtnObj[4].split('|'); 
+			var  serviceStatus   = rtnObj[5].split('|'); 
+			var  firstDocId      = rtnObj[6].split('|'); 
+			var  contractDueDate = rtnObj[7].split('|'); 
+			var  hlrgType        = rtnObj[8].split('|'); 
+			var  subscrTypeCust  = rtnObj[9].split('|'); 
+			var  password        = rtnObj[10].split('|');
+			var  workType        = rtnObj[11].split('|');
+			var  avgBill         = rtnObj[12].split('|');
+			var  birthday        = rtnObj[13].split('|');
+			var  subscrTypeBill  = rtnObj[14].split('|');
+			var  billInfo        = rtnObj[15].split('|');
+			var  companyNbr      = rtnObj[16].split('|');
+			var  homeNbr         = rtnObj[17].split('|');
+			var  otherNbr        = rtnObj[18].split('|');
+			var  program         = rtnObj[19].split('|');
+			var  billAddress     = rtnObj[20].split('|');
+			var  simCardNo       = rtnObj[21].split('|');
+			var  deactiveDate    = rtnObj[22].split('|');
+			var  custType        = rtnObj[23].split('|');
+			var  titleDscr       = rtnObj[24].split('|');
+			var  userClass       = rtnObj[25].split('|');
+			var  idCheckType     = rtnObj[26].split('|');
+			var  billAccount     = rtnObj[27].split('|');
+			var  billingCycle    = rtnObj[28].split('|');
+			var  restriction     = rtnObj[30].split('|');
+			var  subscrTypeName  = rtnObj[31].split('|');
+			var  bbMessage 	   = rtnObj[32].split('|');
+			var  isBB = rtnObj[33].split('|');
+			var  firstIdType = rtnObj[34].split('|');
+			//20210709 add by marya-leon for OTP
+			var  serviceStatusCode = rtnObj[35].split('|');
+			var  workTypeCode = rtnObj[36].split('|');
+			// 230526 for T案
+			var isTst = rtnObj[37].split('|');
+			var tstSubId = rtnObj[38].split('|');
+			var portingCmFlag = rtnObj[39].split('|');
+			var portingBillingFlag = rtnObj[40].split('|');
+			var openTstWinFlag = rtnObj[41].split('|');
+			var showTstBtnFlag = rtnObj[42].split('|');
+			var tstContractDate = rtnObj[43].split('|');
+
+			for(i=0; i<itemNum; i++){
+				var obj = new Object();
+				obj.companyType     = companyType[i];
+				obj.subscrId        = subscrId[i];
+				obj.number          = number[i];
+				obj.custName        = custName[i];
+				obj.activeDate      = activeDate[i];
+				obj.serviceStatus   = serviceStatus[i];
+				obj.firstDocId      = firstDocId[i];
+				obj.contractDueDate = (deactiveDate[i] == '') ? contractDueDate[i] : '';
+				obj.hlrgType        = hlrgType[i];
+				obj.subscrTypeCust  = subscrTypeCust[i];
+				obj.password        = password[i];
+				obj.workType        = workType[i];
+				obj.avgBill         = avgBill[i];
+				obj.birthday        = birthday[i];
+				obj.subscrTypeBill  = subscrTypeBill[i];
+				obj.billInfo        = billInfo[i];
+				obj.companyNbr      = companyNbr[i];
+				obj.homeNbr         = homeNbr[i];
+				obj.otherNbr        = otherNbr[i];
+				obj.program         = program[i];
+				obj.billAddress     = billAddress[i];
+				obj.simCardNo       = simCardNo[i];
+				obj.deactiveDate    = deactiveDate[i];
+				obj.custType        = custType[i];
+				obj.titleDscr       = titleDscr[i];
+				obj.userClass       = userClass[i];
+				obj.idCheckType     = idCheckType[i];
+				obj.billAccount     = billAccount[i];
+				obj.billingCycle    = billingCycle[i];
+				obj.restriction     = restriction[i];
+				obj.subscrTypeName  = subscrTypeName[i];
+				obj.bbMessage = bbMessage[i];
+				obj.isBB = isBB[i];
+				obj.firstIdType = firstIdType[i];
+				//20210709 add by marya-leon for OTP
+				obj.serviceStatusCode = serviceStatusCode[i];
+				obj.workTypeCode = workTypeCode[i];
+				// 230526 for T案
+				obj.isTst = isTst[i];
+				obj.tstSubId = tstSubId[i];
+				obj.portingCmFlag = portingCmFlag[i];
+				obj.portingBillingFlag = portingBillingFlag[i];
+				obj.openTstWinFlag = openTstWinFlag[i];
+				obj.showTstBtnFlag = showTstBtnFlag[i];
+				obj.tstContractDate = tstContractDate[i];
+				resultArray[i] = obj;
+			}
+		}else{
+			var obj = new Object();
+			obj.companyType     = rtnObj[0];
+			obj.subscrId        = rtnObj[1];
+			obj.number          = rtnObj[2];
+			obj.custName        = rtnObj[3];
+			obj.activeDate      = rtnObj[4];
+			obj.serviceStatus   = rtnObj[5];
+			obj.firstDocId      = rtnObj[6];
+			obj.contractDueDate = (rtnObj[22] == '') ? rtnObj[7] : '';
+			obj.hlrgType        = rtnObj[8];
+			obj.subscrTypeCust  = rtnObj[9];
+			obj.password        = rtnObj[10];
+			obj.workType        = rtnObj[11];
+			obj.avgBill         = rtnObj[12];
+			obj.birthday        = rtnObj[13];
+			obj.subscrTypeBill  = rtnObj[14];
+			obj.billInfo        = rtnObj[15];
+			obj.companyNbr      = rtnObj[16];
+			obj.homeNbr         = rtnObj[17];
+			obj.otherNbr        = rtnObj[18];
+			obj.program         = rtnObj[19];
+			obj.billAddress     = rtnObj[20];
+			obj.simCardNo       = rtnObj[21];
+			obj.deactiveDate    = rtnObj[22];
+			obj.custType        = rtnObj[23];
+			obj.titleDscr       = rtnObj[24];
+			obj.userClass       = rtnObj[25];
+			obj.idCheckType     = rtnObj[26];
+			obj.billAccount     = rtnObj[27];
+			obj.billingCycle    = rtnObj[28];
+			obj.restriction     =  rtnObj[30] ;
+			obj.subscrTypeName  = rtnObj[31];
+			obj.bbMessage = rtnObj[32];
+			obj.isBB = rtnObj[33];
+			obj.firstIdType = rtnObj[34];
+			//20210709 add by marya-leon for OTP
+			obj.serviceStatusCode = rtnObj[35];
+			obj.workTypeCode = rtnObj[36];
+			// 230526 for T案
+			obj.isTst = rtnObj[37];
+			obj.tstSubId = rtnObj[38];
+			obj.portingCmFlag = rtnObj[39];
+			obj.portingBillingFlag = rtnObj[40];
+			obj.openTstWinFlag = rtnObj[41];
+			obj.showTstBtnFlag = rtnObj[42];
+			obj.tstContractDate = rtnObj[43];
+			resultArray[0] = obj;
+		}
+		if( obj.companyType != '' ){
+			for(i=0; i<resultArray.length; i++){
+				var obj = resultArray[i];
+				var serial = i+1;
+				var systemType = (obj.companyType=="TWM")?"TCC":obj.companyType;
+				
+				//20220505 modify by marya-leon 新增070門號系統顯示判斷
+// 				var companyTypeContent = (obj.companyType=="INPPS")?"預付卡":obj.companyType;
+				var companyTypeContent = "";
+		        if( obj.companyType == "INPPS"){
+		        	// 220817 for T案
+		        	if(obj.isTst == "Y"){
+		        		companyTypeContent = "TST預付卡";
+		        	} else{
+		        		companyTypeContent = "預付卡";	
+		        	}
+		        }else if( obj.companyType == "070"){
+		        	companyTypeContent = "070網路電話";
+		        }else{
+		        	// 220817 for T案
+		        	if(obj.isTst == "Y"){
+		        		companyTypeContent = "TST";
+		        	} else{
+		        		companyTypeContent = obj.companyType;	
+		        	}
+		        }
+		        
+				if( obj.isBB == "Y"){
+					content += '<tr bgcolor=white id='+ obj.companyType+obj.subscrId +'>'
+			        	  +  '<td>'+serial+'</td>'
+			              +  '<td>單辦寬頻(無台灣大門號)</td>'
+			              +  '<td><a href=\"javascript:void(0);\" onclick=\"javascript:alert(\''+obj.bbMessage+'\');\" >'+maskAllVal(obj.subscrId)+'</a></td>'
+			              +  '<td><a href=\"javascript:void(0);\" onclick=\"javascript:alert(\''+obj.bbMessage+'\');\" >xxxxxxxxxx</a></td>'
+			              +  '<td>'+maskAllVal(maskName(obj.custName))+'</td>'
+			              +  '<td>'+maskAllVal(obj.activeDate)+'</td>'
+			              +  '<td>'+maskAllVal(obj.serviceStatus)+'</td>'
+	        			+  '<td>'+maskAllVal(obj.restriction)+'</td></tr>';
+			    }else{
+			    	//20210709 modify by marya-leon showQueryCustomerUp新增三個參數for OTP
+					content += '<tr bgcolor=white id='+obj.companyType+obj.subscrId+'>'
+				        +  '<td>'+serial+'</td>'
+						+  '<td>'+companyTypeContent+'</td>'
+						+  '<td><a href=\"javascript:void(0);\" onclick=\"javascript:changeResultColor(\''+obj.companyType+obj.subscrId+'\');showQueryCustomerUp(\'' + obj.companyType + '\',\'' + obj.subscrId + '\',\'' + obj.number + '\',\'' + obj.firstIdType + '\',\'' + obj.serviceStatusCode + '\',\'' + obj.workTypeCode + '\',\'' + obj.subscrTypeName + '\',\'' + obj.custName + '\',\'' + obj.firstDocId + '\',\'' + obj.titleDscr +'\');\" title=\"選取這個用戶門號為帳務處理門號\">'+maskAllVal(obj.subscrId)+'</a></td>'
+						+  '<td><a href=\"javascript:void(0);\" onclick=\"javascript:changeResultColor(\''+obj.companyType+obj.subscrId+'\');showQueryCustomerUp(\'' + obj.companyType + '\',\'' + obj.subscrId + '\',\'' + obj.number + '\',\'' + obj.firstIdType + '\',\'' + obj.serviceStatusCode + '\',\'' + obj.workTypeCode + '\',\'' + obj.subscrTypeName + '\',\'' + obj.custName + '\',\'' + obj.firstDocId + '\',\'' + obj.titleDscr +'\');\" title=\"用此門號查詢\">'+obj.number+'</a></td>'
+						+  '<td>'+ maskAllVal(maskName(obj.custName))+'</td>'					
+						+  '<td>'+maskAllVal(obj.activeDate)+'</td>'
+						+  '<td>'+maskAllVal(obj.serviceStatus)+'</td>'
+	        			+  '<td>'+maskAllVal(obj.restriction)+'</td></tr>';
+
+			    }
+			}
+			content += '<input type="hidden" name="selCallType" value="">'
+			content += '</table>';
+			document.getElementById('queryResult').innerHTML = content;
+			var upIndex = 0;
+			var maxDeactiveDate = '';
+			for(s=0; s<resultArray.length; s++){
+				var tmpObj = resultArray[s];
+				var tmpDate = tmpObj.deactiveDate;
+				if(tmpObj.deactiveDate == ''){
+					upIndex = s;
+					break;
+				}else if(maxDeactiveDate < tmpDate){
+					maxDeactiveDate = tmpDate;
+					upIndex = s;
+				}
+			}
+			var obj = resultArray[upIndex];
+			changeResultColor( obj.companyType+obj.subscrId );	
+			
+			if(obj.isBB == "Y"){
+				document.getElementById('qbtn').disabled = false;
+		    	return;
+		    }
+			
+			//20210709 modify by marya-leon showQueryCustomerUp新增三個參數for OTP
+			showQueryCustomerUp(obj.companyType, obj.subscrId, obj.number, obj.firstIdType, obj.serviceStatusCode, obj.workTypeCode, obj.subscrTypeName, obj.custName, idNumber, obj.titleDscr);
+		}else{
+			content += '<input type="hidden" name="selCallType" value="">'
+			content += '</table></form>';
+			document.getElementById('queryResult').innerHTML = content;
+			alert('系統查無用戶資料!請查核門號與身分證字號是否輸入正確。\n\n若為TST退租超過18個月以上門號，請開啟XWS系統查詢');
+		}
+	}
+	if( rtnObj[29] != null && rtnObj[29] != '' ){
+		if(rtnObj[29].indexOf('INPPS:') != -1 && rtnObj[29].indexOf('GSMBS:') != -1){
+			var i1 = rtnObj[29].indexOf('GSMBS:');
+			var i2 = rtnObj[29].indexOf('INPPS:');
+			alert(rtnObj[29].substring(i1+6,i2)+rtnObj[29].substring(i2+6));    	  	
+		}else if(rtnObj[29].indexOf('INPPS:') != -1 || rtnObj[29].indexOf('GSMBS:') != -1){
+		    alert(rtnObj[29].substring(6));
+		}else if(rtnObj[29].indexOf('TST') != -1){
+	    	// 220817 for T案，可接續既有流程
+	    	alert(rtnObj[29]);   
+	    }else {
+			var errTable = document.getElementById('errMsgTable');
+			errTable.innerHTML = rtnObj[29];
+		}
+	}
+	document.getElementById('qbtn').disabled = false;
+}
+
+// 20220325 確認是否已執行過OTP驗證
+function chkOtpVerify(number, smsType){
+	$.ajax({
+		url: "CustomerKiosk_chkOtpVerify.do",
+		data: {
+			phoneNumber : number,
+			smsType : smsType
+		},
+		type:"post",
+		async: false,
+		success:function(ajaxResponse){
+			if(ajaxResponse.success) {
+				var chkOtpVerifyVal = ajaxResponse.responseData; 
+				//alert("chkOtpVerifyVal:" + chkOtpVerifyVal);
+				document.getElementById("chkOtpVerifyVal").value = chkOtpVerifyVal;
+				//return chkOtpVerifyVal;
+			} else {
+				//alert(ajaxResponse.returnMessage);
+			}
+		},
+		error:function(xhr, ajaxOptions, thrownError){
+			alert("Failed to Call Ajax! Message:" + xhr.statusText);
+		},
+		complete:function(jqXHR, textStatus){
+			
+		}
+	});
+}
+
+var execDeputyDefer;
+var sopVerifyDSObj;
+function execDeputy(firstIdType, firstDocId){
+
+	execDeputyDefer = $.Deferred();
+	
+	//20220608 add by marya-leon 先清空避免吃到上一次的值
+	verifyObj = null;
+	
+	
+		
+// 			//20210709 modify by marya-leon 將確認頁面合併為一頁
+// 			var url = './html/sopVerify.htm';
+// 			window.open(url, "", 'center=yes,height=360,width=530,top=200,left=400,help=no,status=no');	
+
+			sopVerifyDSObj = new Object();
+			// 230412 新增回傳與傳入參數
+			sopVerifyDSObj.firstIdType = firstIdType;
+			sopVerifyDSObj.firstDocId = firstDocId;
+			sopVerifyDSObj.storeId = document.getElementById("storeId").value;
+			sopVerifyDSObj.userId = document.getElementById("userId").value;
+		
+			var url = './html/sopVerifyDS.htm';
+			window.open(url, "", 'center=yes,height=420,width=700,top=200,left=400,help=no,status=no');	
+		
+		
+	
+	
+	return execDeputyDefer.promise();
+}
+
+//20210709 modify by marya-leon 追加firstIdType，serviceStatusCode，workTypeCode
+//20230302 modify by marya-leon 流程調整
+var objAccessLog;
+var execDeputyObj;
+function showQueryCustomerUp(companyType, subscrId, phoneNumber, firstIdType, serviceStatusCode, workTypeCode, subscrTypeName, custName, firstDocId, titleDscr){
+	//20210709 add by marya-leon 確認是否需要OTP驗證，Y:執行/N:不需執行
+	checkIfNeedOTPVerify(companyType, firstIdType);
+
+	checkUserStatus();
+	switchINPPS(companyType);
+
+	objAccessLog = new Object();
+	// 220817 company後面增加TST判別
+	//objAccessLog.parameters = "companyType=" + companyType + "&subscrId=" + subscrId + "&phoneNumber=" + phoneNumber+"&logType=Q";
+	objAccessLog.parameters = "&subscrId=" + subscrId + "&phoneNumber=" + phoneNumber+"&logType=Q";
+	
+	execDeputyObj = new Object();
+	execDeputyObj.companyType = companyType;
+	execDeputyObj.subscrId = subscrId;
+	execDeputyObj.phoneNumber = phoneNumber;
+	execDeputyObj.firstIdType = firstIdType;
+	execDeputyObj.serviceStatusCode = serviceStatusCode;
+	execDeputyObj.workTypeCode = workTypeCode;
+	execDeputyObj.subscrTypeName = subscrTypeName;
+	execDeputyObj.custName = custName;
+	execDeputyObj.firstDocId = firstDocId;
+	execDeputyObj.titleDscr = titleDscr;
+	
+	execDeputy(firstIdType, firstDocId).then(function(returnValue){
+		if (returnValue == true) {
+			//查詢用戶接觸紀錄資訊
+			
+				checkAgentContactSummary(subscrId, phoneNumber);
+			
+		
+			//判斷月租型門號用戶是否有申辦匯流
+			
+				checkBBContractStatus(subscrId);
+			
+			
+			//20210709 add by marya-leon 
+			if(isNeedOTPVerify == 'Y' && verifyObj != null && verifyObj != undefined){
+				objAccessLog.parameters += "&otpOption=" + verifyObj.otpOption;					
+				if(verifyObj.nonOtpReason != null && verifyObj.nonOtpReason != undefined){
+					objAccessLog.parameters += "&nonOtpReason=" + verifyObj.nonOtpReason;
+				}
+			}
+		
+			//setAccessLog(objAccessLog.parameters);
+			
+			var storeInfoStoreType = document.getElementById("storeInfoStoreType").value;
+			
+			// 230324 經銷加盟判別
+			if(storeInfoStoreType == "SC"){
+		//		if(parent.parent.mainFrame != null)
+		//			frameSet = parent.parent.mainFrame.document.getElementsByTagName("frameset")[1];
+		//		else
+		//			frameSet = parent.RightFrame;
+				if(parent.parent.document.getElementById('mainFrame') != null)
+					frameSet = parent.parent.getElementById('mainFrame').contentWindow.document.getElementsByTagName("frameset")[1];
+				else
+					frameSet = parent.document.getElementById('divRight');
+						
+		// 				frameSet.rows="100%,*,0";
+					if(frameSet != null){
+						frameSet.children[1].style.height = "100%";
+						frameSet.children[2].style.height = "0";
+						frameSet.children[3].style.height = "0";
+					}
+			}
+			
+			var paramObj = new Object();
+			paramObj.method = 'POST';
+			paramObj.action = 'CustomerKiosk_showQueryCustomerUp.do';
+			paramObj.sync = true;
+			paramObj.parameters = "&companyType="+companyType+"&subscrId="+subscrId;
+			var obj = new Object();
+			obj.companyType=companyType;
+			obj.subscrId=subscrId;		
+			paramObj.vo = obj;		
+			
+			var rtnParamArray = new Array();
+			rtnParamArray[0]="companyType";
+			rtnParamArray[1]="subscrId";
+			rtnParamArray[2]="number";
+			rtnParamArray[3]="custName";
+			rtnParamArray[4]="activeDate";
+			rtnParamArray[5]="serviceStatus";
+			rtnParamArray[6]="firstDocId";
+			rtnParamArray[7]="contractDueDate";
+			rtnParamArray[8]="hlrgType";
+			rtnParamArray[9]="subscrTypeCust";
+			rtnParamArray[10]="password";
+			rtnParamArray[11]="workType";
+			rtnParamArray[12]="avgBill";
+			rtnParamArray[13]="birthday";
+			rtnParamArray[14]="subscrTypeBill";
+			rtnParamArray[15]="billInfo";
+			rtnParamArray[16]="companyNbr";
+			rtnParamArray[17]="homeNbr";
+			rtnParamArray[18]="otherNbr";
+			rtnParamArray[19]="program";
+			rtnParamArray[20]="billAddress";
+			rtnParamArray[21]="simCardNo";
+			rtnParamArray[22]="deactiveDate";
+			rtnParamArray[23]="custType";
+			rtnParamArray[24]="titleDscr";
+			rtnParamArray[25]="userClass";
+			rtnParamArray[26]="idCheckType";
+			rtnParamArray[27]="billAccount";
+			rtnParamArray[28]="billingCycle";
+			rtnParamArray[29]="errMsg";
+			rtnParamArray[30]="restriction";
+			rtnParamArray[31]="subscrTypeName";
+			rtnParamArray[32]="riskDesc";
+			rtnParamArray[33]="nationality";
+			rtnParamArray[34]="serviceStatusCode";
+			rtnParamArray[35]="dataCard";
+			rtnParamArray[36]="isLastProjectIphone";
+			rtnParamArray[37]="isShowGPRSInfo";
+			rtnParamArray[38]="packageCatg";	
+			rtnParamArray[39]="isCheckEBM";
+			rtnParamArray[40]="HLR";
+			rtnParamArray[41]="isRMSVandOverRecycleDate";  
+			rtnParamArray[42]="hlrgTypeOri";
+			rtnParamArray[43]="workTypeCode";
+			rtnParamArray[44]="netSpeed"; //200422 最高網速
+			rtnParamArray[45]="firstIdType"; //200422 最高網速
+			// 220825 for T案
+			rtnParamArray[46]="isTstCard";
+			rtnParamArray[47]="isTst";
+			rtnParamArray[48]="tstSubId";
+			rtnParamArray[49]="portingCmFlag";
+			rtnParamArray[50]="portingBillingFlag";
+			rtnParamArray[51]="openTstWinFlag";
+			//230522 for T案狀態按鈕/改接日
+			rtnParamArray[52]="showTstBtnFlag";
+			rtnParamArray[53]="tstContractDate";
+			paramObj.rtnParamArray = rtnParamArray;
+			ajaxQuery( paramObj );
+		}else{
+			return false;
+		}
+	});
+
+}
+
+function applyCustomerDataAbove(rtnObj, obj){
+	cleanGeneralQueryResult();
+	
+	document.getElementById('PTYPE').style.display = '';
+    var itemNum = 0;
+    
+    if( rtnObj[0] != null ){
+    	if( rtnObj[0].indexOf('|')  != -1 ){
+			itemNum = rtnObj[0].split('|').length;
+
+			var  companyType     = rtnObj[0].split('|');
+			var  subscrId        = rtnObj[1].split('|'); 
+			var  number          = rtnObj[2].split('|'); 
+			var  custName        = rtnObj[3].split('|'); 
+			var  activeDate      = rtnObj[4].split('|'); 
+			var  serviceStatus   = rtnObj[5].split('|'); 
+			var  firstDocId      = rtnObj[6].split('|'); 
+			var  contractDueDate = rtnObj[7].split('|'); 
+			var  hlrgType        = rtnObj[8].split('|'); 
+			var  subscrTypeCust  = rtnObj[9].split('|'); 
+			var  password        = rtnObj[10].split('|');
+			var  workType        = rtnObj[11].split('|');
+			var  avgBill         = rtnObj[12].split('|');
+			var  birthday        = rtnObj[13].split('|');
+			var  subscrTypeBill  = rtnObj[14].split('|');
+			var  billInfo        = rtnObj[15].split('|');
+			var  companyNbr      = rtnObj[16].split('|');
+			var  homeNbr         = rtnObj[17].split('|');
+			var  otherNbr        = rtnObj[18].split('|');
+			var  program         = rtnObj[19].split('|');
+			var  billAddress     = rtnObj[20].split('|');
+			var  simCardNo       = rtnObj[21].split('|');
+			var  deactiveDate    = rtnObj[22].split('|');
+			var  custType        = rtnObj[23].split('|');
+			var  titleDscr       = rtnObj[24].split('|');
+			var  userClass       = rtnObj[25].split('|');
+			var  idCheckType     = rtnObj[26].split('|');
+			var  billAccount     = rtnObj[27].split('|');
+			var  billingCycle    = rtnObj[28].split('|');
+			var  restriction     = rtnObj[30].split('|');
+			var  subscrTypeName  = rtnObj[31].split('|');
+			var  riskDesc		 = rtnObj[32].split('|');
+			var  nationality     = rtnObj[33].split('|');
+			var serviceStatusCode = rtnObj[34].split('|');
+			var dataCard 		 = rtnObj[35].split('|'); 
+			var isLastProjectIphone  = rtnObj[36].split('|');
+			var isShowGPRSInfo  = rtnObj[37].split('|');
+			var packageCatg     = rtnObj[38].split('|');
+			var isCheckEBM      = rtnObj[39].split('|');
+			var HLR      = rtnObj[40].split('|');
+			var isRMSVandOverRecycleDateArray = rtnObj[41].split('|');
+			var hlrgTypeOri        = rtnObj[42].split('|');
+			var workTypeCode      = rtnObj[43].split('|');
+			var netSpeed      = rtnObj[44].split('|');
+			var firstIdType      = rtnObj[45].split('|');
+			// 220825 for T案
+			var isTstCard      		= rtnObj[46].split('|');
+			var isTst      			= rtnObj[47].split('|');
+			var tstSubId      		= rtnObj[48].split('|');
+			var portingCmFlag      	= rtnObj[49].split('|');
+			var portingBillingFlag	= rtnObj[50].split('|');
+			var openTstWinFlag      = rtnObj[51].split('|');
+			//230522 for T案狀態按鈕/改接日
+			var showTstBtnFlag		= rtnObj[52].split('|');
+			var tstContractDate		= rtnObj[53].split('|');
+			
+			for(i=1; i<itemNum; i++){
+
+				var obj = new Object();
+				obj.companyType     = companyType[i];
+				obj.subscrId        = subscrId[i];
+				obj.number          = number[i];
+				obj.custName        = custName[i];
+				obj.activeDate      = activeDate[i];
+				obj.serviceStatus   = serviceStatus[i];
+				obj.firstDocId      = firstDocId[i];
+				obj.contractDueDate = contractDueDate[i];
+				obj.hlrgType        = hlrgType[i];
+				obj.subscrTypeCust  = subscrTypeCust[i];
+				obj.password        = password[i];
+				obj.workType        = workType[i];
+				obj.avgBill         = avgBill[i];
+				obj.birthday        = birthday[i];
+				obj.subscrTypeBill  = subscrTypeBill[i];
+				obj.billInfo        = billInfo[i];
+				obj.companyNbr      = companyNbr[i];
+				obj.homeNbr         = homeNbr[i];
+				obj.otherNbr        = otherNbr[i];
+				obj.program         = program[i];
+				obj.billAddress     = billAddress[i];
+				obj.simCardNo       = simCardNo[i];
+				obj.deactiveDate    = deactiveDate[i];
+				obj.custType        = custType[i];
+				obj.titleDscr       = titleDscr[i];
+				obj.userClass       = userClass[i];
+				obj.idCheckType     = idCheckType[i];
+				obj.billAccount     = billAccount[i];
+				obj.billingCycle    = billingCycle[i];
+				obj.restriction     = restriction[i];
+				obj.subscrTypeName  = subscrTypeName[i];
+				obj.riskDesc        = riskDesc[i];
+				obj.nationality     = nationality[i];
+				obj.serviceStatusCode = serviceStatusCode[i];
+				obj.dataCard 		= dataCard[i];
+				obj.isLastProjectIphone  = isLastProjectIphone[i];
+				obj.isShowGPRSInfo  = isShowGPRSInfo[i];
+				obj.packageCatg = packageCatg[i];
+				obj.isCheckEBM = isCheckEBM[i]; 
+				obj.HLR  = HLR[i];
+				isRMSVandOverRecycleDate = isRMSVandOverRecycleDateArray[i];
+				obj.hlrgTypeOri        = hlrgTypeOri[i];
+				obj.workTypeCode = workTypeCode[i];
+				obj.netSpeed = netSpeed[i];
+				obj.firstIdType = firstIdType[i];
+				// 220825 for T案
+				obj.isTstCard = isTstCard[i];
+				obj.isTst = isTst[i];
+				obj.tstSubId = tstSubId[i];
+				obj.portingCmFlag = portingCmFlag[i];
+				obj.portingBillingFlag = portingBillingFlag[i];
+				obj.openTstWinFlag = openTstWinFlag[i];
+				//230522 for T案狀態按鈕/改接日
+				obj.showTstBtnFlag = showTstBtnFlag[i];
+				obj.tstContractDate = tstContractDate[i];
+				
+				// 220829 邏輯搬移start
+				//20210709 add by marya-leon 確認是否需要OTP驗證，Y:執行/N:不需執行
+				/*checkIfNeedOTPVerify(obj.companyType, obj.firstIdType);
+
+				checkUserStatus();
+				switchINPPS(obj.companyType);
+	
+				objAccessLog = new Object();
+				// 220817 company後面增加TST判別
+				//objAccessLog.parameters = "companyType=" + companyType + "&subscrId=" + subscrId + "&phoneNumber=" + phoneNumber+"&logType=Q";
+				objAccessLog.parameters = "&subscrId=" + obj.subscrId + "&phoneNumber=" + obj.number+"&logType=Q";
+				
+				execDeputyObj = new Object();
+				execDeputyObj.companyType = obj.companyType;
+				execDeputyObj.subscrId = obj.subscrId;
+				execDeputyObj.phoneNumber = obj.number;
+				execDeputyObj.firstIdType = obj.firstIdType;
+				execDeputyObj.serviceStatusCode = obj.serviceStatusCode;
+				execDeputyObj.workTypeCode = obj.workTypeCode;
+				execDeputyObj.subscrTypeName = obj.subscrTypeName;
+				execDeputyObj.custName = obj.custName;
+				execDeputyObj.firstDocId = obj.firstDocId;
+				execDeputyObj.titleDscr = obj.titleDscr;
+				
+				execDeputy(obj.firstIdType, obj.firstDocId).then(function(returnValue){
+					if (returnValue == true) {
+						//查詢用戶接觸紀錄資訊
+						
+							checkAgentContactSummary(obj.subscrId, obj.number);
+						
+					
+						//判斷月租型門號用戶是否有申辦匯流
+						
+							checkBBContractStatus(obj.subscrId);
+						
+						
+						//20210709 add by marya-leon 
+						if(isNeedOTPVerify == 'Y' && verifyObj != null && verifyObj != undefined){
+							objAccessLog.parameters += "&otpOption=" + verifyObj.otpOption;					
+							if(verifyObj.nonOtpReason != null && verifyObj.nonOtpReason != undefined){
+								objAccessLog.parameters += "&nonOtpReason=" + verifyObj.nonOtpReason;
+							}
+						}
+					
+						//setAccessLog(objAccessLog.parameters);
+					}else{
+						return false;
+					}
+				}); */
+				
+				// 230708 for T案
+				var openTstWinFlag = obj.openTstWinFlag;
+				var showTstBtnFlag = obj.showTstBtnFlag;
+				var portingBillingFlag = obj.portingBillingFlag;
+				
+                document.getElementById("isTst").value = obj.isTst;
+				document.getElementById("tstSubId").value = obj.tstSubId;
+				document.getElementById("portingCmFlag").value = obj.portingCmFlag;
+				document.getElementById("portingBillingFlag").value = portingBillingFlag;
+				document.getElementById("openTstWinFlag").value = openTstWinFlag;
+				//230522 for T案狀態按鈕
+				document.getElementById("showTstBtnFlag").value = showTstBtnFlag;
+				document.getElementById("tstContractDate").value = obj.tstContractDate;
+				
+				document.getElementById("isTstCard").value = obj.isTstCard;
+				
+				document.getElementById('firstDocIdTmp').value = obj.firstDocId;
+				document.getElementById('companyType').value = obj.companyType;
+				document.getElementById('phoneNumber').value = obj.number;
+				document.getElementById('simNo').value = obj.simCardNo;
+				document.getElementById('subscrId').value = obj.subscrId;
+				document.getElementById('custId').value = obj.firstDocId;
+				document.getElementById('billAccount').value = obj.billAccount;
+				document.getElementById('billingCycle').value = obj.billingCycle;
+				document.getElementById('TicketCustType').value = obj.custType;
+                document.getElementById('customerName').value= isNbsp( maskAllVal(maskName(obj.custName)));
+				
+				// 230530 for T案彈性架構 TST門號提示/TST按鈕顯示
+				var showTstWin = document.getElementById('showTstWin').value;
+				var showTstBtn = document.getElementById('showTstBtn').value;
+					
+				// 230522 顯示 T案狀態按鈕
+				if(showTstBtn == "Y" && showTstBtnFlag == "Y"){
+					document.getElementById("TSTStatus").style.display = "";
+				}
+
+				// 220817 for T案 modify companyType in kiosk_access_log && setCookie
+				var isTst = obj.isTst;
+				if("Y" == isTst){
+					if(obj.companyType == "INPPS"){
+						//companyType = "INPPS_TST";
+						objAccessLog.parameters += "&companyType=INPPS_TST";
+					} else{
+						//companyType = "TST";
+						objAccessLog.parameters += "&companyType=TST";
+					}
+				} else{
+					objAccessLog.parameters += "&companyType=" + obj.companyType;
+				}
+				
+				setAccessLog(objAccessLog.parameters);
+				// 220829 邏輯搬移end
+				
+				//設cookie
+				//20220505 modify by marya-leon 調整cookie設定順序與邏輯，070門號只需要設定三個
+				setCookie("TicketSystemType",(obj.companyType=="TWM")?"TCC":obj.companyType);
+				setCookie("TicketSubscrID",obj.subscrId);
+				setCookie("TicketMsisdn",obj.number);
+							
+				if(obj.companyType != '070'){
+					setCookie("TicketSubscrType",obj.subscrTypeName);
+					setCookie("TicketCustType",obj.custType);
+					setCookie("TicketCustomerTitleU",encodeURIComponent(obj.titleDscr));
+    			}
+				
+                setCookie("cookieCmFlag", document.getElementById("portingCmFlag").value);
+            	setCookie("cookieBillingFlag", document.getElementById("portingBillingFlag").value);
+				
+				// 取得寫入票號
+				getTicketId(obj);
+				/* alert("companyType[i]:" + companyType[i]); */
+				var tagName = switchINPPSTag(obj.companyType);
+				document.getElementById( tagName.number ).innerHTML = isNbsp( maskAllVal(obj.number) );
+                document.getElementById( tagName.custName ).innerHTML = '<span class="editData3">'+isNbsp( maskAllVal(maskName(obj.custName))) + "</span>&nbsp;&nbsp;"+ maskAllVal(obj.titleDscr);    	
+				document.getElementById( tagName.serviceStatus ).innerHTML = isNbsp( maskAllVal(obj.serviceStatus) );
+				//20220505 modify by marya-leon
+				if(obj.companyType != '070'){
+					document.getElementById( tagName.workType ).innerHTML = isNbsp( maskAllVal(obj.workType) );
+				}
+				document.getElementById( tagName.firstDocId ).innerHTML = isNbsp( maskAllVal(maskId(obj.firstDocId,4)) );
+				//document.getElementById( tagName.billAddress ).innerHTML = isNbsp( billAddress[i] );
+				//document.getElementById( tagName.billAddress ).innerHTML = isNbsp(decodeURI(billAddress[i]).replace("%26", "&amp;").replace("%23","#").replace("%3B","&#59;"));
+				//document.getElementById( tagName.billAddress ).innerHTML = URIDecode(isNbsp(decodeURIComponent(billAddress[i].replace("%26%23", "&amp;#"))));
+				
+				var billAddressText = replaceAll(decodeURIComponent(URIDecode(obj.billAddress)),"&#", "&amp;#");
+				document.getElementById( tagName.billAddress ).innerHTML = maskAllVal(billAddressText);
+				document.getElementById('netSpeed').innerHTML = isNbsp( maskAllVal(obj.netSpeed) );
+				
+				//若有密碼,先跳出密碼窗
+				var passwordStr = isNbsp( obj.password );
+				if( '&nbsp;' != passwordStr ){
+	    				//window.showModalDialog('./html/password.htm',passwordStr,'center=yes;dialogHeight=100px;dialogWidth=150px;help=no;status=no');											
+						//20220425 add by marya-leon 有密碼則顯示Y並調整成紅底白字
+						if(tagName.password != null && document.getElementById( tagName.password ) != null){
+							document.getElementById( tagName.password ).innerHTML = maskAllVal("Y");
+							document.getElementById( tagName.passwordTd ).style.background = '#FF0000';
+							document.getElementById( tagName.passwordTd ).style.color = '#FFFBF0';
+						}
+				}else{	//20220425 add by marya-leon 沒密碼則恢復白底
+					if(tagName.password != null && document.getElementById( tagName.password ) != null){
+						document.getElementById( tagName.password ).innerHTML = maskAllVal("");
+						document.getElementById( tagName.passwordTd ).style.background = '#FFFFFF';
+						document.getElementById( tagName.passwordTd ).style.color = '#FFFFFF';
+					}
+				}
+				var GType = isNbsp( obj.hlrgType );
+				//20220505 modify by marya-leon
+				if(obj.companyType != '070'){
+					document.getElementById( tagName.hlrgType ).innerHTML = isNbsp( maskAllVal(GType) );
+				}
+				if( GType == '3G' )
+					hlrgType.bgcolor="#FFFF00";
+				document.getElementById( tagName.program ).innerHTML = isNbsp( maskAllVal(obj.program) );				
+				
+				if('INPPS' == obj.companyType){
+					document.getElementById('nationality').innerHTML = maskAllVal(obj.nationality);
+				}else if('TWM' == obj.companyType || 'TCC' == obj.companyType){
+					// 230619 for T案 portingBillingFlag in ('N','0', '3')，不顯示相關資訊
+				    if(portingBillingFlag != "N" && portingBillingFlag != "0" && portingBillingFlag != "3"){
+				    	getRetainLight(obj.companyType, obj.subscrId, obj.custType, obj.contractDueDate, obj.riskDesc, obj.dataCard, obj.userClass, obj.isLastProjectIphone);
+				    	document.getElementById('avgBill').innerHTML = isNbsp( maskAllVal(obj.avgBill) );
+				    	document.getElementById('subscrTypeBill').innerHTML = isNbsp( maskAllVal(obj.userClass) );
+				    }
+					//billInfoType = ("S" == billInfo[i]) ? "N" : "Y";
+				    billInfoType = ("S" == obj.billInfo) ? "" : "(合併帳)";
+				    document.getElementById('billInfoTmp').value = billInfoType;
+					//document.getElementById('billInfo').innerHTML = isNbsp(billInfoType);
+															
+					// 主約到期, 特殊維繫 顯示控制
+					var restriction =obj.restriction;
+					var contractDueDateTmp = ((obj.deactiveDate == '') ? obj.contractDueDate : '');
+					var riskDescTmp = ((obj.riskDesc != '') ? obj.riskDesc : '');
+					var isLastProjectIphone = obj.isLastProjectIphone;
+				    //changeContractDueDateAndRisk(restriction, contractDueDateTmp, riskDescTmp,isLastProjectIphone, dataCard[i]);
+				    //changeContractDueDateAndRisk(restriction, contractDueDateTmp, riskDescTmp);
+					
+					if(obj.dataCard == 'DC' )
+						document.getElementById('dc').innerHTML = maskAllVal('(MB)');
+					else
+						document.getElementById('dc').innerHTML = '';
+				}else{
+					//for 070
+					document.getElementById( tagName.birthday ).innerHTML = isNbsp( maskAllVal( dateCenturyToROC(obj.birthday, "-", true) ) );
+					document.getElementById( tagName.outSvcDate ).innerHTML = isNbsp( maskAllVal(obj.deactiveDate) );
+				}
+				
+				var storeInfoStoreType = document.getElementById("storeInfoStoreType").value;
+				// 230324 經銷加盟判別
+				if(storeInfoStoreType == "SC"){
+					if(top.mainFrame != null && top.mainFrame.MiddlePanel != null) {
+						top.mainFrame.MiddlePanel.location.href="./html/blank.htm";
+					}
+				} 
+				
+				ajaxAction(obj);
+				
+				// 231003 調整位置
+				// 230524 可彈跳視窗
+				if(showTstWin == "Y" && openTstWinFlag == "Y"){
+					showTstStatusWin();
+				}
+				
+				// 230324 經銷加盟判別
+				if(storeInfoStoreType == "SC"){
+//					if(parent.document.frames['basefrm']!=null) {
+//	    				parent.document.frames['basefrm'].document.location.href="./html/blank.htm";
+//	    			}
+
+					if(parent.document.getElementById('basefrm')!=null) {
+	    				parent.document.getElementById('basefrm').contentWindow.location.href="./html/blank.htm";
+	    			}
+					
+					
+//						if(parent.document.frames['basefrm']!=null) {
+//						   	parent.document.frames['basefrm'].document.location.href="./html/blank.htm";
+//						}
+						if(parent.document.getElementById('basefrm')!=null) {
+						   	parent.document.getElementById('basefrm').contentWindow.location.href="./html/blank.htm";
+						}
+					
+				}
+				
+				if(!top.out){
+			    	if(top.ap == 'CSW') {
+			    		top.doScmsReturn(obj.companyType, obj.subscrId, obj.number);
+			    	}
+			    }
+			}
+		}
+	}
+}
+
+function getTicketId(obj){
+	var companyType = obj.companyType;
+	if(companyType=='TWM') {
+		companyType = 'TCC';
+	}
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_getTicketId.do';
+	paramObj.sync = true;
+	paramObj.parameters = "&subscrId="+obj.subscrId
+						+ "&custName="+encodeURIComponent(obj.custName)
+						+ "&custId="+obj.firstDocId
+						+ "&phoneNumber="+obj.number
+						+ "&subscrType="+obj.subscrTypeName
+						+ "&title="+encodeURIComponent(obj.titleDscr)
+						+ "&companyType="+companyType;
+	var ajReq = getHttpRequest();
+	ajReq.open(paramObj.method, paramObj.action, paramObj.sync);
+	ajReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+	ajReq.send( paramObj.parameters );
+}
+
+function changeCustTdColor(isVIP){
+	var td = document.getElementsByName('custTd');
+	//if( isVIP == 'VIP' || isVIP == 'SVIP' ){
+	if( isVIP == 'Y' || isVIP == 'y' ) {
+		for(i=0; i<td.length; i++){
+			td[i].className = 'editLabel2';
+		}
+	}else{
+		for(i=0; i<td.length; i++){
+			td[i].className = 'editLabel1';
+		}
+	}
+}
+function changeResultColor( trId ){
+	var tb = document.getElementById('resultTable');
+	if( tb.rows.length >= 2 ){
+		for(i=1; i<tb.rows.length; i++){
+			tb.rows[i].style.background = 'white';
+		}
+		document.getElementById(trId).style.background = 'gold';
+	}
+}
+function goEBM(sessionID){
+// 	if(parent.document.frames['BottomPanel'] == null)
+// 		parent.parent.mainFrame.BottomPanel.location.href = '/EBM/getCampaign.do?sessionID='+sessionID;
+// 	else
+// 		parent.document.frames['BottomPanel'].document.location.href = '/EBM/getCampaign.do?sessionID='+sessionID;
+	if(parent.document.getElementById('bottomPanel') == null)
+		parent.parent.document.getElementsByName('mainFrame')[0].contentWindow.document.getElemensByName('bottomPanel')[0].contentWindow.location.href = '/EBM/getCampaign.do?sessionID='+sessionID;
+	else
+	    parent.document.getElementById('bottomPanel').contentWindow.location.href = '/EBM/getCampaign.do?sessionID='+sessionID;
+	resizeEBMFrame(1);
+}
+
+function goPBC(companyType, subscrId, phoneNumber, serviceStatus){
+	var frameSet;
+// 	if(parent.document.frames['MiddlePanel'] == null){
+// 		parent.document.frames['basefrm'].document.location.href = '/pbc/jsp/queryQualification.do?companyType='+companyType+'&subscrId='+subscrId+'&msisdn='+phoneNumber+'&qryType=1&exchangeType=qualification';
+// 		frameSet = parent.RightFrame;
+// 	}else{
+// 		parent.document.frames['MiddlePanel'].document.location.href = '/pbc/jsp/queryQualification.do?companyType='+companyType+'&subscrId='+subscrId+'&msisdn='+phoneNumber+'&qryType=1&exchangeType=qualification';
+// 		frameSet = parent.parent.mainFrame.document.getElementsByTagName("frameset")[1];
+// 	}
+	if(parent.document.getElementById('MiddlePanel') == null){
+		parent.document.getElementById('basefrm').contentWindow.location.href = '/pbc/jsp/queryQualification.do?companyType='+companyType+'&subscrId='+subscrId+'&msisdn='+phoneNumber+'&qryType=1&exchangeType=qualification';
+		frameSet = parent.document.getElementById('RightFrame');
+	}else{
+		parent.document.getElementById('MiddlePanel').contentWindow.location.href = '/pbc/jsp/queryQualification.do?companyType='+companyType+'&subscrId='+subscrId+'&msisdn='+phoneNumber+'&qryType=1&exchangeType=qualification';
+		frameSet = parent.parent.document.getElementById('mainFrame').contentWindow.document.getElementsByTagName("frameset")[1];
+	}
+// 	frameSet.rows="25%,75%,0";
+// 	frameSet.children[0].style.height = "25%";
+// 	frameSet.children[1].style.height = "75%";
+// 	frameSet.children[2].style.height = "0";
+	if(frameSet != null){
+		frameSet.children[0].style.height = "25%";
+		frameSet.children[1].style.height = "75%";
+		frameSet.children[2].style.height = "0";
+	}
+}
+
+//==============ajaxAction===================
+function ajaxAction(obj){
+	var storeInfoStoreType = document.getElementById("storeInfoStoreType").value;
+	
+	if('INPPS' == obj.companyType){
+		getInppsInfo(obj);
+		// 230324 經銷加盟判別
+	    if("SC" == storeInfoStoreType){
+			//getProjClassName(obj);
+			if('Y' == obj.isCheckEBM)
+		  	{
+				checkHasEBM(obj);
+		  	}
+		
+			checkHasPBC(obj);
+	    }
+		//getProjClassName(obj);
+		
+		  getHandsetLevelDesc(obj);
+		  get2Gto3G4GMessage(obj);
+		  
+		  chk4GVoLTE(obj.simCardNo, obj.companyType); // 230215 4G VoLTE判斷
+		  
+		  get3GTagMessage(obj);
+		  
+		  getESimDesc(obj);
+		  
+	      getTstDesc(obj);	
+		  
+	}else if('TWM' == obj.companyType || 'TCC' == obj.companyType){
+		var portingBillingFlag = document.getElementById("portingBillingFlag").value;
+		
+		getSubscrTypeCust(obj);
+		getMyZone(obj);
+		// 230324 經銷加盟判別
+	    if("SC" == storeInfoStoreType){
+			if('Y' == obj.isCheckEBM)
+			{
+				checkHasEBM(obj);
+			}
+		
+			checkHasPBC(obj);
+	    }
+		// 230619 for T案 portingBillingFlag in ('N','0', '3')，不顯示相關資訊
+	    if(portingBillingFlag != "N" && portingBillingFlag != "0" && portingBillingFlag != "3"){
+	    	getContractExpiredDate(obj);
+	    	doNpaCheck(obj);
+		    getAvgMonfeeNet(obj);
+	    }
+		//checkIrrational(obj.firstDocId, obj.number);
+		getBookOutSvcDate(obj);
+		if ( obj.isShowGPRSInfo == 'Y' ){
+			getGPRSInfo(obj);
+		}	
+		checkIrrational(obj.firstDocId, obj.number,"A");
+		//getProjClassName(obj);
+	    
+	    // 230324 經銷加盟判別
+	    if("SC" == storeInfoStoreType){
+	    	    
+	 		// 220817 for T案 portingBillingFlag in ('N','0')，不彈跳用戶Email推廣視窗
+			if(portingBillingFlag != "N" && portingBillingFlag != "0"){
+				checkEmailStatus(obj);	
+			}
+    		
+	    }
+	    
+		  getHandsetLevelDesc(obj);
+		  get2Gto3G4GMessage(obj);
+		  
+		  chk4GVoLTE(obj.simCardNo, obj.companyType); // 230215 4G VoLTE判斷
+		  
+		  get3GTagMessage(obj);
+		  
+		  getESimDesc(obj);
+
+		  getTstDesc(obj);
+		  
+		  getOpCard(obj.firstDocId);
+		  
+		  getBBTag1(obj.subscrId); // 230628 add 取得用戶最後合約的BB識別註記
+		  
+		var subscrIdArray = new Array();
+		subscrIdArray[0]=obj.subscrId;
+		openChannelSecurityLog(subscrIdArray, 'CW_PG_SCMS_SELECT.PC_GET_CUST_INFO', 'OQR000Q00');
+		alertSharePlan(obj);
+		
+	}else{
+		//for 070
+		//20220505 add by marya-leon
+		var subscrIdArray = new Array();
+	  	subscrIdArray[0]=obj.subscrId;
+	  	openChannelSecurityLog(subscrIdArray, 'GetSubscrInfo', 'OQR000Q00', 'IOTBS');
+	}
+	
+}
+function getSubscrTypeCust(obj){
+	
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_getSubscrType.do';
+	paramObj.sync = true;
+	paramObj.parameters = "companyType="+obj.companyType
+						 +"&subscrId="+obj.subscrId
+						 +"&subscrType="+obj.subscrTypeBill;
+	paramObj.vo = obj;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="subscrTypeCust";
+	rtnParamArray[1]="subscrTypeCustName";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+function updateSubscrType( rtnObj, obj ){
+	try{
+		var valueV2 = rtnObj[0];
+		var portingBillingFlag = document.getElementById("portingBillingFlag").value;
+		
+		// 230815 vip處理
+		if(valueV2 == "Y"){
+			subscrTypeCust.innerHTML = maskAllVal(isNbsp(rtnObj[1]) + document.getElementById('billInfoTmp').value);
+		} else{
+			// 230815 for T案 portingBillingFlag in ('N','0', '3')，不顯示相關資訊
+			if(portingBillingFlag != "N" && portingBillingFlag != "0" && portingBillingFlag != "3"){
+				subscrTypeCust.innerHTML = maskAllVal(isNbsp(rtnObj[1]) + document.getElementById('billInfoTmp').value); 
+			}
+		}
+		obj.subscrType = rtnObj[0];
+	    changeCustTdColor(valueV2);
+	}catch(err){
+		ajaxActionError(err);
+	}
+}
+function getMyZone(obj){
+		var paramObj = new Object();
+		paramObj.method = 'POST';
+		paramObj.action = 'CustomerKiosk_getMyZone.do';
+		paramObj.sync = true;
+		paramObj.parameters = "subscrId="+obj.subscrId+"&companyType="+obj.companyType;
+		paramObj.vo = obj;
+		var rtnParamArray = new Array();
+		rtnParamArray[0]="myZone";
+		paramObj.rtnParamArray = rtnParamArray;
+		var httpRequest = getHttpRequest();
+		ajaxQueryQuick( httpRequest, paramObj );
+}
+function updateMyZone( rtnObj, obj ){
+	try{
+		if( rtnObj[0] != null ){
+			var	str = rtnObj[0].replace(/^[\s　]+|[\s　]+$/g, "");		//去除輸入值的頭尾空白(含全形空白)	
+			if ( str!=0 ){
+				document.getElementById('program').innerHTML = maskAllVal(obj.program + '&nbsp;' + '('+isNbsp( rtnObj[0] )+')');
+	  		}
+		}
+	}catch(err){
+		ajaxActionError(err);
+	}
+}
+function checkHasEBM(obj){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_checkHasEBM.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+obj.subscrId+"&companyType="+obj.companyType+"&phoneNumber="+obj.number;
+	paramObj.vo = obj;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="sessionID";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+function updateEBMFlag( rtnObj, obj ){
+	try{
+		var isEBMVisible = rtnObj[0];
+		var content = '<input name="Submit" id="ebmBtn" type="button" style="background-color:yellow;color:blue;font-weight:bold;"  value="銷售推薦" onClick="goEBM(\''+isEBMVisible+'\');" >';
+		var EBM = document.getElementById('EBM');
+		if( isEBMVisible != '-999' ){
+			EBM.innerHTML = content;
+			goEBM(isEBMVisible);
+			EBM.style.display = '';
+		}else{
+			EBM.innerHTML = '&nbsp;';
+// 			if(parent.parent.mainFrame != null)
+// 				frameSet = parent.parent.mainFrame.document.getElementsByTagName("frameset")[1];
+// 			else
+// 				frameSet = parent.RightFrame;
+			if(parent.parent.document.getElementById('mainFrame') != null)
+				frameSet = parent.parent.document.getElementById('mainFrame').contentWindow.document.getElementsByTagName("frameset")[1];
+			else
+				frameSet = parent.document.getElementById('divRight');
+// 			frameSet.rows="100%,*,0";
+
+			// 231004 同PL註解
+			/* if(frameSet != null){
+				frameSet.children[1].style.height = "100%";
+				frameSet.children[2].style.height = "0";
+				frameSet.children[3].style.height = "0";
+			} */
+		}
+	}catch(err){
+		ajaxActionError(err);
+	}
+}
+
+function changeEBMButtonName(buttonValue, todoCount){
+	if (document.getElementById('ebmBtn') && buttonValue && buttonValue!=""){
+		document.getElementById('ebmBtn').value=buttonValue+((todoCount&&todoCount>0)?("("+todoCount+")"):"");
+	}
+}
+function checkHasPBC(obj){
+	document.getElementById('PBC').innerHTML = '';
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_checkHasPBC.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+obj.subscrId+"&phoneNumber="+obj.number;
+	paramObj.vo = obj;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="result";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updatePBCFlag( rtnObj, obj ){
+	try{
+		var result = rtnObj[0];
+		var PBC = document.getElementById('PBC');
+		//0=有兌換資格, 1=無兌換資格
+		if(result == '0'){
+			PBC.style.display = '';
+			PBC.innerHTML = '<input name="Submit" type="button" style="background-color:#FF6600;color:blue;font-weight:bold;"  value="有贈品未兌換" onClick="goPBC(\''+obj.companyType+'\',\''+obj.subscrId+'\',\''+obj.number+'\',\''+obj.serviceStatus+'\');">';
+		}
+	}catch(err){
+		ajaxActionError(err);
+	}
+}
+
+function tabFocus(phoneNumber){
+	//20220506 modify by marya-leon 改為11碼自動換行
+	if(phoneNumber.length == 10 && phoneNumber.substring(0,2)=='09'){
+	    document.getElementById('idNumber').focus();
+	}
+	else if(phoneNumber.length == 11 && phoneNumber.substring(0,3)=='070'){
+		document.getElementById('idNumber').focus();
+	}
+}
+function getInppsInfo( obj ){
+	document.getElementById('ceDate').innerHTML = '';
+	document.getElementById('reDate').innerHTML = '';
+	document.getElementById('mainBalance').innerHTML = '';
+	document.getElementById('ceDateTd').style.background = '#FFFFFF';
+	document.getElementById('reDateTd').style.background = '#FFFFFF';
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_getInppsInfo.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+obj.subscrId+"&simsts="+obj.serviceStatusCode;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="ceDate";
+	rtnParamArray[1]="ceColor";
+	rtnParamArray[2]="reDateE";
+	rtnParamArray[3]="reColor";
+	rtnParamArray[4]="balance";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+function updateInppsInfo( rtnObj ){
+	if(rtnObj[0]!='')
+		document.getElementById('ceDate').innerHTML = maskAllVal(rtnObj[0]);
+	if(rtnObj[1]!='')
+		document.getElementById('ceDateTd').style.background = maskAllVal(rtnObj[1]);
+	if(rtnObj[2]!='')
+		document.getElementById('reDate').innerHTML = maskAllVal(rtnObj[2]);
+	if(rtnObj[3]!='')
+		document.getElementById('reDateTd').style.background = maskAllVal(rtnObj[3]);
+	
+	//230731 for T案 portingBillingFlag in ('N','0', '3')，不顯示相關資訊
+	var portingBillingFlag = document.getElementById("portingBillingFlag").value;
+  	if(portingBillingFlag != "N" && portingBillingFlag != "0" && portingBillingFlag != "3"){
+		if(rtnObj[4]!='')
+			document.getElementById('mainBalance').innerHTML = maskAllVal(rtnObj[4]);
+  	}
+}
+
+function toChildBalance(){
+  if($("#inWorkType").html()=="已刪除"){
+	alert("此門號已刪除，無子帳戶餘額。");
+  }else{	
+	var phoneNumber = document.getElementById('phoneNumber').value;
+	var subscrId = document.getElementById('subscrId').value;
+	window.open('CustomerKiosk_toChildBalance.do?subscrId='+subscrId+'&phoneNumber='+phoneNumber,'inpps','height=450, width=1064, top=200, left=200, toolbar=no, menubar=no, scrollbars=Yes, resizable=yes,location=no, status=no');
+  }
+}
+
+function getContractExpiredDate( obj ){
+	document.getElementById('contractExpiredDate').innerHTML='';
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_getContractExpiredDate.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+obj.subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="result";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateContractExpiredDate( rtnObj ){
+	if( rtnObj[0] != null ){
+		//document.getElementById('contractExpiredDate').innerHTML=isNbsp(rtnObj[0]);
+		
+			
+			
+				document.getElementById('contractExpiredDate').innerHTML= maskAllVal(isNbsp(rtnObj[0]));
+			
+		
+	}else{
+		document.getElementById('contractExpiredDate').innerHTML='';
+	}
+}
+
+function getBookOutSvcDate( obj ){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_getBookOutSvcDate.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+obj.subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="result";
+	rtnParamArray[1]="desc";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateBookOutSvcDate( rtnObj ){
+	//if( rtnObj[0] != null ) {
+	if( rtnObj[0] != null && rtnObj[0] !="") {
+	    alert('提醒：此門號 ' + rtnObj[0] + ' 申請預約退租中!');		
+	}
+}
+
+function doNpaCheck(obj){
+	//卡世代別如果不是"2G(TAT)"或"2G(MBT)"，則略過
+	var hlrgTtype = obj.hlrgType.toUpperCase();
+	if(hlrgTtype.indexOf("2G") == -1){
+		return;
+	}
+	if( (hlrgTtype.indexOf("TAT") == -1) && (hlrgTtype.indexOf("MBT") == -1) ){
+		return;
+	}
+	
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_doNpaCheck.do';
+	paramObj.sync = true;
+	paramObj.parameters = "companyType="+obj.companyType + '&subscrId=' + obj.subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="result";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );	
+}
+
+function updateNpaStatus( rtnObj, obj ){
+  try{
+	var billInfoTmp = document.getElementById('billInfoTmp');
+	var subscrTypeCust = document.getElementById('subscrTypeCust');
+	if (rtnObj[0] == 'Y'){
+		if(subscrTypeCust.innerHTML.indexOf(billInfoTmp.value) != -1) {
+			subscrTypeCust.innerHTML = maskAllVal(subscrTypeCust.innerHTML.split(billInfoTmp.value)[0] + '(呆戶)' + billInfoTmp.value);
+		} else {
+			document.getElementById('subscrTypeCust').innerHTML += maskAllVal('(呆戶)');
+		}
+	}
+  }catch(err){
+    ajaxActionError(err);
+  }
+}	
+	
+function getAvgMonfeeNet( obj ) {
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_getAvgMonfeeNet.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId=" + obj.subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="avgMonfeeNet";
+	rtnParamArray[1]="avgMonfeeAll";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );	
+}
+
+function updateAvgMonfeeNet( rtnObj ) {
+  try{
+	document.getElementById('avgMonfeeNet').innerHTML = maskAllVal(rtnObj[0]);
+	document.getElementById('avgMonfeeAll').innerHTML = maskAllVal(rtnObj[1]);
+  }catch(err){
+    ajaxActionError(err);
+  }
+}
+
+function qryStoreStatus() {
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_qryStoreStatus.do';
+	paramObj.sync = true;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="result";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function showStoreStatus( rtnObj ) {
+	try {
+		var result = rtnObj[0];
+		//result = result.replace(/\r\n|\n/g,"<BR>");
+		alertbox("jsp/alertbox.jsp?msg="+encodeURIComponent(result),"420","280");
+	} catch(err) {
+		ajaxActionError(err);
+	}
+}
+	
+function getGPRSInfo(obj){
+    var paramObj = new Object();
+    paramObj.method = 'POST';
+    paramObj.action = 'CustomerKiosk_getGPRSInfo.do';
+    paramObj.sync = true;
+    paramObj.parameters = "subscrId="+obj.subscrId+"&companyType="+obj.companyType;
+    paramObj.vo = obj;
+    var rtnParamArray = new Array();
+    rtnParamArray[0]="GPRSInfo";
+    paramObj.rtnParamArray = rtnParamArray;
+    var httpRequest = getHttpRequest();
+    ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateGPRSInfo( rtnObj ){
+  try{
+    if( rtnObj[0] != null ){
+      var GPRSInfo = rtnObj[0].replace(/^[\s　]+|[\s　]+$/g, "");    //去除輸入值的頭尾空白(含全形空白)
+      if ( GPRSInfo!=0 ){
+        document.getElementById('program').innerHTML += (" / " + maskAllVal(GPRSInfo));
+      }
+    }
+  }catch(err){
+    ajaxActionError(err);
+  }
+}
+
+function linkTo( URI ){
+	var ocDataMask = document.getElementById("ocDataMask").value;
+	if(ocDataMask!="Y"){
+		window.open(URI,'newWin','toolbar=no,menubar=no,resizable=yes');
+	}
+	
+}
+
+function alertSharePlan(obj){
+	//SharePlan 主門號提示
+	if(obj.packageCatg == '3'){
+		alert("辦理相關異動作業(如：取消交易、退租、一退一租等)，將影響分享資費方案附門號之資費計費方式。");
+	}	
+}
+
+//取得分享資費狀態
+function getSharePlanStatus() {
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'SharePlanMember_getSharePlanStatus.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscriberNumber=" + getCookie("TicketMsisdn");
+	var rtnParamArray = new Array();
+	
+	rtnParamArray[0]="errMsg";
+	rtnParamArray[1]="masterBillStatus";
+	rtnParamArray[2]="result";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateSharePlanStatus(rtnObj) {
+	
+	var errMsg = rtnObj[0]; 
+	if(errMsg != ""){
+		alert(errMsg);
+	}else{
+	    if(rtnObj[1] == '1'){
+	    	document.getElementById('sharePlanStatus').innerHTML = '<font color="blue">主門號目前狀態無法分享使用量</font>';
+	    }else{
+	    	document.getElementById('sharePlanStatus').innerHTML = rtnObj[2];
+		}
+	}
+}
+
+//取得手持機款
+function getHandsetLevelDesc(obj) {
+	
+	document.getElementById('handsetLevelDesc').innerHTML = "";
+	
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_getHandsetLevelDesc.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+obj.subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="result";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateHandsetLevelDesc(rtnObj) {
+	try{
+		if( rtnObj[0] != null ){
+	    	var handsetLevelDesc = rtnObj[0];
+	      	if ( handsetLevelDesc == 'null' || handsetLevelDesc == null || handsetLevelDesc == undefined || (!handsetLevelDesc) || handsetLevelDesc == 'undefined'){
+	    	  
+	      	}else{
+	        	document.getElementById('handsetLevelDesc').innerHTML = "&nbsp;/&nbsp;" + maskAllVal(handsetLevelDesc);
+	      	}
+	    }
+	}catch(err){
+		ajaxActionError(err);
+	}	
+}
+
+//2G免換卡升頻
+function get2Gto3G4GMessage(obj) {
+	//if (obj.HLR == null || obj.HLR.length == 0 ) return false;
+	if(obj.companyType=="INPPS"){
+		document.getElementById('2Gto34GINPPS').innerHTML = "";
+	}else if(obj.companyType=="TWM" || obj.companyType=="TCC"){
+		document.getElementById('2Gto34G').innerHTML = "";
+	}else{
+		//for 070
+	}
+	if (obj.HLR == null || obj.HLR.length == 0 ) return false;
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_get2Gto3G4GMessage.do';
+	paramObj.sync = true;
+	paramObj.parameters = "HLR="+obj.HLR+"&companyType="+obj.companyType+"&phoneNumber="+obj.number;
+	var rtnParamArray = new Array();
+	
+	rtnParamArray[0]="errMsg";
+	rtnParamArray[1]="simCardGeneration";
+	rtnParamArray[2]="companyType";
+	rtnParamArray[3]="alertMessage";
+	rtnParamArray[4]="agreeLabel";
+	rtnParamArray[5]="phoneNumber";
+	rtnParamArray[6]="showWhiteBoard";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function update2Gto3G4GMessage(rtnObj) {
+	if (rtnObj == null || rtnObj == "")  return false;
+	var errMsg = rtnObj[0]; 
+	try{
+		if(errMsg != ""){
+			alert(errMsg);
+		}else{
+			if( rtnObj[1] != null ){
+		    	var simCardGeneration = rtnObj[1];
+		    	var companyType = rtnObj[2];
+		    	var alertMessage = rtnObj[3];
+		    	var agreeLabel = rtnObj[4];
+		    	var phoneNumber = rtnObj[5];
+		    	var showWhiteBoard = rtnObj[6];
+		      	if ( simCardGeneration == 'null' || simCardGeneration == null || simCardGeneration == undefined || (!simCardGeneration) || simCardGeneration == 'undefined'){
+		      		//do nothing
+		      	}else{
+		      		if(companyType=="INPPS"){
+		        		if(agreeLabel == 'Y'){
+		        			document.getElementById('2Gto34GINPPS').innerHTML = maskAllVal("&nbsp;/&nbsp;M用戶");
+		        		}else if(agreeLabel == 'N'){
+		        			document.getElementById('2Gto34GINPPS').innerHTML = maskAllVal("&nbsp;/&nbsp;S用戶");
+		        		}else if(agreeLabel == 'L'){
+		        			document.getElementById('2Gto34GINPPS').innerHTML = maskAllVal("&nbsp;/&nbsp;舊卡");
+		        			if( alertMessage != ""){
+				                alert(alertMessage);
+			                }
+		        		}
+		      		}else if(companyType=="TWM" || companyType=="TCC"){
+		      			if(agreeLabel == 'Y'){
+		      				document.getElementById('2Gto34G').innerHTML = maskAllVal("&nbsp;/&nbsp;M用戶");
+		      			}else if(agreeLabel == 'N'){
+		      				document.getElementById('2Gto34G').innerHTML = maskAllVal("&nbsp;/&nbsp;S用戶");
+		      			}else if(agreeLabel == 'L'){
+		      				document.getElementById('2Gto34G').innerHTML = maskAllVal("&nbsp;/&nbsp;舊卡");
+		      				if( alertMessage != ""){
+				                alert(alertMessage);
+			                }
+		      			}
+		      				
+		      		}else{
+		      			//for 070
+		      		}
+		      	}
+		    }
+		}
+	}catch(err){
+		ajaxActionError(err);
+	}	
+}
+
+//判斷續約資格亮燈邏輯
+
+function getRetainLight(companyType, subscrId, custType,contractDueDate, riskDesc, dataCard, userClass, lastProjectIPhone) {
+	
+	//alert("in JS getRetainLight, subscrId=" + subscrId + ", companyType=" + companyType + ",custType=" + custType+ ", contractDueDate=" + contractDueDate + ", riskDesc="+ riskDesc + ", dataCard=" + dataCard + ", userClass="	+ userClass + ", lastProjectIPhone=" + lastProjectIPhone);
+	
+	
+	
+	
+		document.getElementById('contractDueDate').innerHTML = maskAllVal(contractDueDate);
+	
+	
+	
+	document.getElementById('riskDesc').innerHTML = maskAllVal(riskDesc);
+	
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_getRetainLight.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+subscrId+"&companyType="+companyType+"&custType="+custType+"&contractDueDate="+contractDueDate+"&riskDesc="+riskDesc +"&dataCard="+dataCard +"&userClass="+userClass +"&lastProjectIPhone="+lastProjectIPhone;
+	
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="light";
+	rtnParamArray[1]="backgroundColor";
+	rtnParamArray[2]="riskDesc";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateRetainLight(rtnObj) {
+	if (rtnObj == null || rtnObj == "")  
+		return false;
+	
+	var light = rtnObj[0];
+	var backgroundColor = rtnObj[1]; 
+	var riskDesc = rtnObj[2];
+	try{
+		// 主約到期外層TD
+	  	var theContractTd = document.getElementById('contractTd');
+		theContractTd.style.background = "";
+		theContractTd.style.color = "#000000";
+	
+		// 特殊維繫外層TD
+		var theRiskDescTd = document.getElementById('riskDescTd');
+		theRiskDescTd.style.background = "";
+		theRiskDescTd.style.color = "#000000";
+	
+      	if(light != "" && light != "0"){ 
+			theContractTd.style.background = backgroundColor;
+	  	}
+	  
+	  	// 特殊維繫有值
+	  	if(riskDesc != null && riskDesc.trim() != '' && riskDesc != 'null') {
+	    	if(light != "" && light != "0") {
+	      		// 紅底白字
+	      		theRiskDescTd.style.background = '#FF0000';
+	      		theRiskDescTd.style.color = '#FFFBF0';
+	    	} else {
+	      		// 白底淺灰字
+	      		theRiskDescTd.style.background = '#FFFFFF';
+	      		theRiskDescTd.style.color = '#dcdcdc';
+	    	}
+	  	}
+	  
+	}catch(err){
+		ajaxActionError(err);
+	}	
+}
+
+
+
+function cleanGeneralQueryResult(){
+	document.getElementById("number").innerHTML = "";
+	document.getElementById("dc").innerHTML = "";
+	document.getElementById("hlrgType").innerHTML = "";
+	document.getElementById("handsetLevelDesc").innerHTML = "";
+	document.getElementById("2Gto34G").innerHTML = "";
+	document.getElementById("custName").innerHTML = "";
+	document.getElementById("riskDesc").innerHTML = "";
+	document.getElementById("contractDueDate").innerHTML = "";
+	document.getElementById("serviceStatus").innerHTML = "";
+	document.getElementById("firstDocId").innerHTML = "";
+	// 221205 add by marya for OP聯名卡
+	document.getElementById("opCard").innerHTML = "";
+	document.getElementById("avgMonfeeNet").innerHTML = "";
+	document.getElementById("contractExpiredDate").innerHTML = "";
+	document.getElementById("program").innerHTML = "";
+	document.getElementById("billAddress").innerHTML = "";
+	document.getElementById("avgBill").innerHTML = "";
+	document.getElementById("subscrTypeBill").innerHTML = "";
+	document.getElementById("subscrTypeCust").innerHTML = "";
+	document.getElementById("3GTagDesc").innerHTML = "";
+	document.getElementById("eSimDesc").innerHTML = "";	
+	document.getElementById("tstDesc").innerHTML = ""; // add for T案
+	
+	document.getElementById("inNumber").innerHTML = "";
+	document.getElementById("inCustName").innerHTML = "";
+	document.getElementById("nationality").innerHTML = "";
+	document.getElementById("ceDate").innerHTML = "";
+	document.getElementById("inServiceStatus").innerHTML = "";
+	document.getElementById("inFirstDocId").innerHTML = "";
+	document.getElementById("mainBalance").innerHTML = "";
+	document.getElementById("reDate").innerHTML = "";
+	document.getElementById("inProgram").innerHTML = "";
+	document.getElementById("inBillAddress").innerHTML = "";
+	document.getElementById("3GTagDescINPPS").innerHTML = "";	
+	document.getElementById("netSpeed").innerHTML = ""; //200422 最高網速
+	document.getElementById("eSimDescINPPS").innerHTML = "";
+	document.getElementById("tstDescINPPS").innerHTML = ""; // add for T案
+	
+	document.getElementById('companyType').value = "";
+    document.getElementById('phoneNumber').value = "";
+    document.getElementById('simNo').value = "";
+    document.getElementById('subscrId').value = "";
+    document.getElementById('custId').value = "";
+    document.getElementById('billAccount').value = "";
+    document.getElementById('billingCycle').value = "";
+    document.getElementById('firstDocIdTmp').value = "";
+	document.getElementById('TicketCustType').value = "";
+	document.getElementById('customerName').value= "";
+	document.getElementById('billInfoTmp').value= "";
+	
+	//20220505 add by marya-leon 清空070用戶資料區
+	document.getElementById('iotbsProductKey').innerHTML = "";
+    document.getElementById('iotbsCustNme').innerHTML = "";
+    document.getElementById('iotbsAddress').innerHTML = "";
+    document.getElementById('iotbsSvcStatus').innerHTML = "";
+    document.getElementById('iotbsCustId').innerHTML = "";
+    document.getElementById('iotbsOutSvcDate').innerHTML = "";
+    document.getElementById('iotbsProgram').innerHTML = "";
+    document.getElementById('iotbsBirthday').innerHTML = "";
+    
+    document.getElementById('isDeputy').value = "";
+	// 220823 for T案
+    document.getElementById('isTst').value= "";
+    document.getElementById('tstSubId').value= "";
+    document.getElementById('portingCmFlag').value= "";
+    document.getElementById('portingBillingFlag').value= "";
+    document.getElementById('openTstWinFlag').value= "";
+ 	// 230523 for T案狀態按鈕
+ 	document.getElementById('showTstBtnFlag').value= "";
+ 	document.getElementById('TSTStatus').style.display = "none";
+ 	document.getElementById('tstContractDate').value= "";
+ 	document.getElementById('isTstCard').value= "";
+    
+    // 230707
+    document.getElementById("avgMonfeeAll").innerHTML = "";
+    document.getElementById("bbTag").innerHTML = "";
+    
+	
+	setCookie("TicketSystemType", "");
+	setCookie("TicketSubscrID", "");
+	setCookie("TicketSubscrType", "");
+	
+	// 220823 for T案
+	setCookie("cookieCmFlag", "");
+	setCookie("cookieBillingFlag", "");
+	
+	try{
+		
+	}catch(err){
+	    	
+	}
+	
+	try{
+	    setCookie("TicketCustomerTitle", "");
+	}catch(err){
+	    	
+	}
+	setCookie("TicketCustType", "");
+	setCookie("TicketMsisdn", "");
+	setCookie("TicketCustomerTitleU", "");
+	
+	var storeInfoStoreType = document.getElementById("storeInfoStoreType").value;
+	// 230324 經銷加盟判別
+	if(storeInfoStoreType == "SC"){
+//		if(parent.document.frames['MiddlePanel'] == null){
+//			parent.parent.mainFrame.MiddlePanel.location.href = 'about:blank';
+//		} else{
+//			parent.document.frames['MiddlePanel'].location.href = 'about:blank';	
+//		}
+		if(parent.document.getElementById('MiddlePanel') == null){
+	   		parent.parent.document.getElementById('mainFrame').contentWindow.document.getElementById('MiddlePanel').contentWindow.location.href = 'about:blank';
+		}else{
+	   		parent.document.getElementById('MiddlePanel').contentWindow.location.href = 'about:blank';		
+		}
+	}
+}
+
+//即時判斷帳號狀態
+function checkUserStatus() {
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_getUserStatus.do';
+	paramObj.sync = true;
+	
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="result";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateCheckUserStatus(rtnObj) {
+	if (rtnObj == null || rtnObj == ""){
+		alert("目前使用IP位址不在該店點允許IP內，SCMS記錄後將直接登出。");
+		//登出
+	  	window.top.location.href = 'https://scms.tcc.net.tw/sso/logout.jsp';
+		return false;  
+	}
+	
+	var result = rtnObj[0];
+	if(result != "" && result == "Y"){ 
+		//正常
+		return true;
+	}else{
+		if(isCheckUserStatusAlertOpen == "N"){
+			isCheckUserStatusAlertOpen = "Y";
+			alert("因查詢量異常，帳號已被鎖定。");			
+		}
+	  	//登出
+	  	window.top.location.href = 'https://scms.tcc.net.tw/sso/logout.jsp';
+		return false;
+	}	
+}
+
+//231003 CustomerInfo_checkEmailStatus調整ajax寫法
+function checkEmailStatus(obj){
+	$.ajax({
+		url: "CustomerInfo_checkEmailStatus.do",
+		data: {
+			subscrId : obj.subscrId,
+			serviceStatusCode : obj.serviceStatusCode
+		},
+		type:"post",
+		async: false,
+		success:function(ajaxResponse){
+			if(ajaxResponse.success) {
+				var result = ajaxResponse.responseData;
+				if(result != null && result != ''){
+					if(result == 'NO_EMAIL'){
+						if(confirm("請推廣用戶留存【用戶Email】，可享專屬優惠/最新訊息等通知，是否立即新增?")) {
+							//window.open('/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1','whiteBoard','height=350, width=850, top=200, left=200, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');
+							var frameSet;
+//			 				if(parent.document.frames['MiddlePanel'] == null){
+//			 					parent.document.frames['basefrm'].document.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+//			 					frameSet = parent.RightFrame;
+//			 				}else{
+//			 					parent.document.frames['MiddlePanel'].document.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+//			 					frameSet = parent.parent.mainFrame.document.getElementsByTagName("frameset")[1];
+//			 				}
+							if(parent.document.getElementById('MiddlePanel') == null){
+								parent.document.getElementById('basefrm').contentWindow.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+							    frameSet = parent.document.getElementById('RightFrame');
+							    frameSet.children[0].style.height = "25%";
+								frameSet.children[1].style.height = "75%";
+								frameSet.children[2].style.height = "0";
+							}else{
+							    parent.document.getElementById('MiddlePanel').contentWindow.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+//			 				    frameSet = parent.parent.document.getElementById('mainFrame').contentWindow.document.getElementsByTagName("frameset")[1];
+								//parent.document.getElementById('divMidTop').style.height = "5%";
+								
+								parent.document.getElementById('divMainTop').style.height = "25%";
+								parent.document.getElementById('divMainMid').style.height = "75%";
+								parent.document.getElementById('divMainBottom').style.height = "0";
+			  					
+								//parent.resetDivRight(); // 231005 call portal function
+							}
+						}
+					}else if(result == 'EMAIL_NO_VERIFY'){
+						if(confirm("用戶Email尚未完成驗證，是否需重取驗證函或異動其他Email?")) {
+							//window.open('/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1','whiteBoard','height=350, width=850, top=200, left=200, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');
+							var frameSet;
+//			 				if(parent.document.frames['MiddlePanel'] == null){
+//			 					parent.document.frames['basefrm'].document.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+//			 					frameSet = parent.RightFrame;
+//			 				}else{
+//			 					parent.document.frames['MiddlePanel'].document.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+//			 					frameSet = parent.parent.mainFrame.document.getElementsByTagName("frameset")[1];
+//			 				}
+							if(parent.document.getElementById('MiddlePanel') == null){
+								parent.document.getElementById('basefrm').contentWindow.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+							    frameSet = parent.document.getElementById('RightFrame');
+							    frameSet.children[0].style.height = "25%";
+								frameSet.children[1].style.height = "75%";
+								frameSet.children[2].style.height = "0";
+							}else{
+							    parent.document.getElementById('MiddlePanel').contentWindow.location.href = '/servicechange/multipleModificationEntry.do?state=init&clear=1&fromQX=1';
+//			 				    frameSet = parent.parent.document.getElementById('mainFrame').contentWindow.document.getElementsByTagName("frameset")[1];
+								
+								parent.document.getElementById('divMainTop').style.height = "25%";
+								parent.document.getElementById('divMainMid').style.height = "75%";
+								parent.document.getElementById('divMainBottom').style.height = "0";
+			  					/* parent.document.getElementById('MiddlePanel').style.height = "75%";
+			  					parent.document.getElementById('bottomPanel').style.height = "0"; */
+							}
+						}
+					} 	    
+				}
+			}
+		},
+		error:function(xhr, ajaxOptions, thrownError){
+			// alert("Failed to Call Ajax! Message:" + xhr.statusText);
+		},
+		complete:function(jqXHR, textStatus){
+			
+		}
+	});
+}
+
+//3G執照後期貼標
+function get3GTagMessage(obj) {
+
+	var is3G = false;
+	if(obj.hlrgType.indexOf("3G") != -1 ){
+		is3G = true;
+	}
+	
+	//UI初使化
+	if(obj.companyType=="INPPS"){
+		document.getElementById('3GTagDescINPPS').innerHTML = "";
+	}else if(obj.companyType=="TWM" || obj.companyType=="TCC"){
+		document.getElementById('3GTagDesc').innerHTML = "";
+	}else{
+		//for 070
+	}
+	
+	//貼標流程
+	if(obj.companyType=="INPPS"){ //(1)預付卡貼標流程
+		//do nothing
+	}else if(obj.companyType=="TWM" || obj.companyType=="TCC"){  //(2)月租型貼標流程
+		if(obj.deactiveDate == ''){ //(2.1) 月租型-4S
+			getTagAndMessageFor3GHlrg(obj); //不一定會貼標，後續要判斷 $("#3GTagDesc").innerHTML 是否有 "/4S" 的內容
+		}
+	}else{
+		//for 070
+	}
+
+}
+
+function getTagAndMessageFor3GHlrg(obj){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_getTagAndMessageFor3GHlrg.do';
+	paramObj.sync = false;
+	paramObj.parameters = "hlrgType="+obj.hlrgTypeOri+"&subscrId="+obj.subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="alertMessage";
+	rtnParamArray[1]="tag";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateTagAndMessageFor3GHlrg(rtnObj) {
+	if (rtnObj == null || rtnObj == "")  return false;
+	var alertMessage = rtnObj[0];
+	var tag = rtnObj[1];
+	if(tag != ""){
+		if(tag == "4S"){
+			document.getElementById('3GTagDesc').innerHTML = maskAllVal("/4S");
+			if( alertMessage != ""){
+				alert(alertMessage);
+			}				
+		}else if(tag == "4GHG"){
+			//document.getElementById('3GTagDesc').innerHTML = "/4G異質網";
+		}
+	}
+}
+
+function getESimDesc(obj){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_getESimDesc.do';
+	paramObj.sync = true;
+	paramObj.parameters = "companyType=" + obj.companyType + "&iccid="+obj.simCardNo+"&subscrId="+obj.subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="deviceFlag";
+	rtnParamArray[1]="simClass";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updategetESimDesc(rtnObj) {
+	if (rtnObj == null || rtnObj == "")  return false;
+	var deviceFlag = rtnObj[0];
+	var simClass = rtnObj[1];
+	
+	if($("#companyType").val()=="INPPS"){
+		if( simClass != "" && simClass == "E-C"){
+			document.getElementById('eSimDescINPPS').innerHTML = maskAllVal("(eSIM)");	
+		}
+	}else if($("#companyType").val()=="TWM" || $("#companyType").val()=="TCC"){
+		if( deviceFlag!="" && deviceFlag=="W"){
+			document.getElementById('eSimDesc').innerHTML = maskAllVal("(eSIM_Watch)");	
+		}else if( simClass != "" && simClass == "E-C"){
+			document.getElementById('eSimDesc').innerHTML = maskAllVal("(eSIM)");	
+		}		
+	}else{
+		//for 070
+	}
+}
+
+function getESimProfileStatus(){
+	var simNo = document.getElementById('simNo').value;
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_getESimProfileStatus.do';
+	paramObj.sync = true;
+	paramObj.parameters = "iccid="+simNo;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="success";
+	rtnParamArray[1]="status";
+	rtnParamArray[2]="message";
+	rtnParamArray[3]="reasonCode";
+	rtnParamArray[4]="reason";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updategetESimProfileStatus(rtnObj) {
+	if (rtnObj == null || rtnObj == "")  return false;
+	var success = rtnObj[0];
+	var status = rtnObj[1];
+	var message = rtnObj[2];
+	var reasonCode = rtnObj[3];
+	var reason = rtnObj[4];
+	if( success != ""){
+		if( success == "Y"){
+			openESimStatus(status, message);
+		}else if(success == "N"){
+			alert(reasonCode+":"+reason);			
+		}
+		//openESimStatus("RELEASED", "未下載");
+	}	
+}
+
+function openESimStatus(status, message){ 
+	var subscrId = document.getElementById("subscrId").value;
+	var simNo = document.getElementById('simNo').value;
+	var companyType = document.getElementById('companyType').value;	
+	var urlNewWin = 'CustomerInfo_showESimStatus.do?subscrId='+subscrId+'&status='+status+'&message='+encodeURI(message)+'&simNo='+simNo+'&companyType='+companyType;
+	window.open(urlNewWin, "", 'center=yes,height=160,width=380,top=200,left=400,help=no,status=no');	
+}
+
+function checkAgentContactSummary(subscrId, msisdn){
+	
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_checkAgentContactSummary.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+subscrId+"&msisdn="+msisdn;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="errCde";
+	rtnParamArray[1]="errMsg";
+	rtnParamArray[2]="sid";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateAgentContactSummary(rtnObj){
+	if (rtnObj == null || rtnObj == "")  return false;
+	var errCde = rtnObj[0];
+	var errMsg = rtnObj[1];
+	var sid = rtnObj[2];
+	if( errCde && errCde != ""){
+		if( errCde == "00"){
+			showAgentContactSummary(sid);
+		}else {
+			//alert(errCde+":"+errMsg);			
+		}
+	}	
+}
+
+function showAgentContactSummary(sid){ 
+	var urlNewWin = 'CustomerInfo_showAgentContactSummary.do?sid='+sid;
+	window.open(urlNewWin, "", 'center=yes,height=400,width=600,top=200,left=400,help=no,status=no');	
+}
+
+
+function checkBBContractStatus(subscrId){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_checkBBContractStatus.do';
+	paramObj.sync = true;
+	paramObj.parameters = "subscrId="+subscrId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="errCde";
+	rtnParamArray[1]="errMsg";
+	rtnParamArray[2]="bbContractCount";
+	paramObj.rtnParamArray = rtnParamArray;
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateBBContractStatus(rtnObj){
+	if (rtnObj == null || rtnObj == "")  return false;
+	var errCde = rtnObj[0];
+	var errMsg = rtnObj[1];
+	var bbContractCount = rtnObj[2];
+	if( errCde && errCde != ""){
+		if( errCde == "00" && bbContractCount>0){
+			alert("【重要提醒】現寬頻服務仍待廠商供裝中，附約到期日待供裝後更新!!");
+		}else {
+			//alert(errCde+":"+errMsg);			
+		}
+	}	
+}
+
+// 加盟盤商權限查詢入口全隱碼
+function maskAllVal(value){
+   var rtnValue = "";
+   var ocDataMask = document.getElementById("ocDataMask").value;
+   if(value != null){
+	   rtnValue = (ocDataMask=="Y") ? "******" : value; 
+   }
+   return rtnValue;
+}
+
+//220719 for T案 彈跳TST門號提示視窗
+function showTstStatusWin(){
+	// 230523 param get from hidden value
+	var tstSubId = document.getElementById("tstSubId").value;
+	var portingCmFlag = document.getElementById("portingCmFlag").value;
+	var portingBillingFlag = document.getElementById("portingBillingFlag").value;
+	var msisdn = document.getElementById("phoneNumber").value;
+	var companyType = document.getElementById("companyType").value;
+	var isTstCard = document.getElementById("isTstCard").value;
+	var tstContractDate = document.getElementById("tstContractDate").value;
+	var subscrId = document.getElementById("subscrId").value;
+	var simNo = document.getElementById("simNo").value;
+	
+	var url = "CustomerInfo_showTstStatusWin.do?tstSubId="+tstSubId+"&portingCmFlag="+portingCmFlag
+			+"&portingBillingFlag="+portingBillingFlag+"&msisdn="+msisdn+"&companyType="+companyType+"&isTstCard="+isTstCard
+			+"&tstContractDate="+tstContractDate+"&subscrId="+subscrId+"&simNo="+simNo;
+	/* window.open(url,"","center=yes;dialogHeight=250px;dialogWidth=500px;help=no;status=no"); */
+	
+	// 230703 重新開啟
+	if(tstStatusWin != null && tstStatusWin.closed==false){
+		tstStatusWin.focus();
+	} else{
+		tstStatusWin = window.open(url, "tstStatusWin", 'width=600, height=250, left=600, top=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');	
+	}
+}
+
+// 230523 for T案 顯示"/TST卡"
+function getTstDesc(obj){
+	var isTstCard = document.getElementById("isTstCard").value;
+	if("Y" == isTstCard){
+		if(obj.companyType == "INPPS"){
+			document.getElementById('tstDescINPPS').innerHTML = "/TST卡";
+		} else{
+			document.getElementById('tstDesc').innerHTML = "/TST卡";
+		}
+	}
+}
+
+//220825 取得相關參數開啟XWS
+function chkTstWin(){
+	var tstSubId = document.getElementById("tstSubId").value;
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerInfo_chkTstWin.do';
+	paramObj.sync = true;
+	paramObj.parameters = "tstSubId="+tstSubId;
+	var rtnParamArray = new Array();
+	rtnParamArray[0]="token";
+	rtnParamArray[1]="storeType";
+	rtnParamArray[2]="url";
+	rtnParamArray[3]="errorMsg";
+	paramObj.rtnParamArray = rtnParamArray;
+	//ajaxQueryQuick( new ActiveXObject('Microsoft.XMLHTTP'), paramObj );
+	var httpRequest = getHttpRequest();
+	ajaxQueryQuick( httpRequest, paramObj );
+}
+
+function updateTstWin(rtnObj){
+	if (rtnObj == null || rtnObj == "")  return false;
+	var token = rtnObj[0];
+	var storeType = rtnObj[1];
+	var url = rtnObj[2];
+	var errorMsg = rtnObj[3];
+	if(errorMsg != null && errorMsg != ""){
+		alert(errorMsg);
+	} else{
+		if(token != null && token != ""){
+			openXws(token, storeType, url);
+		}
+	}	
+}
+
+//220725 for T案 開啟XWS
+function openXws(token, storeType, url){
+	var channelType = "";
+	if(storeType == "SB"){
+		channelType = "1";
+	} else if(storeType == "SC"){
+		channelType = "2";
+	} else{
+		channelType = "3";
+	}
+	var newUrl = url + "?token=" + encodeURIComponent(token) + "&channelType=" + channelType
+	// openIE:http(s)://XWS_URL?token={token}& channelType={channelType}"   
+	// window.location.href = newUrl;
+	
+	// 230707 TST狀態視窗需關閉
+	if(tstStatusWin != null  && tstStatusWin.closed==false){
+		tstStatusWin.close();
+		tstStatusWin = null;
+	}
+	
+	// 230703 重新開啟
+	if(showChkTstWin != null && showChkTstWin.closed==false){
+		showChkTstWin.focus();
+	} else{
+		showChkTstWin = window.open(newUrl, 'chkTstWin', 'toolbar=no,menubar=no,resizable=yes');	
+	}
+}
+
+//230629 close tst win
+function closeTstWindows(){
+	if(tstStatusWin != null && tstStatusWin.closed==false){
+		tstStatusWin.close();
+		tstStatusWin = null;
+	}
+	
+	if(showChkTstWin != null && showChkTstWin.closed==false){
+		showChkTstWin.close();
+		showChkTstWin = null;
+	}
+}
+
+function getOpCard(custId){
+	document.getElementById("opCard").innerHTML = "N"; // init value;
+	$.ajax({
+		url: "CustomerInfo_getOpCard.do",
+		data: {
+			custId : custId
+		},
+		type:"post",
+		async: false,
+		success:function(ajaxResponse){
+			if(ajaxResponse.success) {
+				var opCard = ajaxResponse.responseData;
+				if(opCard == "O"){
+					opCard = "舊卡";
+				}
+				document.getElementById("opCard").innerHTML = maskAllVal(opCard);
+			}
+		},
+		error:function(xhr, ajaxOptions, thrownError){
+			// alert("Failed to Call Ajax! Message:" + xhr.statusText);
+			document.getElementById("opCard").innerHTML = maskAllVal("N"); // 錯誤塞N，不要影響流程
+		},
+		complete:function(jqXHR, textStatus){
+			
+		}
+	});
+}
+
+//221201 from otpVerify.jsp 個案機制處理
+function ajaxSendNoticeSMS(phoneNumber, companyType, subscrId, subscrTypeName, custName,
+		firstDocId, titleDscr, firstIdType){
+	$.ajax({
+		url: "CustomerKiosk_sendNoticeOTPSMS.do",
+		data: {
+			phoneNumber : phoneNumber,
+			companyType : companyType,
+			subscrId : subscrId,
+			subscrTypeName : subscrTypeName,
+			custName : custName,
+			firstDocId : firstDocId,
+			titleDscr : titleDscr,
+			firstIdType : firstIdType
+		},
+		type:"post",
+		async: false,
+		success:function(ajaxResponse){
+			if(ajaxResponse != null && ajaxResponse != ""){
+				var arr = ajaxResponse.split("=");
+				var errCde = arr[1];
+				// alert("errCde:" + errCde);
+				
+				if(errCde == '00'){
+					// 221201 個案機制紀錄
+					insertChkOtpRecord(phoneNumber, "N");
+					
+					//寄送成功
+					/* verifyObj = new Object();
+					verifyObj.otpOption = "2";
+					verifyObj.isVerify = "Y";		
+					window.returnValue = returnObj;
+					window.close(); */
+				}else{
+					//寄送失敗
+					alert("寄送簡訊失敗");
+					// return false;
+				}
+			}
+			
+		},
+		error:function(xhr, ajaxOptions, thrownError){
+			alert("Failed to Call Ajax! Message:" + xhr.statusText);
+		},
+		complete:function(jqXHR, textStatus){
+			
+		}
+	});
+}
+
+function insertChkOtpRecord(phoneNumber, smsType){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_insertChkOtpRecord.do';
+	paramObj.sync = true;
+	paramObj.parameters = "phoneNumber=" + phoneNumber + "&smsType=" + smsType;
+    ajaxQuery( paramObj );
+}
+
+//231011 新增serviceStatusCode, workTypeCode參數判別，非正常使用中且無效，則不發送查詢通知簡訊
+//221215 寄送通知簡訊前置流程
+function beforeSendNoticeSMS(phoneNumber, companyType, subscrId, subscrTypeName, custName,
+		firstDocId, titleDscr, firstIdType, serviceStatusCode, workTypeCode){
+	
+	var sendSMSFlag = "N"; // sms flag 
+	
+	// 符合條件者寄送通知簡訊，其餘直接通過不發簡訊 & 未發送簡訊
+	if(serviceStatusCode == "ACTV" || serviceStatusCode == "LOST" || serviceStatusCode == "TEDE" 
+		|| serviceStatusCode == "NSELF" || serviceStatusCode == "DEDE"){  //月租型
+		sendSMSFlag = "Y";
+	} else if(serviceStatusCode == "A" && 
+			(workTypeCode == "2" || workTypeCode == "12" || workTypeCode == "-9")){  //預付卡
+		sendSMSFlag = "Y";
+	}
+	
+	// 231011 新增sendSMSFlag
+	// 221223 OTP/通知簡訊只適用於companyType為TWM/TCC/INPPS(非070)
+	if((companyType == "TWM" || companyType == "TCC" || companyType == "INPPS") && sendSMSFlag == "Y"){
+		// 判斷是否直接發送簡訊  
+		chkOtpVerify(phoneNumber, "N");
+		var chkOtpVerifyVal = document.getElementById("chkOtpVerifyVal").value;
+		
+		if(chkOtpVerifyVal == "Y"){
+			// do nothing 無需再發送簡訊
+		} else{
+			// 發送簡訊
+			ajaxSendNoticeSMS(phoneNumber, companyType, subscrId, subscrTypeName, custName,
+					firstDocId, titleDscr, firstIdType);
+		}	
+	}
+}
+
+//230215 判別是否是4G VoLTE卡
+function chk4GVoLTE(iccid, companyType){
+	$.ajax({
+		url: "CustomerInfo_chk4GVoLTE.do",
+		data: {
+			iccid : iccid,
+			companyType : companyType
+		},
+		type:"post",
+		async: false,
+		success:function(ajaxResponse){
+			var responseData = ajaxResponse.responseData; 
+			if(ajaxResponse.success) {
+				if(responseData.alertMessage != ""){
+					alert(responseData.alertMessage);	
+				}
+			} else { 
+				if(responseData.errMsg != ""){
+					alert(responseData.errMsg);	
+				}
+			}
+		},
+		error:function(xhr, ajaxOptions, thrownError){
+// 			alert("Failed to Call Ajax! Message:" + xhr.statusText);
+		},
+		complete:function(jqXHR, textStatus){
+			
+		}
+	});
+}
+
+//20230720 add by Joyce 新增浮水印
+function showWatermark() {
+	
+}
+
+//230628 取得用戶最後合約的BB識別註記
+function getBBTag1(subscrId){
+	$.ajax({
+		url: "CustomerInfo_getBBTag1.do",
+		data: {
+			subscrId : subscrId
+		},
+		type:"post",
+		async: false,
+		success:function(ajaxResponse){
+			var responseData = ajaxResponse.responseData; 
+			if(ajaxResponse.success) {
+				var bbTag = ajaxResponse.responseData;
+				document.getElementById("bbTag").innerHTML = maskAllVal(bbTag);
+			} else { 
+				if(responseData.errMsg != ""){
+					// 有error也不要影響功能與彈跳錯誤
+					// alert(responseData.errMsg);	
+				}
+			}
+		},
+		error:function(xhr, ajaxOptions, thrownError){
+			// 有error也不要影響功能與彈跳錯誤
+			// alert("Failed to Call Ajax! Message:" + xhr.statusText);
+		},
+		complete:function(jqXHR, textStatus){
+			
+		}
+	});
+}
+
+</script>
+
+</head><body onload="showWatermark();" onbeforeunload="closeTstWindows();" topmargin="5" leftmargin="5" rightmargin="5" scroll="auto">
+
+<input type="hidden" id="companyType" name="companyType" value="">
+<input type="hidden" id="phoneNumber" name="phoneNumber" value="">
+<input type="hidden" id="simNo" name="simNo" value="">
+<input type="hidden" id="subscrId" name="subscrId" value="">
+<input type="hidden" id="custId" name="custId" value="">
+<input type="hidden" id="billAccount" name="billAccount" value="">
+<input type="hidden" id="billingCycle" name="billingCycle" value="">
+<input type="hidden" id="firstDocIdTmp" name="firstDocIdTmp" value="">
+<input type="hidden" id="channel" name="channel" value="SB">
+<input type="hidden" id="TicketCustType" name="TicketCustType" value="">
+<input type="hidden" id="customerName" name="customerName" value="">	
+<input type="hidden" id="billInfoTmp" name="billInfoTmp" value="">
+<input type="hidden" id="chkOtpVerifyVal" name="chkOtpVerifyVal" value="">
+
+<input type="hidden" id="ocDataMask" name="ocDataMask" value="N">
+<input type="hidden" id="storeInfoStoreType" name="storeInfoStoreType" value="SC">
+<input type="hidden" id="isDeputy" name="isDeputy" value="">
+<input type="hidden" id="storeId" name="storeId" value="02191002">
+<input type="hidden" id="userId" name="userId" value="DNC10370_H124196305">
+
+<!-- 220819 for T案 -->
+<input type="hidden" id="isTst" name="isTst" value="">
+<input type="hidden" id="tstSubId" name="tstSubId" value="">
+<input type="hidden" id="portingCmFlag" name="portingCmFlag" value="">
+<input type="hidden" id="portingBillingFlag" name="portingBillingFlag" value="">
+<input type="hidden" id="openTstWinFlag" name="openTstWinFlag" value="">
+<!-- 230523 for T案狀態按鈕/改接日 -->
+<input type="hidden" id="showTstBtnFlag" name="showTstBtnFlag" value="">
+<input type="hidden" id="tstContractDate" name="tstContractDate" value="">
+<input type="hidden" id="isTstCard" name="isTstCard" value="">
+<!-- 230529 add 彈性架構tst btn / tst win-->
+<input type="hidden" id="showTstBtn" name="showTstBtn" value="">
+<input type="hidden" id="showTstWin" name="showTstWin" value="">
+
+<!--KIOSK 票號區 -->
+
+
+	<table id="Table1" cellspacing="2" style="BORDER-COLLAPSE: collapse" bordercolor="#dedaca" border="0" width="100%">
+<!-- 訊息區 -->
+    <tbody><tr height="20">
+        <td style="FONT-SIZE: 10pt; COLOR: red" width="800">
+		<span id="authMsg"></span><br>
+		<span id="errMsgTable"></span>
+		</td>
+		<td>
+		  <span id="EBM"></span>
+    	</td>
+		<td>
+		  <span id="PBC"></span>
+    	</td>
+    	<td>
+	    	<span id="TSTStatus" style="display:none">
+	    		<input name="Submit" type="button" style="background-color:#4A0080;color:white;font-weight:bold;" value="TST狀態" onclick="showTstStatusWin();">
+	    	</span>
+    	</td>
+    	
+    	<td>
+    	  <span id="PTYPE" style="display:none">
+    	  
+    	  </span>
+			
+				<span id="EXTRA">
+					<input type="button" class="darkGray" id="qryStoreBtn" name="qryStoreBtn" value="查詢優惠折抵額度" onclick="qryStoreStatus();">
+				</span>
+									
+    	</td>
+	
+	</tr>	
+	
+	<tr bgcolor="#EFEBDF">
+  		<td colspan="6">
+  		<iframe width="100%" height="20" id="infoFrame" scrolling="no" frameborder="0" src="./kioskDesk_Web.html"></iframe>		
+		</td>
+	</tr>
+	
+<!-- 票單資料區 -->  
+    <tr>      
+        <td colspan="6">
+<!-- 用戶資料區 -->
+		<div id="Ninpps">
+            <table id="TblCustInfo" cellspacing="0" cellpadding="2" rules="all" bordercolor="#808080" border="1" width="100%" style="border-color:#808080;border-width:1px;border-style:Solid;border-collapse:collapse;">
+            <tbody><tr>
+                <td id="custTd" name="custTd" class="editLabel1">門號</td>
+                <td class="editData" style="color:#0000FF;font-weight:bold"><span id="number"></span><span id="dc"></span></td>
+                <td colspan="2" class="editData" style="color:#0000FF;font-weight:bold">
+                	<span id="hlrgType"></span>
+                	<span id="handsetLevelDesc"></span>
+                	<span id="2Gto34G" style="color:#FF0000;font-weight:bold"></span>
+                	<span id="3GTagDesc" style="color:#FF0000;font-weight:bold"></span>
+                	<a href="javascript:void(0);" onclick="Javascript:getESimProfileStatus();"><span id="eSimDesc" style="color:#0000FF;font-weight:bold"></span></a>
+                	<span id="tstDesc" style="color:#FF0000;font-weight:bold"></span>
+                </td>
+                <td id="custTd" name="custTd" class="editLabel1">姓名</td>
+                <td class="editData"><span id="custName"></span></td>
+                
+			    <td id="custTd" name="custTd" class="editLabel1">密碼</td>
+			    <td id="passwordTd" class="editData"><span id="password">&nbsp;</span></td>
+                <td id="custTd" name="custTd" class="editLabel1">特殊維繫</td>
+                <td id="riskDescTd" class="editData" colspan="4"><span id="riskDesc"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">主約到期</td>
+                <td class="editData" id="contractTd"><span id="contractDueDate"></span></td>
+              </tr>
+            <tr>
+                <td id="custTd" name="custTd" class="editLabel1">門號狀態</td>
+                <td class="editData"><span id="serviceStatus"></span></td>
+				<td colspan="2" class="editData"><span id="workType">&nbsp;</span></td>
+<!--                 <td class="editData" ><span id="ProjClass_region"></span></td> -->
+                <td id="custTd" name="custTd" class="editLabel1">證號</td>
+                
+                <td class="editData" style="color:#0000FF"><span id="firstDocId"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">OP聯名卡</td>
+   				<td class="editData"><span id="opCard"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">平均淨月租費(V+D)</td>
+                <td class="editData" colspan="4"><span id="avgMonfeeNet"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">附約到期</td>
+   				<td id="contractExpiredDateTd" class="editData"><span id="contractExpiredDate"></span></td>
+			</tr>
+			<tr>
+                <td id="custTd" name="custTd" class="editLabel1">資費方案</td>
+                <td class="editData"><span id="program"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">最高網速</td>
+                <td class="editData"><span id="netSpeed"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">帳單地址</td>
+                
+                <td class="editData"><span id="billAddress"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">BB識別</td>
+   				<td id="bbTagTd" class="editData"><span id="bbTag"></span></td>
+   				<td id="custTd" name="custTd" class="editLabel1">行動+BB平均總月租</td>
+   				<td id="avgMonfeeAllTd" class="editData"><span id="avgMonfeeAll"></span></td>
+                <td id="custTd" name="custTd" class="editLabel1">平均帳額</td>
+                
+	                
+		                <td class="editData">
+		   					<a href="javascript:void(0);" onclick="linkTo( &#39;CustomerBill_doBillSummary.do&#39; +
+										&#39;?companyType=&#39; + document.getElementById(&#39;companyType&#39;).value +
+										&#39;&amp;subscrId=&#39; + document.getElementById(&#39;subscrId&#39;).value +
+										&#39;&amp;billAccount=&#39; + document.getElementById(&#39;billAccount&#39;).value +
+										&#39;&amp;billingCycle=&#39; + document.getElementById(&#39;billingCycle&#39;).value	);">
+		   						<span id="avgBill"></span>
+		   					</a>
+		                </td>
+	                
+	                
+                
+				<td class="editData" style="font-weight:bold"><span id="subscrTypeBill"></span></td>
+				<td id="custTd" name="custTd" class="editLabel1">客戶分類</td>
+				<td class="editData" style="color:#0000FF"><span id="subscrTypeCust"></span></td>
+			</tr>			
+          </tbody></table>
+       </div>
+       <div id="inpps" style="display:none">
+          <table id="TblCustInfo" cellspacing="0" cellpadding="2" rules="all" bordercolor="#808080" border="1" width="100%" style="border-color:#808080;border-width:1px;border-style:Solid;border-collapse:collapse;">
+            <tbody><tr>
+                <td class="editLabel1">門號</td>
+                <td class="editData" style="color:#0000FF;font-weight:bold"><span id="inNumber"></span></td>
+                <td class="editData" style="color:#0000FF;font-weight:bold">
+                	<span id="inHlrgType">&nbsp;</span>
+                	<span id="2Gto34GINPPS" style="color:#FF0000;font-weight:bold">&nbsp;</span>
+                	<span id="3GTagDescINPPS" style="color:#FF0000;font-weight:bold"></span>
+                	<a href="javascript:void(0);" onclick="Javascript:getESimProfileStatus();"><span id="eSimDescINPPS" style="color:#0000FF;font-weight:bold"></span></a>
+                	<span id="tstDescINPPS" style="color:#FF0000;font-weight:bold"></span>
+                </td>
+                <td class="editLabel1">姓名</td>
+                <td class="editData"><span id="inCustName"></span></td>
+                
+			    <td id="custTd" name="custTd" class="editLabel1">密碼</td>
+			    <td id="inPasswordTd" class="editData"><span id="inPassword">&nbsp;</span></td>
+              	<td class="editLabel1">國籍</td>
+                <td colspan="2"><span id="nationality"></span></td>  
+                <td class="editLabel1">門號到期日</td>
+                <td class="editData" id="ceDateTd" colspan="2"><span id="ceDate"></span></td>
+            </tr>
+            <tr>
+                <td class="editLabel1">門號狀態</td>
+								<td class="editData"><span id="inWorkType">&nbsp;</span></td>
+                <td class="editData"><span id="inServiceStatus"></span></td>
+                <td class="editLabel1">證號</td>
+                
+                <td class="editData" style="color:#0000FF" colspan="3"><span id="inFirstDocId"></span></td>
+                <td class="editLabel1">主帳戶餘額</td>
+                <td colspan="2" class="colorRmk"><strong><span id="mainBalance"></span></strong></td>
+              	<td class="editLabel1">可銷號復裝期限</td>
+                <td colspan="2" class="editData" id="reDateTd"><span id="reDate"></span></td>
+			</tr>
+			<tr>
+                <td class="editLabel1">專案/數據資費</td>
+                <td class="editData" colspan="2"><span id="inProgram"></span></td>
+              	<td class="editLabel1">通訊地址</td>
+              	
+                <td class="editData" colspan="3"><span id="inBillAddress"></span></td>
+                <td class="editLabel1">子帳戶餘額</td>
+                <td class="editData"><a href="javascript:void(0);" onclick="Javascript:toChildBalance();"><u>查詢</u></a></td>
+				<td class="editData">&nbsp;</td>
+				<td class="editLabel1">&nbsp;</td>
+			  	<td class="editData">&nbsp;</td>
+			</tr>
+          </tbody></table>
+      	</div>
+      	<!-- 20220505 add by marya-leon 新增070用戶資料區 -->
+		<!-- 用戶資料區 - 070門號 -->
+		<div id="iotbs" style="display:none">
+		  <table id="iotbsCustInfo" cellspacing="0" cellpadding="3" border="1" width="100%">
+		    <tbody><tr>
+		      <td class="editLabel1">門號</td>
+		      <td class="style4"><span id="iotbsProductKey"></span></td>
+		      <td class="editLabel1">姓名</td>
+		      <td class="editData3"><span id="iotbsCustNme"></span></td>
+		      <td class="editLabel1">通訊地址</td>
+		      <td><span id="iotbsAddress"></span></td>
+		    </tr>
+		    <tr>
+		      <td class="editLabel1">門號狀態</td>
+		      <td><span id="iotbsSvcStatus"></span></td>
+		      <td class="editLabel1">證號</td>
+		      <td class="editData" style="color:#0000FF"><span id="iotbsCustId"></span></td>
+		      <td class="editLabel1">退租日期</td>
+		      <td><span id="iotbsOutSvcDate"></span></td>
+		    </tr>
+		    <tr>
+		      <td class="editLabel1">資費方案</td>
+		      <td><span id="iotbsProgram"></span></td>
+		      <td class="editLabel1">生日</td>
+		      <td><span id="iotbsBirthday"></span></td>
+		      <td class="editLabel1">&nbsp;</td>
+		      <td>&nbsp;</td>
+		    </tr>
+		  </tbody></table>
+		</div>
+        </td>
+    </tr>
+	</tbody></table>
+     
+    <table class="subtitle">
+      <tbody><tr>
+        <td>用戶搜尋 </td>
+      </tr>
+    </tbody></table>
+<!-- page 1 查詢門號 -->
+	<table border="0" width="100%">
+	<tbody><tr>
+	<td width="290" valign="top">
+	<table>
+		<tbody><tr>
+			<td class="EditLabel4" height="35px">
+			行動電話號碼
+			</td>
+			<td>
+			
+			<input type="text" name="phone" id="phone" maxlength="11" class="mInput" onkeyup="tabFocus(this.value);">
+			</td>
+		</tr>
+		<tr>
+			<td class="EditLabel4" height="35px">
+			身分證字號/統一編號
+			</td>
+			<td>
+			<input type="text" size="20" maxlength="20" name="idNumber" id="idNumber" class="mInput" style="text-transform:uppercase;" onkeydown="Javascript:if(event.keyCode == 13){dealStr(phone.value,&#39;phone&#39;);dealStr(idNumber.value,&#39;idNumber&#39;);queryList();}">
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td align="center">
+			<input id="qbtn" name="qbtn" type="button" class="button" value="開始查詢" onclick="javascript:dealStr(phone.value,&#39;phone&#39;);dealStr(idNumber.value,&#39;idNumber&#39;);queryList();">
+			</td>
+		</tr>
+	</tbody></table>
+	</td>
+	<td style="border:#808080 1px solid" valign="top">
+	<div id="accessInfoAlert" style="color:red;padding-top:10px;">務必口頭與客戶核對門號登記人姓氏無誤，方可提供以下系統顯示資訊</div>
+            查詢條件:<span id="queryCondition"></span>
+            <div id="divmesage" style="display:none">
+				<span class="numtask"><img src="./go.gif" width="40" height="11">系統處理中, 請稍候...<br></span>
+			</div>
+			<span id="queryResult"></span>
+    </td>
+    </tr>
+	</tbody></table>
+	<p>
+	</p><table>
+	
+	<tbody><tr>
+		<td colspan="3"><font size="2" color="red">
+			身分證字號/統一編號輸入方式說明:<br>
+			1.本國人用戶請輸入&lt;身分證字號&gt; - 共 10 碼  [範例] A123456789<br>             
+			2.公司行號請輸入&lt;統一編號&gt;共8碼（範例）12345678或&lt;負責人身分證字號&gt;共10碼a1234567879<br>
+			3.外籍人士用戶請輸入「護照號碼」，若驗證失敗時輸入用戶護照上&lt;西元出生年月日+英文姓名前兩個字母&gt; - 共 10 碼<br>
+			</font>
+		</td>
+	</tr>
+	</tbody></table>
+ 
+
+
+
+</body></html>

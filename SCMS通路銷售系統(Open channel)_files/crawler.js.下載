@@ -1,0 +1,93 @@
+﻿var crawler = {
+	// 包含的CSS Array
+	includeCssFiles : [ "style.css"	],
+	// 排除的CSS Array
+	excludeCssFiles : [],
+
+	// 是否執行
+	isExecute : false,
+	// 預設螢幕大小
+	defaultScreenWidth : 1024,
+	// 倍數
+	multiples : 1,
+
+	// 比例(解析度 : 倍數)
+	scale : {
+		"1280" : 1.25,
+		"1920" : 1.375,
+		"2560" : 1.8,
+		"3840" : 2.75
+	},
+
+	/**
+	 * 重置顯示
+	 */
+	resetDisplay : function() {
+		if (!crawler.isExecute) {
+			return;
+		}
+
+		// 螢幕小於預設螢幕大小，不執行
+		if (screen.width < crawler.defaultScreenWidth) {
+			return;
+		}
+
+		$.each(crawler.scale, function(key, value) {
+			if (screen.width >= parseInt(key, 10)) {
+				crawler.multiples = value;
+			}
+		});
+
+		var newStyle = "";
+
+		if (document.styleSheets != null && document.styleSheets.length > 0) {
+			$.each(document.styleSheets, function(styleSheetsIndex, styleSheet) {
+				if (styleSheet.href != null) {
+					var styleSheets = styleSheet.href.split("/");
+					var styleName = styleSheets[styleSheets.length - 1];
+					var questionMarkIndex = styleName.indexOf("?");
+
+					// 參數要移除
+					if (questionMarkIndex > -1) {
+						styleName = styleName.substring(0, questionMarkIndex);
+					}
+					// 特定檔案
+					if (crawler.includeCssFiles.toString().indexOf(styleName) > -1) {
+						newStyle += crawler.changeFontSize(styleSheet);
+					}
+					else {
+						if (crawler.excludeCssFiles.toString().indexOf(styleName) > -1) {
+							// donothing
+						}
+						else {
+							newStyle += crawler.changeFontSize(styleSheet);
+						}
+					}
+				}// end if(styleSheet.href)
+			}); // end $.each(document.styleSheets)
+		}
+
+		$("<style>" + newStyle + "</style>").appendTo("head");
+	},
+
+	changeFontSize : function(styleSheet) {
+		var newStyle = "";
+		$.each(styleSheet.rules, function(rulesIndex, rule) {
+			var fontsize = rule.style.fontSize;
+			if (fontsize.length > 0) {
+				newsize = Math.round(parseInt(fontsize, 10) * crawler.multiples);
+				newStyle += rule.selectorText + " { font-size: " + newsize + "px;} ";
+			}
+		});// end $.each(styleSheet.rules)
+		return newStyle;
+	}
+};
+
+$(document).ready(function() {
+	crawler.isExecute = Core.qxScreenDpi;
+	crawler.includeCssFiles = [ "style.css" ];
+	crawler.excludeCssFiles = [ "jquery-ui.css" ];
+	crawler.resetDisplay();
+
+	$("body").show();
+});

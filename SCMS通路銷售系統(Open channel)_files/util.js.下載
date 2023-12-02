@@ -1,0 +1,1191 @@
+//============動態功能按鈕
+//基本資料查詢
+var basicDataArray = new Array(); 
+var basicObj1 = new Object();
+var basicObj2 = new Object();
+var basicObj3 = new Object();
+basicObj1.actionValue = "/queryX_Web/CustomerInfo_getSubscrInfo.do";
+basicObj1.name = "基 本 資 料";
+basicObj1.triggerACT = true;
+basicObj2.actionValue = "/queryX_Web/CustomerInfo_getCustEmail.do";
+basicObj2.name = "E-Mail帳單/網站會員資料";
+basicObj2.triggerACT = false;
+basicObj3.actionValue = "/queryX_Web/CustomerInfo_getContactEmail.do";
+basicObj3.name = "用戶E-mail通知";
+basicObj3.triggerACT = false;
+basicDataArray[0]=basicObj1;
+basicDataArray[1]=basicObj2;
+basicDataArray[2]=basicObj3;
+//帳務明細查詢
+var accountDtlArray = new Array();
+var accountDtlObj1 = new Object();
+var accountDtlObj2 = new Object();
+var accountDtlObj3 = new Object();
+var accountDtlObj4 = new Object();
+var accountDtlObj5 = new Object();
+var accountDtlObj6 = new Object();
+var accountDtlObj7 = new Object();
+accountDtlObj1.actionValue = "/queryX_Web/CustomerBill_getAcctHistory.do?type=B";
+accountDtlObj1.name = "帳單查詢";
+accountDtlObj1.triggerACT = false;
+accountDtlObj2.actionValue = "/queryX_Web/CustomerBill_getAcctHistory.do?type=P";
+accountDtlObj2.name = "繳款紀錄";
+accountDtlObj2.triggerACT = false;
+accountDtlObj3.actionValue = "/queryX_Web/CustomerBill_getProjRestriction.do";
+accountDtlObj3.name = "用戶專案限制";
+accountDtlObj3.triggerACT = false;
+accountDtlObj4.actionValue = "/queryX_Web/CustomerBill_doPromote.do";
+accountDtlObj4.name = "優惠方案查詢";
+accountDtlObj4.triggerACT = false;
+accountDtlObj5.actionValue = "/queryX_Web/CustomerBill_depositManipulationHistoryResult.do";
+accountDtlObj5.name = "保證金";
+accountDtlObj5.triggerACT = false;
+accountDtlObj6.actionValue = "/ExtraApp/queryRecycle.do";
+accountDtlObj6.name = "舊機換新機判等金額查詢";
+accountDtlObj6.triggerACT = false;
+accountDtlObj7.actionValue = "/billingsupport/prepay/prepayQryActive.do";
+accountDtlObj7.name = "預繳餘額/帳單折抵預繳款(舊換新)";
+accountDtlObj7.triggerACT = false;
+accountDtlArray[0]=accountDtlObj1;
+accountDtlArray[1]=accountDtlObj2;
+accountDtlArray[2]=accountDtlObj3;
+accountDtlArray[3]=accountDtlObj4;
+accountDtlArray[4]=accountDtlObj5;
+accountDtlArray[5]=accountDtlObj6;
+accountDtlArray[6]=accountDtlObj7;
+//加值查詢
+var addValueArray = new Array();
+var addValueObj1 = new Object();
+var addValueObj2 = new Object();
+var addValueObj3 = new Object();
+var addValueObj4 = new Object();
+var addValueObj5 = new Object();
+var addValueObj6 = new Object();
+var addValueObj7 = new Object();
+var addValueObj8 = new Object();//20210208 好速省到家  Ying ru add
+var addValueObj9 = new Object(); // 220926 add for 家用寬頻
+addValueObj1.actionValue = "/queryX_Web/CustomerService_getSubscrSvcitInfoNow.do";									
+addValueObj1.name = "用戶服務項目";
+addValueObj1.triggerACT = true;
+addValueObj2.actionValue = "/queryX_Web//CustomerService_getMonthlyCallDetail.do";
+addValueObj2.name = "每月通話明細";
+addValueObj2.triggerACT = false;
+addValueObj3.actionValue = "/queryX_Web/CustomerService_getHotlinePackage.do";
+addValueObj3.name = "熱線/最愛專線";
+addValueObj3.triggerACT = false;
+addValueObj4.actionValue = "/queryX_Web/CustomerService_showAdditionalPricePurchaseFor4G.do";
+addValueObj4.name = "加價購";
+addValueObj4.triggerACT = false;
+// 220926 add for 家用寬頻
+addValueObj5.actionValue = "/queryX_Web/CustomerService_getConServiceAssociation.do";
+addValueObj5.name = "家用寬頻";
+addValueObj5.triggerACT = false;
+addValueObj6.actionValue = "/queryX_Web/CustomerService_getPrepayKeeper.do";
+addValueObj6.name = "預付卡小管家";
+addValueObj6.triggerACT = false;
+addValueObj7.actionValue = "/queryX_Web/CustomerService_getMyAngelProductHistory.do";
+addValueObj7.name = "Angel手錶";
+addValueObj7.triggerACT = false;
+addValueObj8.actionValue = "/queryX_Web/CustomerService_queryTremblantInfo.do";
+addValueObj8.name = "Apple Watch獨立門號";
+addValueObj8.triggerACT = false;
+//20210208 好速省到家  Ying ru add
+addValueObj9.actionValue = "/queryX_Web/CustomerService_queryFamilyPlanInit.do";
+addValueObj9.name = " 好速省到家";
+addValueObj9.triggerACT = false;
+
+addValueArray[0]=addValueObj1;
+addValueArray[1]=addValueObj2;
+addValueArray[2]=addValueObj3;
+addValueArray[3]=addValueObj4;
+addValueArray[4]=addValueObj5;
+addValueArray[5]=addValueObj6;
+addValueArray[6]=addValueObj7;
+addValueArray[7]=addValueObj8;
+addValueArray[8]=addValueObj9; // 220926 add for 家用寬頻
+//分享資費關聯查詢
+var sharePlanMemberArray = new Array();
+var sharePlanMemberObj1 = new Object();
+var sharePlanMemberObj2 = new Object();
+var sharePlanMemberObj3 = new Object();
+var sharePlanMemberObj4 = new Object();
+sharePlanMemberObj1.actionValue = "/queryX_Web/SharePlanMember_getShareMemberList.do";									
+sharePlanMemberObj1.name = "有效關聯";
+sharePlanMemberObj1.triggerACT = true;
+sharePlanMemberObj2.actionValue = "/queryX_Web/SharePlanMember_getShareMemberTmList.do";
+sharePlanMemberObj2.name = "預約關聯";
+sharePlanMemberObj2.triggerACT = false;
+sharePlanMemberObj3.actionValue = "/queryX_Web/SharePlanMember_getMasterSubscrHistory.do";
+sharePlanMemberObj3.name = "主門號歷程";
+sharePlanMemberObj3.triggerACT = false;
+sharePlanMemberObj4.actionValue = "/queryX_Web/SharePlanMember_getSubSubscrHistory.do";
+sharePlanMemberObj4.name = "附門號歷程";
+sharePlanMemberObj4.triggerACT = false;
+sharePlanMemberArray[0]=sharePlanMemberObj1;
+sharePlanMemberArray[1]=sharePlanMemberObj2;
+sharePlanMemberArray[2]=sharePlanMemberObj3;
+sharePlanMemberArray[3]=sharePlanMemberObj4;
+
+//20220503 add by marya-leon
+//基本資料查詢
+var customer070Array = new Array();
+var customer070Obj1 = new Object();
+var customer070Obj2 = new Object();
+var customer070Obj3 = new Object();
+var customer070Obj4 = new Object();
+//var customer070Obj5 = new Object();
+
+customer070Obj1.name = "基本資料";
+customer070Obj1.actionValue = "/queryX_Web/Customer070_customerInfo.do";
+customer070Obj1.triggerACT = true;
+customer070Obj2.name = "帳單查詢";
+customer070Obj2.actionValue = "/queryX_Web/Customer070_billQuery.do";
+customer070Obj2.triggerACT = false;
+customer070Obj3.name = "繳款紀錄";
+customer070Obj3.actionValue = "/queryX_Web/Customer070_payQuery.do";
+customer070Obj3.triggerACT = false;
+customer070Obj4.name = "優惠方案";
+customer070Obj4.actionValue = "/queryX_Web/Customer070_promQuery.do";
+customer070Obj4.triggerACT = false;
+//customer070Obj5.name = "配對綁定查詢";
+//customer070Obj5.actionValue = "/queryX_Web/Customer070_boxHisQuery.do";
+//customer070Obj5.triggerACT = false;
+customer070Array[0]=customer070Obj1;
+customer070Array[1]=customer070Obj2;
+customer070Array[2]=customer070Obj3;
+customer070Array[3]=customer070Obj4;
+//customer070Array[4]=customer070Obj5;
+
+//=======================================================
+
+
+function dynamicButtonTag( act ){
+	if( act == 'CustomerService' ){
+		return addValueArray;
+	}
+	if( act == 'CustomerInfo' ){
+		return basicDataArray;
+	}
+	if( act == 'CustomerBill' ){
+		return accountDtlArray;
+	}
+	if( act == 'SharePlanMember' ){
+		return sharePlanMemberArray;
+	}
+	//20220503 add by marya-leon
+	if( act == 'Customer070' ){
+		return customer070Array;
+	}
+}
+
+function getFrameParam( frameName, elementName ){
+	var valueStr = "";
+//	if( parent.parent.document.frames[frameName] != null ){
+//		var custFrame = parent.parent.document.frames[frameName];
+//		if( custFrame.document.getElementById(elementName) != null )
+//			valueStr = custFrame.document.getElementById(elementName).value;
+//	}
+	if( parent.parent.document.getElementById(frameName) != null ){
+		var custFrame = parent.parent.document.getElementById(frameName);
+		if( custFrame.contentWindow.document.getElementById(elementName) != null )
+			valueStr = custFrame.contentWindow.document.getElementById(elementName).value;
+	}
+	return valueStr;
+}
+
+function resizeEBMFrame(act){
+//	var frameSet;
+//	if(parent.parent.mainFrame != null)
+//		frameSet = parent.parent.mainFrame.document.getElementsByTagName("frameset")[1];
+//	else
+//		frameSet = parent.RightFrame;
+//	var rowStrArray = (frameSet.rows).split(",");
+	
+//	if(act == 1){
+//		frameSet.rows="25%,*,75%";
+//	}else{
+//		frameSet.rows="25%,75%,0";
+//	}
+	
+	var frameSet;
+	if(parent.parent.document.getElementsByName("mainFrame")[0] != null){
+		frameSet = parent.parent.document.getElementsByName("mainFrame")[0].contentWindow.document.getElementsByTagName("frameset")[1];
+		if(act == 1){
+			frameSet.children[0].style.height = "25%";
+			frameSet.children[1].style.height = "0";
+			frameSet.children[2].style.height = "75%";		
+		}else{
+			frameSet.children[0].style.height = "25%";
+			frameSet.children[1].style.height = "75%";
+			frameSet.children[2].style.height = "0";
+		}
+	}else{
+		frameSet = parent.document.getElementById("divRight");
+		if(act == 1){
+			frameSet.children[0].style.height = "25px";
+			frameSet.children[1].style.height = "25%";
+			frameSet.children[2].style.height = "0";
+			frameSet.children[3].style.height = "75%";
+			frameSet.children[3].children[0].style.height = "100%";
+		}else{
+			frameSet.children[1].style.height = "25%";
+			frameSet.children[2].style.height = "75%";
+			frameSet.children[3].style.height = "0";
+		}
+	}	
+}
+
+//各列的顏色: rowCount==>總列數
+function displayRow(rowCount, trListRow){
+	var row = 0;	
+	row = rowCount;
+	if( row > 0 ){	
+		for( i=0; i < row; i++ ){
+			if( i%2 ){
+				trListRow[i].className = "listRowOdd";
+			}else{
+				trListRow[i].className = "listRowEven";
+			}
+		}
+	}
+}
+
+function displayRowForBillQuery(rowCount, trListRow){
+	var row = 0;	
+	row = rowCount;
+	if( row > 0 ){	
+		for( i=0; i < row; i++ ){
+			if( i%2 ){
+				trListRow[i].className = "billQueryListRowOdd";
+			}else{
+				trListRow[i].className = "billQueryListRowEven";
+			}
+		}
+	}
+}
+
+/**
+row change color
+idx: row index
+*/
+function onViewed(idx,totalRow,trListRow){
+	if( totalRow > 0 ){
+		displayRow( totalRow, trListRow );
+		trListRow[idx].className = "rowChecked";
+	}
+}
+function onViewedForBillQuery(idx,totalRow,trListRow){
+	if( totalRow > 0 ){
+		displayRow( totalRow, trListRow );
+		trListRow[idx].className = "rowChecked";
+	}
+}
+//補空白
+function isNbsp( str ){	
+	if( str == null || str.trim().length == 0 || (str.trim()).toUpperCase() == 'NULL' || (str.trim()).toUpperCase() == 'NULLNULL')
+		return "&nbsp;";
+	else
+		return str;
+}
+
+//去空白
+String.prototype.trim=trim;  //傳回去除前後空白的值
+String.prototype.ltrim=ltrim;  //傳回去除左邊空白的值
+String.prototype.rtrim=rtrim;  //傳回去除右邊空白的值
+String.prototype.zeroltrim=zeroltrim;
+
+function trim() {
+	return this.replace(/^\s+|\s+$/g, "");
+} 
+function ltrim() {
+	return this.replace(/(^\s*)/g, "");
+}
+function rtrim() {
+	return this.replace(/(\s*$)/g, "");
+}
+function zeroltrim() {
+	var z = this.replace(/(^0*)/g, "");
+	if(z=="")
+		z = 0;
+	return z;
+}
+
+//Get the system date
+function getDefaultDate(){
+	var d = new Date();
+	var year = d.getFullYear();
+	var month = (d.getMonth()+1 < 10) ? "0"+(d.getMonth()+1) : (d.getMonth()+1);
+	var day = (d.getDate() < 10) ? "0"+d.getDate() : d.getDate();
+	var dateStr = year+"/"+month+"/"+day;
+	return dateStr;
+}
+
+/**
+ajax 非同步資料查詢
+paramObj : paramObj.method        ==> 'POST' or 'GET'
+		   paramObj.action        ==> url
+		   paramObj.sync          ==> "true":no synchronize of "false":synchronize
+		   paramObj.parameters    ==> send parameters
+		   paramObj.rtnParamArray ==> get return value by rtnParamArray (split by "|")
+rtnParamArray : 塞入回傳參數名稱，將會自動帶上查詢結果數值
+ex:
+查詢前準備參數陣列，Action 回傳參數名稱需相同
+rtnParamArray[0]="itemDscr";
+rtnParamArray[1]="oldValue";
+查詢完畢結果依順序替換原陣列，查詢結果多筆資料以 "｜" 分隔
+var itemDscr = rtnObj[0].split('|');
+var oldValue = rtnObj[1].split('|');
+*/
+var ajReq;
+function ajaxQuery( paramObj ){
+	try{
+		var rtnObj;
+		ajReq = getHttpRequest();
+		ajReq.onreadystatechange=function(){rtnObj=getRtnObj(paramObj);};
+		ajReq.open(paramObj.method, paramObj.action, paramObj.sync);
+		ajReq.setRequestHeader("x-requested-with", "XMLHttpRequest");
+		ajReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+		ajReq.send( paramObj.parameters );
+	}catch(err){
+		ajReq = null;
+	}
+}
+
+/**
+頁面上需有updatePage(rtnObj)此函數
+*/
+function getRtnObj( paramObj ){
+	try{
+		var rtnObj = paramObj.rtnParamArray;
+		var resultA = new Array();
+		if( ajReq.readyState == 4 && ajReq.status == 200 ){
+			var result = ajReq.responseText;
+			if( result.indexOf("&") != -1 ){
+				var resA = result.split("&");
+				for(i=0; i<resA.length; i++){
+					for(j=0; j<rtnObj.length; j++){
+						if( resA[i].indexOf( rtnObj[j]+"=" ) ==0 ){
+							( (resA[i].substring(resA[i].indexOf("=")+1,resA[i].length)).trim().length != 0 )?
+							resultA[j]=resA[i].substring(resA[i].indexOf("=")+1,resA[i].length) : resultA[j]='';
+						}
+					}
+				}
+			}else{
+				for(i=0; i<rtnObj.length; i++){
+					if( result.indexOf( rtnObj[i]+"=" ) ==0){
+						resultA[i]=result.substring(result.indexOf("=")+1,result.length);
+					}
+				}
+			}
+			if( paramObj.action == 'CustomerKiosk_queryCustomer.do' )
+				updatePage(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getSubscrType.do' )
+				updateSubscrType(resultA,paramObj.vo);
+			else if( paramObj.action == 'CustomerKiosk_checkHasCampaign.do' )
+				updateCRMFlag(resultA,paramObj.vo);
+			else if( paramObj.action == 'CustomerKiosk_getMyZone.do' )
+				updateMyZone(resultA,paramObj.vo);
+			else if( paramObj.action == 'CustomerBill_getChargeItem.do' )
+				updateChargeItem(resultA);
+			else if( paramObj.action == 'CustomerBill_getBillingAvgAmtByMonth.do' )
+				updateBillingAvgAmt(resultA);
+			else if( paramObj.action == 'CustomerInfo_getSpecialRemark.do' )
+				updateSpecialRemark(resultA);
+			else if( paramObj.action == 'CustomerInfo_getEmailForSubscrInfo.do' )
+				updateEmailForSubscrInfo(resultA);
+			else if( paramObj.action == 'CustomerKiosk_showQueryCustomerUp.do' )
+				applyCustomerDataAbove(resultA, paramObj.vo);	
+			else if( paramObj.action == 'CustomerKiosk_checkHasEBM.do' )
+				updateEBMFlag(resultA, paramObj.vo);
+			else if( paramObj.action == 'CustomerKiosk_checkHasPBC.do' )
+				updatePBCFlag(resultA, paramObj.vo);
+			else if( paramObj.action == 'CustomerBill_getMGMMobileList.do' )
+				updateMGMMobileList(resultA);
+			else if( paramObj.action == 'CustomerBill_getBenefiDetail.do' )
+				updateBenefiDetail(resultA);			
+			else if( paramObj.action == 'CustomerBill_getBillBenefiRecrd.do' )
+				updateBillBenefiRecrd(resultA);			
+			else if( paramObj.action == 'CustomerBill_getBillAmount.do' )
+				updateBillAmount(resultA);
+			else if( paramObj.action == 'CustomerKiosk_doNpaCheck.do' )
+				updateNpaStatus(resultA);				
+			else if( paramObj.action == 'CustomerKiosk_getAvgMonfeeNet.do' )
+				updateAvgMonfeeNet(resultA);
+			else if( paramObj.action == 'CustomerKiosk_checkOTPStore.do' )  //20210709 add by marya-leon
+				checkOTPStoreResult(resultA);
+			else if( paramObj.action == 'CustomerKiosk_sendOTPSMS.do' )  //20210709 add by marya-leon
+				afterSendSMS(resultA);
+			else if( paramObj.action == 'CustomerKiosk_sendNoticeOTPSMS.do' )  //20210709 add by marya-leon
+				afterSendNoticeSMS(resultA);
+			else
+				updatePage(resultA);
+		}
+	}catch(err){
+		ajReq = null;
+	}
+}
+
+function ajaxQueryQuick( ajaxObj, paramObj ){
+	try{
+		var rtnObj;
+		ajaxObj.onreadystatechange=function(){rtnObj=getRtnObjQuick(ajaxObj, paramObj);};
+		ajaxObj.open(paramObj.method, paramObj.action, paramObj.sync);
+		ajaxObj.setRequestHeader("x-requested-with", "XMLHttpRequest");
+		ajaxObj.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+		ajaxObj.send( paramObj.parameters );
+	}catch(err){
+		ajaxObj = null;
+	}
+}
+
+function getRtnObjQuick( ajaxObj, paramObj ){
+	try{
+		var rtnObj = paramObj.rtnParamArray;
+		var resultA = new Array();
+		if( ajaxObj.readyState == 4 && ajaxObj.status == 200 ){
+			var result = ajaxObj.responseText;
+			try{ //server side encode for html/xml/javascript processing
+				if(result&result.indexOf("&amp;")!=-1) result=result.replace("&amp;","&"); //encode & for html
+				else if(result&result.indexOf("&#x26;")!=-1) result=result.replace("&#x26;","&"); //encode & for xml
+				else if(result&result.indexOf("&#x7c;")!=-1) result=result.replace("&#x7c;","|"); //encode | for html
+				else { /** do nothing **/}
+				
+				if(result&result.indexOf("&#x3d;")!=-1) result=result.replace("&#x3d;","="); //encode = for html/xml
+			}catch(e){}	
+			if( result.indexOf("&") != -1 ){
+				var resA = result.split("&");
+				for(i=0; i<resA.length; i++){
+					for(j=0; j<rtnObj.length; j++){
+						if( resA[i].indexOf( rtnObj[j]+"=" ) ==0 ){
+							( (resA[i].substring(resA[i].indexOf("=")+1,resA[i].length)).trim().length != 0 )?
+							resultA[j]=resA[i].substring(resA[i].indexOf("=")+1,resA[i].length) : resultA[j]='';
+						}
+					}
+				}
+			}else{
+				for(i=0; i<rtnObj.length; i++){
+					if( result.indexOf( rtnObj[i]+"=" ) ==0){
+						resultA[i]=result.substring(result.indexOf("=")+1,result.length);
+					}
+				}
+			}
+			if( paramObj.action == 'CustomerKiosk_queryCustomer.do' )
+				updatePage(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getSubscrType.do' )
+				updateSubscrType(resultA,paramObj.vo);
+			else if( paramObj.action == 'CustomerKiosk_checkHasCampaign.do' )
+				updateCRMFlag(resultA,paramObj.vo);
+			else if( paramObj.action == 'CustomerKiosk_getMyZone.do' )
+				updateMyZone(resultA,paramObj.vo);
+			else if( paramObj.action == 'CustomerBill_getChargeItem.do' )
+				updateChargeItem(resultA);
+			else if( paramObj.action == 'CustomerBill_getBillingAvgAmtByMonth.do' )
+				updateBillingAvgAmt(resultA);
+			else if( paramObj.action == 'CustomerInfo_getSpecialRemark.do' )
+				updateSpecialRemark(resultA);
+			else if( paramObj.action == 'CustomerInfo_getEmailForSubscrInfo.do' )
+				updateEmailForSubscrInfo(resultA);
+			else if( paramObj.action == 'CustomerKiosk_showQueryCustomerUp.do' )
+				applyCustomerDataAbove(resultA, paramObj.vo);	
+			else if( paramObj.action == 'CustomerKiosk_checkHasEBM.do' )
+				updateEBMFlag(resultA, paramObj.vo);
+			else if( paramObj.action == 'CustomerKiosk_checkHasPBC.do' )
+				updatePBCFlag(resultA, paramObj.vo);
+			else if( paramObj.action == 'CustomerInfo_getRiskClass.do' )
+				updateRiskClass(resultA);
+			else if( paramObj.action == 'CustomerInfo_getTmpAmt.do' )
+				updateTmpAmt(resultA);
+			else if( paramObj.action == 'CustomerInfo_getSimCard.do' )
+				updateSimCard(resultA);
+			else if( paramObj.action == 'CustomerInfo_getContactPerson.do' )
+				updateContactPerson(resultA);
+			else if( paramObj.action == 'CustomerInfo_getZone.do' )
+				updateZone(resultA);
+			else if( paramObj.action == 'CustomerInfo_getPromoteFlag.do' )
+				updatePromoteFlag(resultA);
+			else if( paramObj.action == 'CustomerInfo_getLastReservedPkg.do' )
+				updateLastReservedPkg(resultA);
+			else if( paramObj.action == 'CustomerInfo_getEmailForCustomerEmail.do' )
+				updateCustEmail(resultA);
+			else if( paramObj.action == 'CustomerInfo_getEbillWebService.do' )
+				updateEbillWebService(resultA);
+			else if( paramObj.action == 'CustomerQualifyQuery_checkPosCdeDtl.do' )
+				updatePosCdeDtl(resultA, paramObj);
+			else if( paramObj.action == 'CustomerQualifyQuery_getTmpAmt.do' )
+				updateTmpAmt(resultA);
+			else if( paramObj.action == 'CustomerQualifyQuery_getProjectLimit.do' )
+				updateProjectLimit(resultA);
+			else if( paramObj.action == 'CustomerQualifyQuery_checkUserGroupName.do' )
+				updateUserGroupName(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getDataCard.do' )
+				updateDataCard(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getInppsInfo.do' )
+				updateInppsInfo(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getContractExpiredDate.do' )
+				updateContractExpiredDate(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getBookOutSvcDate.do' )
+				updateBookOutSvcDate(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getKioskRecordAmountLimit.do' || paramObj.action == 'CustomerQualifyQuery_getKioskRecordAmountLimit.do' )
+				queryPermission(resultA, paramObj);
+			else if( paramObj.action == 'CustomerKiosk_getGPRSInfo.do' )
+				updateGPRSInfo(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getProjClassName.do' )
+				updateProjClassName(resultA);
+			else if( paramObj.action == 'CustomerKiosk_doNpaCheck.do' )
+				updateNpaStatus(resultA);				
+			else if( paramObj.action == 'CustomerKiosk_getAvgMonfeeNet.do' )
+				updateAvgMonfeeNet(resultA);
+			else if( paramObj.action == 'SharePlanMember_getSharePlanStatus.do' )
+				updateSharePlanStatus(resultA);
+			else if( paramObj.action == 'CustomerInfo_getHandsetLevelDesc.do' )
+				updateHandsetLevelDesc(resultA);
+			else if( paramObj.action == 'CustomerInfo_get2Gto3G4GMessage.do' )
+				update2Gto3G4GMessage(resultA);
+			else if( paramObj.action == 'CustomerInfo_getEmailHistoryWebService.do' )
+				updateEmailHistoryWebService(resultA);
+			else if(paramObj.action == 'CustomerBill_getPromoteDscr.do')
+				updatePromoteDscr(resultA);
+			else if(paramObj.action == 'CustomerBill_getProjectName.do')
+				updateProjectName(resultA);
+			else if( paramObj.action == 'CustomerInfo_getRetainLight.do' )
+				updateRetainLight(resultA);
+			else if( paramObj.action == 'CustomerBill_getMergerIndic.do' )
+				updateMergerBi(resultA);
+			else if( paramObj.action == 'CustomerService_getHotlineNumberHis.do' )
+				updateHisDetail(resultA);
+			else if( paramObj.action == 'CustomerKiosk_getUserStatus.do' )
+				updateCheckUserStatus(resultA);
+			else if( paramObj.action == 'CustomerInfo_checkEmailStatus.do' )
+				updateCheckEmailStatus(resultA);
+			else if( paramObj.action == 'CustomerInfo_getContactEmailTransLogWebService.do' )
+				updateContactEmailTransLogWebService(resultA);
+			else if( paramObj.action == 'CustomerInfo_getTagAndMessageFor3GHlrg.do' )
+				updateTagAndMessageFor3GHlrg(resultA);
+			else if( paramObj.action == 'CustomerInfo_getESimDesc.do' )
+				updategetESimDesc(resultA);		
+			else if( paramObj.action == 'CustomerInfo_getESimProfileStatus.do' )
+				updategetESimProfileStatus(resultA);			
+			else if( paramObj.action == 'CustomerInfo_qryStoreStatus.do')
+				showStoreStatus(resultA);
+			else if( paramObj.action == 'CustomerInfo_checkAgentContactSummary.do' )
+				updateAgentContactSummary(resultA);
+			else if( paramObj.action == 'CustomerInfo_checkBBContractStatus.do' )
+				updateBBContractStatus(resultA);
+			else if( paramObj.action == 'CustomerInfo_getSmsVerifyCode.do' )
+				updateSmsVerifyCode(resultA);
+			else if(paramObj.action == 'CustomerInfo_chkTstWin.do')
+				updateTstWin(resultA);
+			else
+				updatePage(resultA);
+		}
+	}catch(err){
+		ajaxObj = null;
+	}
+}
+function ajaxActionError(err){
+	//alert(err.description);
+}
+function setAccessLog( parameters ){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = 'CustomerKiosk_setAccessLog.do';
+	paramObj.sync = false;
+	paramObj.parameters = parameters;
+	logAjax( paramObj );
+}
+
+function logAjax( paramObj ){
+	ajReq = getHttpRequest();
+	ajReq.open(paramObj.method, paramObj.action, paramObj.sync);
+	ajReq.setRequestHeader("x-requested-with", "XMLHttpRequest");
+	ajReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+	ajReq.send( paramObj.parameters );
+}
+
+/*
+*  purpose : 比對字串 - 模糊比對
+*  value   : 被比對的字串
+*  seed    : 使用者輸入的查詢關鍵字
+*/
+
+function stringFuzzyCompare(value,seed){
+    var seed2=".*";
+    for(var i=0;i<seed.length;i++){
+        seed2+=seed.charAt(i)+".*";
+    }
+    re = new RegExp(seed2,"i");
+    ok = value.match(re)!=null
+    return ok;
+}
+
+function doQuery( seed, tableName, columnIndex1, columnIndex2 ){
+    tab = document.getElementById( tableName ); //table名稱
+    for(var i=1;i<tab.rows.length;i++){
+      tr = tab.rows[i];
+      //無輸入及輸入% -> 顯示全部,code 或 name 符合 ->顯示
+      //name部分符合(模糊查詢)
+      if((seed=="" || 
+      	  seed=="%" || 
+      	  stringFuzzyCompare(tr.cells[columnIndex1].innerText,seed) ) || 
+      	  stringFuzzyCompare(tr.cells[columnIndex2].innerText,seed) ){
+         tr.style.display="";
+      }else{
+         tr.style.display="NONE";
+      }
+    }
+}
+
+function doBillFirstQuery( seed, tableName, columnIndex1, columnIndex2 ){
+    tab = document.getElementById( tableName ); //table名稱
+    var j = 0;
+    for(var i=1;i<tab.rows.length;i++){
+      tr = tab.rows[i];
+      //無輸入及輸入% -> 顯示全部,code 或 name 符合 ->顯示
+      //name部分符合(模糊查詢)
+      if((seed=="" || 
+      	  seed=="%" || 
+      	  stringFuzzyCompare(tr.cells[columnIndex1].innerText,seed) ) || 
+      	  stringFuzzyCompare(tr.cells[columnIndex2].innerText,seed) ){
+         tr.style.display="";
+         if(j==0){
+	         parent.getChargeItem(tr.cells[6].innerText,tr.cells[2].innerText,tr.cells[7].innerText);
+	         parent.checkViewed3((i-1),'trListRow3');
+	     }
+         j++;
+      }else{
+         tr.style.display="NONE";
+      }
+    }
+}
+
+function formatCurrency( amount, pattern ){
+	var str = amount+"";
+	var splitCount = str.length%3;
+	var strArray = new Array();
+	var tmpStr;
+	
+	for(i=1; i<=splitCount; i++){
+		tmpStr += ","+str.substring(str.length-i*3,str.length);
+	}
+	return pattern+str.substring(0,splitCount*3)+tmpStr;
+}
+
+function setCookie(key,value){
+    setCookie2(key,value,null,"/",".tcc.net.tw",null);//.scms.taiwanmobile.com
+    //document.cookie= key + "=" + escape(value)+"; path=/; domain=localhost";//.scms.taiwanmobile.com
+}
+function setCookie2(name, value, expires, path, domain, secure) {
+    document.cookie= name + "=" + value +
+        ((expires) ? "; expires=" + expires.toGMTString() : "") +
+        ((path) ? "; path=" + path : "") +
+        ((domain) ? "; domain=" + domain : "") +
+        ((secure) ? "; secure" : "");
+}
+
+function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return '';
+    } else {
+        begin += 2;
+    }
+    var end = document.cookie.indexOf(";", begin);
+    if (end == -1) {
+        end = dc.length;
+    }
+    return unescape(dc.substring(begin + prefix.length, end));
+}
+
+
+function modifyScreen(ACT){
+	if(ACT=='ALL'){
+//		parent.RightFrame.rows = "100%,*,0";
+//		parent.parent.AllFrame.cols = "*,100%";
+		parent.document.getElementById('RightFrame').children[0].style.height = "100%";
+		parent.document.getElementById('RightFrame').children[1].style.height = "0";
+		parent.document.getElementById('RightFrame').children[2].style.height = "0";
+		parent.parent.document.getElementById('AllFrame').children[0].style.width = "0";
+		parent.parent.document.getElementById('AllFrame').children[1].style.width = "100%";
+	}
+	if(ACT=='RECOVER'){
+//		parent.RightFrame.rows = "17%,83%,*";
+//		parent.parent.AllFrame.cols = "200,*";
+		parent.document.getElementById('RightFrame').children[0].style.height = "20%";
+		parent.document.getElementById('RightFrame').children[1].style.height = "80%";
+		parent.document.getElementById('RightFrame').children[2].style.height = "0";
+		parent.parent.document.getElementById('AllFrame').children[0].style.width = "12%";
+		parent.parent.document.getElementById('AllFrame').children[1].style.width = "88%";
+	}
+	if(ACT=='DOWN'){
+//		parent.RightFrame.rows = "100%,*,0";
+		parent.document.getElementById('RightFrame').children[0].style.height = "100%";
+		parent.document.getElementById('RightFrame').children[1].style.height = "0";
+		parent.document.getElementById('RightFrame').children[2].style.height = "0";
+	}
+	if(ACT=='UPPER'){
+//		parent.RightFrame.rows = "120,*,0";
+		parent.document.getElementById('RightFrame').children[0].style.height = "20%";
+		parent.document.getElementById('RightFrame').children[1].style.height = "80%";
+		parent.document.getElementById('RightFrame').children[2].style.height = "0";
+	}
+	if(ACT=='LEFT'){
+//		parent.parent.AllFrame.cols = "*,100%";
+		parent.parent.document.getElementById('AllFrame').children[0].style.width = "0";
+		parent.parent.document.getElementById('AllFrame').children[1].style.width = "100%";
+	}
+	if(ACT=='RIGHT'){
+//		parent.parent.AllFrame.cols = "200,*";
+		parent.parent.document.getElementById('AllFrame').children[0].style.width = "12%";
+		parent.parent.document.getElementById('AllFrame').children[1].style.width = "88%";
+	}
+}
+
+/*
+	  Parameter        Datatype				Description
+	tableArray 			array	 	欲排序之TABLE物件陣列
+	sortColumnName 		int		 	欲排列欄位之順序，從0開始，即為傳入之陣列所在位址
+	sortStyle       	boolean	 	true==>反向排列  		 false==>正向排列
+	
+*/
+function tableSortString( tableArray, sortColumnName, sortStyle){		
+	var array_tmp_1 = new Array();		
+	
+	for( i=0; i < tableArray.length; i++ ){								
+		array_tmp_1[i]= new Array();
+		var obj = tableArray[i];
+		array_tmp_1[i][0] = eval("obj."+sortColumnName);
+		array_tmp_1[i][1] = obj;
+	}
+	array_tmp_1.sort();			
+	if( sortStyle ){	
+		array_tmp_1.reverse();
+	}
+	for( i=0; i < array_tmp_1.length; i++ ){
+			tableArray[i]=array_tmp_1[i][1];
+	}
+	return tableArray;
+}
+//仟位元符號
+function currencyFormat( amount ){
+	if( amount != null && amount != '' ){
+		amount = amount + '';
+		re = /(\d{1,3})(?=(\d{3})+(?:$|\.))/g
+		return amount.replace(re,"$1,")
+	}else{
+		return '0';
+	}
+}
+
+//return true : 日期錯誤 , false : 日期正確
+function checkDate( dateObj ){
+	var beginDate = dateObj.beginDate;
+	var endDate = dateObj.endDate;
+	var check = false;
+	if( beginDate > endDate )
+		check = true;
+	return check;
+}
+
+//隱藏字串
+function hideString(oriStr, begin, end){
+	var result = "";
+	var hideStr = "";
+	if(oriStr != null && oriStr.length >0){
+		if(oriStr.length > end){
+			var totalHide = end - begin;
+			for(i=0; i<totalHide; i++){
+				hideStr += "*";
+			}
+			result = String.replace(new RegExp(oriStr, "gm"), hideStr);
+		}else{
+			for(i=0; i < oriStr.length; i++){
+				result += "*";
+			}
+		}
+	}
+	return result;
+}
+
+//變更選項顏色
+function chgRdoColor(obj1, obj2){	
+	var i = eval(obj1).length;
+	for (j=0; j<i; j++){
+		if (obj1[j].checked){
+			obj2[j].className = "isChecked";			
+		}else{
+			obj2[j].className = "normal";
+		}
+	}
+}
+function chgRdoColorForBillQuery(obj1, obj2){	
+	var i = eval(obj1).length;
+	for (j=0; j<i; j++){
+		if (obj1[j].checked){
+			obj2[j].className = "billQueryIsChecked";			
+		}else{
+			obj2[j].className = "billQueryNormal";
+		}
+	}
+}
+
+/**
+*	四捨五入
+*	a -- 要四捨五入的數字
+*	b -- 指定小數位數
+*/
+function round(a,b){
+	return(Math.round(a*Math.pow(10,b))*Math.pow(10,-b));
+}
+
+function maskId(value,len){
+   var maskLen=len;
+   var rtnValue="";
+   if(value != null){
+	   if(value.length<len)
+	       maskLen = value.length;
+	   rtnValue=value.substring(0,value.length-maskLen);
+	   for(var i=0;i<maskLen;i++)
+	       rtnValue+="*";
+   }
+   return rtnValue;
+}
+
+/*
+function maskName(value){
+    var rtnValue="";
+    if(value != null){
+		for(var i=0;i<value.length;i++){
+		    if(i==1)
+		        rtnValue+="*";
+		    else
+		        rtnValue+=value.substring(i,i+1);
+		}
+	}
+	return rtnValue;
+}
+*/
+
+/**
+ * 2012.7.10 姓名隱碼規則更動
+ * 只顯示頭尾，中間一律以一個星號取代。
+ * ex: 歐陽菲菲 --> 歐*菲
+ */
+function maskName(value){
+    var rtnValue="";
+    if(value != null && value.indexOf('nbsp') == -1){
+		for(var i=0;i<value.length;i++){
+			if(i ==0){
+				rtnValue+=value.substring(i,i+1);
+			}
+			else if(i==1){
+		        rtnValue+="*";
+			}
+			else if(i== value.length -1){
+				rtnValue+=value.substring(i,i+1);
+			}
+		    else{
+		    	// 中間一律以一個星號取代
+		    }		        
+		}
+		return rtnValue;
+	}else{
+		return value;
+	}
+	
+}
+
+//隱藏門號
+function hidePhoneNumber(value){
+	var rtnValue="";
+    if(value != null && value.indexOf('nbsp') == -1){
+		for(var i=0;i<value.length;i++){
+			if(i ==0 || i == 1 || i == 2|| i == 3|| i == 4|| i == 8|| i == 9){
+				rtnValue+=value.substring(i,i+1);
+			}
+			else if( i == 5|| i == 6|| i == 7){
+		        rtnValue+="*";
+			}
+		}
+		return rtnValue;
+	}else{
+		return value;
+	}
+}
+
+/**
+Infomation securityLog
+subscrIdArray : subscrId array
+queryPgId     : API name
+callerPgId    : pageID
+dbName    	  : dbName
+*/
+function openChannelSecurityLog(subscrIdArray, queryPgID, callerPgID, dbName) {
+	try{
+		var ajaxReq = getHttpRequest();
+		if(subscrIdArray != null && subscrIdArray.length > 0){
+			var subscrId = '';
+			for(i=0; i<subscrIdArray.length; i++){
+				if(subscrIdArray[i] != ''){
+					if(i == subscrIdArray.length-1)
+						subscrId += subscrIdArray[i];
+					else
+						subscrId += subscrIdArray[i]+'@';
+				}
+			}
+			var parameters = 'subscrID='+subscrId+'&queryPgID='+queryPgID+'&systemName=SCMS&callerPgID='+callerPgID;
+			parameters += '&dbName=' + dbName;
+			//alert(parameters);
+			ajaxReq.open('POST', '/ScmsCommon/common_insertLogExt.do', true);
+			ajaxReq.setRequestHeader("x-requested-with", "XMLHttpRequest");
+			ajaxReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			ajaxReq.send( parameters );
+		}
+	}catch(err){
+		ajaxActionError(err);
+	}
+}
+
+/*
+ * 20220505 modify by marya-leon 新增070資料區 
+ */
+function switchINPPS(companyType){
+	if('INPPS' == companyType){
+		document.getElementById('iotbs').style.display = 'none';
+		document.getElementById('inpps').style.display = '';
+		document.getElementById('Ninpps').style.display = 'none';
+	}else if('TWM' == companyType || 'TCC' == companyType){
+		document.getElementById('iotbs').style.display = 'none';
+		document.getElementById('inpps').style.display = 'none';
+		document.getElementById('Ninpps').style.display = '';
+	}else{
+		//for 070
+		document.getElementById('iotbs').style.display = '';
+		document.getElementById('inpps').style.display = 'none';
+		document.getElementById('Ninpps').style.display = 'none';
+	}
+}
+
+function switchINPPSTag(companyType){
+	var obj = new Object();
+	if('INPPS' == companyType){
+		obj.number = 'inNumber';
+		obj.hlrgType = 'inHlrgType';
+		obj.custName = 'inCustName';
+		obj.birthday = 'inBirthday';
+		obj.serviceStatus = 'inServiceStatus';
+		obj.workType = 'inWorkType';
+		obj.firstDocId = 'inFirstDocId';
+		obj.program = 'inProgram';
+		obj.billAddress = 'inBillAddress';
+		obj.password = 'inPassword';
+		obj.passwordTd = 'inPasswordTd';
+		obj.homeNbr = 'inHomeNbr';
+	}else if('TWM' == companyType || 'TCC' == companyType){
+		obj.number = 'number';
+		obj.hlrgType = 'hlrgType';
+		obj.custName = 'custName';
+		obj.birthday = 'birthday';
+		obj.serviceStatus = 'serviceStatus';
+		obj.workType = 'workType';
+		obj.firstDocId = 'firstDocId';
+		obj.program = 'program';
+		obj.billAddress = 'billAddress';
+		obj.password = 'password';
+		obj.passwordTd = 'passwordTd';
+		obj.homeNbr = 'homeNbr';
+	}else{
+		//for 070
+		//20220505 add by marya-leon 加入070欄位ID物件
+		obj.number = 'iotbsProductKey';
+		obj.custName = 'iotbsCustNme';
+		obj.birthday = 'iotbsBirthday';
+		obj.serviceStatus = 'iotbsSvcStatus';
+		obj.billAddress = 'iotbsAddress';
+		obj.program = 'iotbsProgram';
+		obj.firstDocId = 'iotbsCustId';
+		obj.outSvcDate = 'iotbsOutSvcDate';
+	}
+	return obj;
+}
+
+function dealStr(str,tagName){
+	if(str != null && str != ''){
+		document.getElementById(tagName).value = (str.trim()).toUpperCase();
+	}
+}
+
+function $N(name) {
+  return document.getElementsByName(name);
+}
+function replaceAll(strOrg,strFind,strReplace){
+	 var index = 0;
+	 while(strOrg.indexOf(strFind,index) != -1){
+	  strOrg = strOrg.replace(strFind,strReplace);
+	  index = strOrg.indexOf(strFind,index);
+	 }
+	 return strOrg
+}
+
+//使用URLEncoding 將因空白產生 + 符號
+function URIDecode( str ){
+	if( str.indexOf('+') != -1 )
+		return str.replace(/\+/g, " ");
+	else
+		return str;
+}
+
+
+function checkIrrational(custId,msisdn, msgVersion) {
+	
+	
+	try{
+		//console.log("custId="+custId+"/msisdn="+msisdn+"/msgVersion="+msgVersion);
+	}catch(e){}
+	
+	if(typeof custId == 'undefined' || custId == null || custId == '') {
+	    return;
+	}
+	else{
+		try{
+		
+			var ajaxReq = getHttpRequest();
+			var parameters;
+			if(custId != "" && typeof custId != 'undefined' && custId != null){
+				parameters = "state=query&type=C&custId="+custId+"&msgVersion="+msgVersion;
+			}
+
+			ajaxReq.onreadystatechange=function()
+			{
+				if (ajaxReq.readyState==4 && ajaxReq.status==200)
+				{
+					if(ajaxReq.responseText.indexOf("00||Y,") != -1)
+					{
+						var indexOfColon = ajaxReq.responseText.indexOf(",");
+						if(indexOfColon == ajaxReq.responseText.length -1)
+						{
+							//alert("謹慎服務，不主動推廣");							
+					    }
+					    else
+					    {
+						    alert(ajaxReq.responseText.substring(indexOfColon+1, ajaxReq.responseText.length));
+					    }
+					}					
+				}
+			}
+		
+			ajaxReq.open('POST', '/ScmsCommon/irrational.do', true); // 230928 GET -> POST
+			ajaxReq.setRequestHeader("x-requested-with", "XMLHttpRequest");
+			ajaxReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			ajaxReq.send( parameters );
+		
+		}catch(err){
+			ajaxActionError(err);
+		}
+	}
+}
+
+//檢核日期 不可大於系統日  不可大於區間distance
+function checkDateDistance(date1,date2,distance) {
+	var str1 = date1.split("/");
+	var date3 = new Date(str1[0], parseInt(str1[1]-1), str1[2], 0, 0, 0);
+	
+	var str2 = date2.split("/");
+	var date4 = new Date(str2[0], parseInt(str2[1]-1), str2[2], 0, 0, 0);
+	
+	var date5 = new Date();
+	date5.setHours(0);
+	date5.setMinutes(0);
+	date5.setSeconds(0);
+	
+	if((date5.getTime() - date3.getTime())<0) {
+		alert('日期不可大於系統日');
+		return false;
+	}
+
+	if((date5.getTime() - date4.getTime())<0) {
+		alert('日期不可大於系統日');
+		return false;
+	}
+	
+	if((date4.getTime() - date3.getTime())/86400000 > distance) {
+		alert('日期區間不可大於'+distance+'天');
+		return false;
+	}
+	
+	if(date3.getTime() > date4.getTime()) {
+		alert('起日不可大於迄日');
+		return false;
+	}
+	
+	return true;	
+}
+
+//日期的加減
+function addDate(dy,dmomth,dd,dh,dm,dadd) {
+	var a = new Date(dy,dmomth,dd,dh,dm)
+	a = a.valueOf()
+	a = a + dadd * 1 * 24 * 60 * 60 * 1000
+	a = new Date(a)
+	return a;
+}
+
+//20220505 add by marya-leon
+//西元日期 轉為 民國日期
+//yyyy/MM/dd to 民國 xx 年 xx 月 xx 日
+function dateCenturyToROC(strDate, separator, isMarkNeeded) {
+ if(typeof strDate == 'undefined' || strDate == null) {
+     return '';
+ }
+ if(!validateCenturyDate(strDate)) {
+     return strDate;
+ }
+		if(!isMarkNeeded) isMarkNeeded = false;
+		
+		if(separator && separator.length>0){
+		}else{
+			separator="/";
+		}
+ var arrDateROC = strDate.split(separator);
+ if(arrDateROC.length != 3) {
+     return '';
+ }
+ return (parseInt(arrDateROC[0]) - 1911) + '年 ' + arrDateROC[1] + '月 ' + ((isMarkNeeded)?"XX":arrDateROC[2]) + '日';
+}
+
+//20220505 add by marya-leon
+/*
+ * @date    : 2010/06/09
+ * @author  : Longan Chang
+ * @purpose : 檢核日期格式是否為 yyyy/MM/dd, yyyy-MM-dd, yyyy.MM.dd
+ * @param   : strDate 日期字串
+ */
+function validateCenturyDate(strDate) {
+	// pattern = yyyy/MM/dd, yyyy-MM-dd, yyyy.MM.dd
+	var patternDate = /^((19|20)[0-9]{2}[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01]))$/;
+	return patternDate.test(strDate);
+}
+
+/**
+ * 開啟客戶實際提領商品視窗
+ * @param subscrId
+ * @param seqNbr
+ * @returns
+ */
+function showPhoneDtl(subscrId, seqNbr){ 
+	var url = 'CustomerInfo_showPhoneDtl.do?subscrId='+subscrId+'&seqNbr='+seqNbr;                
+	var windowName = "客戶實際提領商品";
+	window.open(url,windowName,'height=250, width=800, top=200, left=200, toolbar=no, menubar=no, scrollbars=no, resizable=yes,location=no, status=no');
+}
+
+function getHttpRequest() {
+	var xRequest = null;
+	if (window.XMLHttpRequest) {
+		xRequest = new XMLHttpRequest();
+	} else if (typeof ActiveXObject != "undefined") {
+		xRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	return xRequest;
+}

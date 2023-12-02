@@ -1,0 +1,422 @@
+/**##################################################################################################
+Author :
+			Wayne Huang (panda0001@gmail.com)
+    Version :
+    		2.0 (2005/01/05)
+	action list :
+			version 1.0 relase at 2004/01/05 .  prototype completed!!
+			version 2.0 relase at 2005/02/25 . Add PanleType Argument, Release
+	Bug Fix:
+
+###################################################################################################*/
+
+
+/**##################################################################################################
+	FlatPanel Object :
+            Format a Div element to a FlatPanel
+            You need assing a Div Element id and image resource folder URL as FlatTable constructor parameter.
+            Before running FlatPanel ,insure [Const] block are corrected.
+    Remarks	:
+    		1. Constrator argumnet [imgBasePath] is related URL 
+    			specify where is the image resource folder than contain all image FlatPanel needs.
+    			insure all image FlatPanel needs in single folder,
+    			and use folder url as constrator argument.     		
+	Paraments:
+			1. imgBasePath FlatPanel image resource folder URL (relation path).
+			2. flatPanelId Div element id.	
+			3. panleType A Integer specify Panel Type.
+				(1): normal  - Panle Always Opened Cna`t Change Status. (Default)
+				(2): Switch  - Click Icon To Switch Panel Status (Open Or Close).
+				(3): AutoSwitch  - Panel Change Status (Open Or Close) When Mouse Movein The Icon.
+			4. defaultStatus Default status (When from load ,Panel is opened or closed)
+				if defaultStatus==null then status depends on panelType .			
+	Using :
+			FlatPanel.css     					
+	
+###################################################################################################*/
+
+function FlatPanel(imgBasePath,flatPanelId,panelType,defaultOpened){
+/***************************************************************************************
+***									private method									***
+***************************************************************************************/
+	function _setupPanel(){
+
+		if(_flatPanel.childNodes.length==0){
+			_flatPanel.appendChild(document.createElement("div"));
+			_flatPanel.appendChild(document.createElement("div"));		
+		}
+		_flatPanel.firstChild.appendChild(_SwitchIcon);		
+		_flatPanelBody=_flatPanel.childNodes[1];
+//		_flatTable.tHead.firstChild.lastChild.insertAdjacentElement("beforeEnd",_titleIcon);		
+	}
+		
+	function _setupStyle(){	
+        _flatPanel.className="FlatPanel";				//Set FlatPanel Style for whole table.
+        _flatPanel.firstChild.className="FlatPanelHead";
+        _flatPanel.childNodes[1].className="FlatPanelBody";                
+         
+		//Setup Icon Style By Panel Type    
+        switch(panelType){
+        	case 1:        		
+        		break;
+        	case 2:
+        		_SwitchIcon.style.cursor="hand";        		
+        		break;
+        	case 3:
+	       		_flatPanel.firstChild.style.cursor="hand";
+        		break;
+        	default:        	
+        }		
+	}
+	
+	function _setupEvent(){		
+
+		//Setup Even By Panel Type              
+        switch(panelType){
+        	case 1:			//Set Event As Normal Type.						        		
+        		break;
+        	case 2:			//Set Event As Switch Type.						
+        		/*
+				_SwitchIcon.attachEvent("onclick",
+					function(){
+						_reverse1()				
+					}				
+				);   
+				*/
+        		
+				//IE11
+				if (_SwitchIcon.addEventListener) {
+					_SwitchIcon.addEventListener("click",function(){_reverse1()});
+				}//IE8
+				else {
+					_SwitchIcon.attachEvent("onclick",function(){_reverse1()});
+				}
+				
+				     		
+        		break;        		
+        	case 3:			//Set Events As AutoSwitch Type.		       		
+	       		
+	       		//when mouse over panel head.opne panel body.
+        		/*
+	       		_flatPanel.firstChild.attachEvent("onmouseover",
+	       			function(){
+	       				_open();    		
+	       			}
+	       		);
+	       		*/
+	       		//IE11
+				if (_SwitchIcon.addEventListener) {
+					_SwitchIcon.addEventListener("mouseover",
+		       			function(){
+		       				_open();    		
+		       			}
+		       		);
+				}//IE8
+				else {
+					_SwitchIcon.attachEvent("onmouseover",
+		       			function(){
+		       				_open();    		
+		       			}
+		       		);
+				}
+	       		
+	       		//when mouse out of panel close panel body.
+	       		/*
+	       		_flatPanel.attachEvent("onmouseout",
+	       			function(){
+	       				var moveOutFrom=event.fromElement;
+						var moveOutTo=event.toElement;								
+						if(moveOutTo!=_flatPanel && !_isChild(_flatPanel,moveOutTo)){
+							_close();
+						}
+	       			}	       		
+	       		);	    
+	       		*/
+	       		//IE11
+				if (_flatPanel.addEventListener) {
+					_SwitchIcon.addEventListener("mouseout",
+		       			function(){
+		       				var moveOutFrom=event.fromElement;
+							var moveOutTo=event.toElement;								
+							if(moveOutTo!=_flatPanel && !_isChild(_flatPanel,moveOutTo)){
+								_close();
+							}
+		       			}	       		
+					);
+				}//IE8
+				else {
+					_flatPanel.attachEvent("onmouseout",
+						function(){
+		       				var moveOutFrom=event.fromElement;
+							var moveOutTo=event.toElement;								
+							if(moveOutTo!=_flatPanel && !_isChild(_flatPanel,moveOutTo)){
+								_close();
+							}
+		       			}	       		
+		       		);
+				}
+				break;
+        	default:  
+        }		
+      
+	}		
+		
+	/*
+	if obj is a childNode of parentObj return true,else return false.
+	@para parentObj 
+	@para obj
+	@return if obj is a childNode of parentObj return true,else return false.
+	*/	
+	function _isChild(parentObj,obj){		
+		for(var i=0;i<parentObj.childNodes.length;i++){
+			if(parentObj.childNodes[i]==obj){
+				return true;
+			}			
+			if(_isChild(parentObj.childNodes[i],obj)){
+				return true;	
+			}else{
+				continue;
+			}						
+		}				
+		return false;		
+	}	
+	
+	function _isOpen(){
+		return (_flatPanelBody.style.display=="")?true:false;
+	}
+	function _open(){	
+		_flatPanelBody.style.display="";
+		_refreshSwitchIcon();		
+	}
+	function _close(){
+
+		_flatPanelBody.style.display="none";
+		_refreshSwitchIcon();	
+	}
+	
+	function _closeOther(){
+		var id = new Array("p1","p2","p3","p5","p6","p7");
+		for(var i=0;i<id.length;i++){
+			if(id[i] != flatPanelId){
+				if (document.getElementById(id[i]) != undefined) {
+					document.getElementById(id[i]).childNodes[1].style.display="none";
+				}
+			}
+		}
+		_refreshSwitchIcon();	
+	}
+	
+	function _reverse(){	
+		if(_isOpen()){
+			_close();
+		}else{
+			_open();
+		}
+	}
+	
+	function _reverse1(){	
+		if(_isOpen()){
+			_close();
+		}else{
+			_closeOther();
+			_open();
+		}
+	}
+	
+	
+	
+	/*
+		Refresh title icon by FlatTable`s tbody display attribute.
+	*/
+	function _refreshSwitchIcon(){		 
+		if(_isOpen()){		
+			_SwitchIcon.src="/openchannel"+_imgHome;
+		}else{
+			_SwitchIcon.src="/openchannel"+_imgHome;
+		}
+	}
+	
+/***************************************************************************************
+***									public method									***
+***************************************************************************************/
+	
+		/*
+		return FlatPanel Is Opened Or Not;
+		visible(display="") return true.
+		unvisible(display="none") return flase.
+	*/
+	this.isOpen=function(){
+		_isOpne();
+	
+	}
+	this.open=function(){		
+		_open();		
+			
+	}
+	this.close=function(){		
+		_close();	
+		
+	}
+	this.reverse=function(){		
+		_reverse();	
+		
+	}
+	
+	
+
+/**************************************************************************************
+***									Const											***
+**************************************************************************************/
+	/*
+		image file name only,not image path or URL. 
+		image resource url must be a argument of constrator.
+	*/
+	
+	//title bar icon image name when GroupTable is opened.
+	var imgNameTableOpened = "";			
+	//title bar icon image name when GroupTable is closed.	
+	var imgNameTableClosed = "";		
+	
+	
+/**************************************************************************************
+***							Private properties declare								***
+**************************************************************************************/
+
+	var _flatPanel		=	document.getElementById(flatPanelId);	//tabel element.	
+		
+	var _flatPanelBody;
+	
+	var _SwitchIcon	=document.createElement("img");			//Title bar Icon (img element).	
+	
+	var _imgHome		=imgBasePath;						//image resource Base
+	/*
+		Check Image resource folder url path.
+		if imgHome variable last word not "/" then append "/" on it.
+		if imgHome variable equal "" then do nothing.
+	*/
+	
+	//alert(_imgHome);
+	
+/**************************************************************************************
+***							FlatPanel init											***
+**************************************************************************************/	
+	
+	//check panel type
+	if(panelType==null || (panelType<1 || panelType>3) ){
+		panelType=1;
+	}
+
+	_setupPanel();
+
+	_setupStyle();
+
+	_setupEvent();
+
+	_refreshSwitchIcon();	
+	 
+	switch(panelType){
+		case 3:
+			_close();
+			break;
+		default:
+			_open();	
+	}	
+	
+	if(defaultOpened!=null){
+		if(defaultOpened){
+			this.open();
+		}else{
+			this.close();		
+		}
+	}	
+}
+
+
+/**##################################################################################################
+	FlatPanelGroup Object :
+			Collection Object Of FlatPanel.
+			Group FlatPanel,Make FlatPanel Easy to Use.            
+    Remarks	:
+    		1. Constrator argumnet [imgBasePath] is related URL 
+    			specify where is the image resource folder than contain all image FlatPanel needs.
+    			insure all image FlatPanel needs in single folder,
+    			and use folder url as constrator argument.     		
+	Paraments:
+			1. imgBasePath FlatPanel(FlatPanelGroup) image resource folder URL (relation path).			
+			2. panleType A Integer specify Panel Type.
+				(1): normal  - Panle Always Opened Cna`t Change Status. (Default)
+				(2): Switch  - Click Icon To Switch Panel Status (Open Or Close).
+				(3): AutoSwitch  - Panel Change Status (Open Or Close) When Mouse Movein The Icon.
+			3. defaultOpened Default status (When from load ,Panels is opened or closed)
+			4. FlatPanel Id (one or more then one FlatPanel Id)
+	Using :
+			FlatPanel.css     					
+	
+###################################################################################################*/
+
+function FlatPanelGroup(imgBasePath,panelType,defaultOpened,flatPanleId1,flatPanleId2){
+
+/***************************************************************************************
+***							private method											***
+***************************************************************************************/
+	
+/***************************************************************************************
+***							public method											***
+***************************************************************************************/
+	/*
+		FlatPanel Counts.
+	*/
+	this.length=function(){	
+		return _panels.length;
+	}
+	/*
+		Open FlatPanel in FlatPanelGroup.
+		If FlatPanelIndex==null then open all FlatPanel in FlatPanelGroup.	
+	*/
+	this.open=function(FlatPanelIndex){		
+		if(FlatPanelIndex!=null){
+			_panels[FlatPanelIndex].open();
+		}else{
+			for(var i=0;i<_panels.length;i++){
+				_panels[i].open();
+			}
+		}		
+	}
+	/*
+		Close FlatPanel in FlatPanelGroup.
+		If FlatPanelIndex==null then Close all FlatPanel in FlatPanelGroup.	
+	*/
+	this.close=function(FlatPanelIndex){		
+		if(FlatPanelIndex!=null){
+			_panels[FlatPanelIndex].close();
+		}else{
+			for(var i=0;i<_panels.length;i++){
+				_panels[i].close();
+			}
+		}		
+	}
+	/*
+		Get FlatPanel By index Of FlatPanelGroup
+	*/
+	this.getPanel=function(FlatPanelIndex){	
+		if(FlatPanelIndex<=this.length()){
+			return _panels[FlatPanelIndex];
+		}else{
+			return null;
+		}	
+	}
+	
+/**************************************************************************************
+***							Private properties declare								***
+**************************************************************************************/
+	
+
+/**************************************************************************************
+***							FlatPanelGroup init										***
+**************************************************************************************/	
+	var _panels=new Array(arguments.length-3);    //Array Contain All FlatPanel.			
+	for(var i=0;i<arguments.length-3;i++){		
+		_panels[i]=new FlatPanel(imgBasePath,arguments[i+3],arguments[1],arguments[2]);		
+	}
+	
+}

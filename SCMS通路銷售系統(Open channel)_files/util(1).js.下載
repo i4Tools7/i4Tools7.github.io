@@ -1,0 +1,216 @@
+//補空白
+function isNbsp( str ){	
+	if( str == null || str.trim().length == 0 || (str.trim()).toUpperCase() == 'NULL' || (str.trim()).toUpperCase() == 'NULLNULL')
+		return "&nbsp;"; 
+	else
+		return str;
+}
+
+//去空白
+String.prototype.trim=trim;  //傳回去除前後空白的值
+String.prototype.ltrim=ltrim;  //傳回去除左邊空白的值
+String.prototype.rtrim=rtrim;  //傳回去除右邊空白的值
+String.prototype.zeroltrim=zeroltrim;
+
+function trim() {
+	return this.replace(/^\s+|\s+$/g, "");
+} 
+function ltrim() {
+	return this.replace(/(^\s*)/g, "");
+}
+function rtrim() {
+	return this.replace(/(\s*$)/g, "");
+}
+function zeroltrim() {
+	var z = this.replace(/(^0*)/g, "");
+	if(z=="")
+		z = 0;
+	return z;
+}
+
+/**
+ajax 非同步資料查詢
+paramObj : paramObj.method        ==> 'POST' or 'GET'
+		   paramObj.action        ==> url
+		   paramObj.sync          ==> "true":no synchronize of "false":synchronize
+		   paramObj.parameters    ==> send parameters
+		   paramObj.rtnParamArray ==> get return value by rtnParamArray (split by "|")
+rtnParamArray : 塞入回傳參數名稱，將會自動帶上查詢結果數值
+ex:
+查詢前準備參數陣列，Action 回傳參數名稱需相同
+rtnParamArray[0]="itemDscr";
+rtnParamArray[1]="oldValue";
+查詢完畢結果依順序替換原陣列，查詢結果多筆資料以 "｜" 分隔
+var itemDscr = rtnObj[0].split('|');
+var oldValue = rtnObj[1].split('|');
+*/
+var ajReq;
+function ajaxQuery( paramObj ){
+	var rtnObj;
+	//20220207 modify by marya-leon IE改CHROME，調整寫法
+//	ajReq = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest();
+	ajReq = new XMLHttpRequest();
+	ajReq.onreadystatechange=function(){rtnObj=getRtnObj(paramObj);};
+	ajReq.open(paramObj.method, paramObj.action, paramObj.sync);
+	ajReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+	ajReq.send( paramObj.parameters );
+}
+
+/**
+頁面上需有updatePage(rtnObj)此函數
+*/
+function getRtnObj( paramObj ){
+	var rtnObj = paramObj.rtnParamArray;
+	var resultA = new Array();
+	if( ajReq.readyState == 4 && ajReq.status == 200 ){
+		var result = ajReq.responseText;
+		if( result.indexOf("&") != -1 ){
+			var resA = result.split("&");
+			for(i=0; i<resA.length; i++){
+				for(j=0; j<rtnObj.length; j++){
+					if( resA[i].indexOf( rtnObj[j]+"=" ) ==0 ){
+						( (resA[i].substring(resA[i].indexOf("=")+1,resA[i].length)).trim().length != 0 )?
+						resultA[j]=resA[i].substring(resA[i].indexOf("=")+1,resA[i].length) : resultA[j]='';
+					}
+				}
+			}
+		}else{
+			for(i=0; i<rtnObj.length; i++){
+				if( result.indexOf( rtnObj[i]+"=" ) ==0){
+					resultA[i]=result.substring(result.indexOf("=")+1,result.length);
+				}
+			}
+		}
+		
+	    if( paramObj.action == 'chkTodayWeather.do' ) {updateChkTodayWeather(resultA, paramObj);}
+	    if( paramObj.action == 'chkDeskLogin.do' ) {updateLoginDesk(resultA, paramObj);}
+	    if( paramObj.action == 'doSatisfacation.do' ) {updateSatisfy(resultA, paramObj);}
+	    if( paramObj.action == 'checkPriorityWait.do' ) {updateCheckPriorityWait(resultA, paramObj);}
+	    if( paramObj.action == 'chkIpAddress.do' ) {updateIpAddress(resultA, paramObj);}
+	    if( paramObj.action == '/Kiosk/report/satisfacationReport_getChannelList.do' ) {updateChannelList(resultA, paramObj);}
+	    if( paramObj.action == '/Kiosk/report/satisfacationReport_getAreaList.do' ) {updatAreaList(resultA, paramObj);}
+	    if( paramObj.action == '/Kiosk/report/satisfacationReport_getStoreList.do' ) {updateStoreList(resultA, paramObj);}
+	    if( paramObj.action == '/Kiosk/report/satisfacationReport_getUserList.do' ) {updateUserList(resultA, paramObj);}
+	    if( paramObj.action == '/Kiosk/report/satisfacationReport_getReportCnt.do' ) {updateReportCnt(resultA, paramObj);}
+	    
+	}
+}
+
+function setLogExt( parameters ){
+	var paramObj = new Object();
+	paramObj.method = 'POST';
+	paramObj.action = '/ScmsCommon/common_insertLogExt.do';
+	paramObj.sync = false;
+	paramObj.parameters = parameters;
+	insertLogExtAjax( paramObj );
+}
+
+function insertLogExtAjax( paramObj ){
+	//20220207 modify by marya-leon IE改CHROME，調整寫法
+//	ajReq = new ActiveXObject('Microsoft.XMLHTTP');
+	ajReq = new XMLHttpRequest();
+	ajReq.open(paramObj.method, paramObj.action, paramObj.sync);
+	ajReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+	ajReq.send( paramObj.parameters );
+}
+
+
+/**
+Infomation securityLog
+subscrIdArray : subscrId array
+queryPgId     : API name
+callerPgId    : pageID
+*/
+function paperlessSecurityLog(subscrIdArray, queryPgID, callerPgID) {
+	try{
+		//20220207 modify by marya-leon IE改CHROME，調整寫法
+//		var ajaxReq = new ActiveXObject('Microsoft.XMLHTTP');
+		var ajaxReq = new XMLHttpRequest();
+		if(subscrIdArray != null && subscrIdArray.length > 0){
+			var subscrId = '';
+			for(i=0; i<subscrIdArray.length; i++){
+				if(subscrIdArray[i] != ''){
+					if(i == subscrIdArray.length-1)
+						subscrId += subscrIdArray[i];
+					else
+						subscrId += subscrIdArray[i]+'@';
+				}
+			}
+			var parameters = 'subscrID='+subscrId+'&queryPgID='+queryPgID+'&systemName=SCMS&callerPgID='+callerPgID;
+			//alert(parameters);
+			ajaxReq.open('POST', '/ScmsCommon/common_insertLogExt.do', true);
+			ajaxReq.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			ajaxReq.send( parameters );
+		}
+	}catch(err){
+			ajaxActionError(err);
+	}
+}
+
+function addDate( year, month, date, hour, minute, amount ){
+
+	var afterAdjustDate = new Date(year ,month ,date ,hour ,minute);
+	afterAdjustDate = afterAdjustDate.valueOf();
+	afterAdjustDate = afterAdjustDate + amount * 1 * 24 * 60 * 60 * 1000;
+	afterAdjustDate = new Date(afterAdjustDate);
+	return afterAdjustDate;
+}
+
+function trimWhiteSpace ( value ) {
+	return value.replace(/^[\s　]+|[\s　]+$/g, ""); //去除輸入值的頭尾空白
+}
+
+function isDigits ( data ) {
+	var digitDataPattern = /^[0-9]+$/;
+	if ( data.match(digitDataPattern)==null ){
+		return false;
+	}
+	return true;
+}
+
+function cellPhoneNumberValidation( cellPhoneNumber ){
+	if(	isDigits( cellPhoneNumber ) && cellPhoneNumber.length==10 ){
+       	return true;
+    }
+    return false;
+}
+
+function dateFormatValidation ( date ){
+	var dateDataArray = date.split('/');
+	if ( dateDataArray.length != 3 ){
+		 return false;	
+	}
+
+	for (i=0; i<dateDataArray.length; i++){
+		 if ( !isDigits(dateDataArray[i]) ){
+		   	  return false;
+		 }
+	}
+
+	var date1 = new Date(date);
+	if ( parseInt( date1.getFullYear(),10 ) != parseInt( dateDataArray[0],10 ) ||
+		 parseInt( date1.getMonth()+1,10 )  != parseInt( dateDataArray[1],10 ) ||
+		 parseInt( date1.getDate(),10 )     != parseInt( dateDataArray[2],10 )    ){
+	
+		 return false;		 	
+	}
+	
+	return true;
+}
+
+function getCookie(name) {
+    var dc = document.cookie;
+    var prefix = name + "=";
+    var begin = dc.indexOf("; " + prefix);
+    if (begin == -1) {
+        begin = dc.indexOf(prefix);
+        if (begin != 0) return '';
+    } else {
+        begin += 2;
+    }
+    var end = document.cookie.indexOf(";", begin);
+    if (end == -1) {
+        end = dc.length;
+    }
+    return unescape(dc.substring(begin + prefix.length, end));
+}
