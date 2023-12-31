@@ -1,0 +1,76 @@
+@charset "utf-8";
+/* CSS Document */
+table {
+border-collapse: collapse 
+}
+
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+.logo {
+	background-color: #FE0000;
+	background-image: url(../images/logo.jpg);
+	background-repeat: no-repeat;
+	height: 40px;
+}
+h1 {
+	font-family: "標楷體", Verdana;
+	font-size: 15px;
+	color: #FFF;
+	margin-left: 300px;
+	text-align: left;
+	font-weight: bold;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.t1 {
+	font-family: Verdana, "細明體";
+	font-size: 12px;
+	color: #FFF;
+	text-align: right;
+	background-color: #FE0000;
+	vertical-align: top;
+	margin: 5px;
+	padding-top: 5px;
+	padding-right: 5px;
+}
+#xiaoqing {
+	font-family: Verdana, "細明體";
+	background-image: url(../images/index_r1_c1.jpg);
+	background-repeat: repeat-x;
+	height: 15px;
+	font-size: 12px;
+	color: #A9C200;
+	padding-top: 5px;
+}
+.over {
+	color: #CACACA;
+	background-image: url(../images/over.gif);
+	background-repeat: repeat-x;
+	height: 40px;
+	font-family: Verdana, "細明體";
+	font-size: 15px;
+}
+.lin_1:link {
+	width: 85px;
+	color: #666666;
+	height: 35px;
+	background-image: url(../images/over_1.gif);
+	float: left;
+	text-align: center;
+	clear: none;
+	padding-top: 5px;
+}
+.lin_1:hover {
+	width: 85px;
+	color: #FFF;
+	height: 35px;
+	text-decoration: none;
+	background-image: url(../images/over_2.gif);
+	text-align: center;
+	padding-top: 3px;
+}

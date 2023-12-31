@@ -1,0 +1,175 @@
+@charset "utf-8";
+
+.main_1 {
+	font-family: Verdana, "細明體";
+	font-size: 15px;
+	color: #FFF;
+	background-image: url(../images/main_1.gif);
+	text-align: center;
+	height: 25px;
+	width: 110px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	height:20px;
+	line-height: 15px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #6C6C6C;
+	padding-top: 5px;
+}
+.main {
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #6C6C6C;
+}
+.main_2 {
+	font-family: Verdana, "細明體";
+	font-size: 12px;
+	color: #FFF;
+	background-image: url(../images/main_2.gif);
+	text-align: center;
+	height: 15px;
+	width: 100px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	line-height: 12px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #6C6C6C;
+	padding-top: 5px;
+}
+.main_3 {
+	font-family: Verdana, "細明體";
+	font-size: 15px;
+	color: #FFF;
+	background-image: url(../images/main_3.gif);
+	text-align: center;
+	height: 20px;
+	width: 150px;
+	padding-top: 4px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+}
+.main_3_1 {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #7B7B7B;
+	border-right-color: #7B7B7B;
+	border-bottom-color: #7B7B7B;
+	border-left-color: #7B7B7B;
+	color: #666666;
+	text-align: left;
+	font-family: Verdana, "細明體";
+	padding-top: 3px;
+	padding-right: 10px;
+	padding-bottom: 3px;
+	padding-left: 10px;
+}
+.main_3C {
+	font-family: Verdana, "細明體";
+	font-size: 15px;
+	color: #FFF;
+	background-image: url(../images/main_3C.gif);
+	text-align: center;
+	height: 25px;
+	width: 110px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	height:20px;
+	line-height: 15px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #6C6C6C;
+	padding-top: 5px;
+	border-left: 1px solid #FFF3DF; 
+}
+.main_3G {
+	font-family: Verdana, "細明體";
+	font-size: 15px;
+	color: #FFF;
+	background-image: url(../images/main_3G.gif);
+	text-align: center;
+	height: 25px;
+	width: 110px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	height:20px;
+	line-height: 15px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #6C6C6C;
+	padding-top: 5px;
+	border-left: 1px solid #FFF3DF; 
+}
+.main_4 {
+	border-right: 1px solid #FFF3DF; 
+	height:20px;
+	line-height: 15px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #6C6C6C;
+	padding-top: 5px;
+}
+.button {
+	font-family: Verdana, "細明體";
+	font-size: 12px;
+	line-height: 12px;
+	font-weight: bold;
+	color: #666666;
+	background-image: url(../images/Button.gif);
+	background-repeat: no-repeat;
+	height: 20px;
+	width: 100px;
+	margin: 5px;
+	padding-top: 3px;
+	text-align: center;
+	float: right;
+}
+
+.c1 {
+	font-size: 12px;
+	font-weight: bold;
+	color: #B64800;
+}
+
+
+ul {
+	font-size: 12px;
+	color: #666666;
+	line-height: 20px;
+	text-align: left;
+	list-style-position:outside;
+	font-family: Verdana, "細明體";
+}
+
+.MORE {
+	font-family: "BankGothic Md BT";
+	font-size: 10px;
+	color: #B2B2B2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #6C6C6C;
+	text-align: right;
+}
+em {
+	color: #FF0000;
+	font-style: normal;
+}
+p {
+	font-family: Verdana, "細明體";
+	font-size: 12px;
+	color: #666666;
+	line-height: 18px;
+}
+
+.dashed_1 {
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #E6E6E6;
+	margin-bottom: -1px;
+}
