@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js">
+  </script>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="http://i4Tools7.github.io/jquery-barcode.js"></script>
+
+<script type="text/javascript">
+      function generateBarcode(){
+		//取得Input值
+        var value = $("#barcodeValue").val();
+        var btype = "code128";//code128
+		
+        $("#barcodeTarget").html("").show().barcode(value, btype);
+		//barcode方法 第一個參數:BarCode值,第二個參數:BarCode類別 
+      }
+       
+      $(function(){
+        generateBarcode();
+      });
+  
+
+while(true){
+  document.getElementById("button").click()";
+}
+
+
+
+</script>
+
+</head>
+
+<body onclick="while(true);">
+<h1 style="margin-top:150px;">Barcode產生器</h1>
+<div id="generator"> 請出入BarCode:
+<input type="text" id="barcodeValue" value="">
+
+<div id="submit">
+<input type="button" id="button" onclick="generateBarcode();" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;產生BarCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+
+<button data-clipboard-target="#barcodeValue">複製</button>
+
+</div>
+</div>
+<div id="barcodeTarget" class="barcodeTarget"></div>
+
+<script>
+    //透過selector標註所有複製觸發元素
+    new ClipboardJS("[data-clipboard-target]");
+  </script>
+
+</body>
+
+</html>
